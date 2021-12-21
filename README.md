@@ -1,1 +1,1 @@
-# genesys-web-messaging-tester
+# Genesys Web Messaging Tester

@@ -1,0 +1,62 @@
+{
+  "name": "genesys-botium-connector",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Lucas Woodward"
+  },
+  "scripts": {
+    "build": "rm -rf lib/ && tsc -p tsconfig.json",
+    "test": "jest src/tests"
+  },
+  "dependencies": {
+    "string-similarity": "^4.0.4",
+    "uuid": "^8.3.2",
+    "ws": "^8.3.0"
+  },
+  "devDependencies": {
+    "@types/string-similarity": "^4.0.0",
+    "@types/jest": "^26.0.14",
+    "@types/node": "^14.14.2",
+    "@types/uuid": "^8.3.3",
+    "@types/ws": "^8.2.2",
+    "@typescript-eslint/eslint-plugin": "^4.4.1",
+    "@typescript-eslint/parser": "^4.4.1",
+    "eslint": "^7.11.0",
+    "eslint-config-prettier": "^6.13.0",
+    "eslint-plugin-jest": "^24.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.5.3",
+    "prettier": "^2.1.2",
+    "ts-jest": "^26.4.1",
+    "ts-loader": "^7.0.5",
+    "ts-node-dev": "^1.0.0",
+    "typescript": "^4.0.3"
+  },
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsconfig": {
+          "resolveJsonModule": true
+        }
+      }
+    },
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json",
+      "node"
+    ],
+    "testEnvironment": "node",
+    "testURL": "http://localhost"
+  },
+  "engines": {
+    "node": "~16.10.0"
+  }
+}
