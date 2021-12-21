@@ -1,15 +1,24 @@
 {
-  "name": "genesys-botium-connector",
+  "name": "genesys-web-messaging-tester",
   "version": "1.0.0",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "license": "Apache-2.0",
+  "files": [
+    "lib/**/*"
+  ],
+  "keywords": [
+    "genesys",
+    "web-messaging",
+    "messenger",
+    "test"
+  ],
   "author": {
     "name": "Lucas Woodward"
   },
   "scripts": {
     "build": "rm -rf lib/ && tsc -p tsconfig.json",
-    "test": "jest src/tests"
+    "test": "jest tests"
   },
   "dependencies": {
     "string-similarity": "^4.0.4",
@@ -46,7 +55,7 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "testRegex": "(/tests/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [
       "ts",
       "js",
