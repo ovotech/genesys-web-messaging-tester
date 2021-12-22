@@ -49,9 +49,8 @@ jobs:
       - yarn-install
       - attach_workspace:
           at: .
-      - run: git config user.email "ovotech-ci@ovoenergy.com"
-      - run: git config user.name "Ovotech CI"
-      - run: YARN_NPM_AUTH_TOKEN=$NPM_TOKEN yarn publish
+      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+      - run: yarn publish
 
 workflows:
   build_and_test:
