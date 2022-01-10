@@ -1,9 +1,10 @@
 {
   "name": "@ovotech/genesys-web-messaging-tester",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "license": "Apache-2.0",
+  "repository": "git@github.com:ovotech/genesys-web-messaging-tester.git",
   "files": [
     "lib/**/*"
   ],
@@ -21,14 +22,16 @@
     "test": "jest tests"
   },
   "dependencies": {
+    "@types/debug": "^4.1.7",
+    "debug": "^4.3.3",
     "string-similarity": "^4.0.4",
     "uuid": "^8.3.2",
     "ws": "^8.3.0"
   },
   "devDependencies": {
-    "@types/string-similarity": "^4.0.0",
     "@types/jest": "^26.0.14",
     "@types/node": "^14.14.2",
+    "@types/string-similarity": "^4.0.0",
     "@types/uuid": "^8.3.3",
     "@types/ws": "^8.2.2",
     "@typescript-eslint/eslint-plugin": "^4.4.1",

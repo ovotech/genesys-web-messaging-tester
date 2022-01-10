@@ -1,11 +1,14 @@
-import {RawData, WebSocket} from 'ws';
-import {v4 as uuidv4} from 'uuid';
-import {Response} from './Response';
-import {SessionResponse} from './SessionResponse';
-import {StructuredMessage} from './StructuredMessage';
-import {EventEmitter} from 'events';
+import { RawData, WebSocket } from 'ws';
+import { v4 as uuidv4 } from 'uuid';
+import { Response } from './Response';
+import { SessionResponse } from './SessionResponse';
+import { StructuredMessage } from './StructuredMessage';
+import { EventEmitter } from 'events';
+import debug from 'debug';
 
 export class GenesysMessengerSession extends EventEmitter {
+  private static debugger = debug('GenesysMessengerSession');
+
   private readonly sessionToken: string;
   private readonly ws: WebSocket;
   private readonly processMessageRef: (data: RawData) => void;
@@ -22,29 +25,35 @@ export class GenesysMessengerSession extends EventEmitter {
     this.processMessageRef = this.processMessage.bind(this);
     this.processOpenRef = this.processOpen.bind(this);
 
-    this.ws = wsFactory(`wss://webmessaging.${region}/v1?deploymentId=${this.deploymentId}`);
+    const url = `wss://webmessaging.${region}/v1?deploymentId=${this.deploymentId}`;
+    GenesysMessengerSession.debugger('Connecting to: %s', url);
+
+    this.ws = wsFactory(url);
     this.ws.on('open', this.processOpenRef);
     this.ws.on('message', this.processMessageRef);
   }
 
   private processOpen(): void {
-    this.ws.send(
-      // https://developer.genesys.cloud/api/digital/webmessaging/websocketapi#configure-a-guest-session
-      JSON.stringify({
-        action: 'configureSession',
-        deploymentId: this.deploymentId,
-        token: this.sessionToken,
-      }),
-    );
+    // https://developer.genesys.cloud/api/digital/webmessaging/websocketapi#configure-a-guest-session
+    const payload = {
+      action: 'configureSession',
+      deploymentId: this.deploymentId,
+      token: this.sessionToken,
+    };
+
+    GenesysMessengerSession.debugger('Sending: %O', payload);
+    this.ws.send(JSON.stringify(payload));
   }
 
   private processMessage(data: RawData): void {
-    // console.log('received: %s', data);
     if (!Buffer.isBuffer(data)) {
       throw new Error('Expected data as Buffer type');
     }
 
-    const payload = JSON.parse(data.toString('utf-8'));
+    const textPayload = data.toString('utf-8');
+    GenesysMessengerSession.debugger('Received: %O', textPayload);
+
+    const payload = JSON.parse(textPayload);
     if (typeof payload.type !== 'string') {
       throw new Error(`Unexpected payload: ${payload}`);
     }
@@ -59,16 +68,12 @@ export class GenesysMessengerSession extends EventEmitter {
       case 'response':
         if (message.class === 'SessionResponse') {
           const sessionResponse = message as SessionResponse;
-          // console.log('SessionResponse', sessionResponse);
-
           this.emit('sessionStarted', sessionResponse);
         }
         break;
       case 'message':
         if (message.class === 'StructuredMessage') {
           const structuredMessage = message as StructuredMessage;
-          // console.log('StructuredMessage', structuredMessage);
-
           this.emit('structuredMessage', structuredMessage);
         }
         break;
@@ -78,16 +83,17 @@ export class GenesysMessengerSession extends EventEmitter {
   }
 
   public sendText(message: string): void {
-    this.ws.send(
-      JSON.stringify({
-        action: 'onMessage',
-        token: this.sessionToken,
-        message: {
-          type: 'Text',
-          text: message,
-        },
-      }),
-    );
+    const payload = {
+      action: 'onMessage',
+      token: this.sessionToken,
+      message: {
+        type: 'Text',
+        text: message,
+      },
+    };
+
+    GenesysMessengerSession.debugger('Sending: %O', payload);
+    this.ws.send(JSON.stringify(payload));
   }
 
   public close() {
