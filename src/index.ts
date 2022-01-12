@@ -1,3 +1,3 @@
-export { GenesysMessengerSession } from './genesys/GenesysMessengerSession';
+export { GenesysMessengerSession, SessionConfig } from './genesys/GenesysMessengerSession';
 export { Conversation } from './Conversation';
-export { Transcriber } from './transcribe/Transcriber';
+export { Transcriber, Interaction } from './transcribe/Transcriber';

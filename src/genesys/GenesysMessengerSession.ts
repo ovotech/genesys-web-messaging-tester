@@ -6,6 +6,11 @@ import { StructuredMessage } from './StructuredMessage';
 import { EventEmitter } from 'events';
 import debug from 'debug';
 
+export interface SessionConfig {
+  readonly deploymentId: string;
+  readonly region: string;
+}
+
 export class GenesysMessengerSession extends EventEmitter {
   private static debugger = debug('GenesysMessengerSession');
 
@@ -15,8 +20,7 @@ export class GenesysMessengerSession extends EventEmitter {
   private readonly processOpenRef: () => void;
 
   constructor(
-    private readonly deploymentId: string,
-    readonly region: string,
+    private readonly config: SessionConfig,
     readonly wsFactory = (url: string) => new WebSocket(url),
   ) {
     super();
@@ -25,7 +29,7 @@ export class GenesysMessengerSession extends EventEmitter {
     this.processMessageRef = this.processMessage.bind(this);
     this.processOpenRef = this.processOpen.bind(this);
 
-    const url = `wss://webmessaging.${region}/v1?deploymentId=${this.deploymentId}`;
+    const url = `wss://webmessaging.${this.config.region}/v1?deploymentId=${this.config.deploymentId}`;
     GenesysMessengerSession.debugger('Connecting to: %s', url);
 
     this.ws = wsFactory(url);
@@ -37,7 +41,7 @@ export class GenesysMessengerSession extends EventEmitter {
     // https://developer.genesys.cloud/api/digital/webmessaging/websocketapi#configure-a-guest-session
     const payload = {
       action: 'configureSession',
-      deploymentId: this.deploymentId,
+      deploymentId: this.config.deploymentId,
       token: this.sessionToken,
     };
 

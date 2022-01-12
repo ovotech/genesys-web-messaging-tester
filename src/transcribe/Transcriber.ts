@@ -1,10 +1,17 @@
-import { GenesysMessengerSession } from "../genesys/GenesysMessengerSession";
-import { StructuredMessage } from "../genesys/StructuredMessage";
+import { GenesysMessengerSession } from '../genesys/GenesysMessengerSession';
+import { StructuredMessage } from '../genesys/StructuredMessage';
+import { EventEmitter } from 'events';
 
-export class Transcriber {
-  private readonly conversation: string[];
+export interface Interaction {
+  who: 'Them' | 'You';
+  message: string;
+}
+
+export class Transcriber extends EventEmitter {
+  private readonly conversation: Interaction[];
 
   constructor(private readonly messengerSession: GenesysMessengerSession) {
+    super();
     this.conversation = [];
 
     this.messengerSession.on('structuredMessage', (event: StructuredMessage) => {
@@ -13,11 +20,19 @@ export class Transcriber {
   }
 
   private recordStructuredMessage(event: StructuredMessage): void {
-    const who = event.body.direction === "Inbound" ? "You" : "Them";
-    this.conversation.push(`${who}: ${event.body.text}`)
+    const who = event.body.direction === 'Inbound' ? 'You' : 'Them';
+
+    const interaction: Interaction = { who, message: event.body.text };
+
+    this.conversation.push(interaction);
+    this.emitInteraction(interaction);
   }
 
-  public getTranscript(): string[] {
+  private emitInteraction(interaction: Interaction): void {
+    this.emit('interaction', interaction);
+  }
+
+  public getTranscript(): Interaction[] {
     return this.conversation;
   }
 }
