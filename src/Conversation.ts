@@ -3,20 +3,20 @@ import { StructuredMessage } from './genesys/StructuredMessage';
 
 /**
  * Provides an API to make interacting in a back-and-forth style conversation
- * easier than using an emitter with callbacks.
+ * easy to test.
  *
  * @example
- * const asyncConvo = new AsyncConversation(
+ * const convo = new Conversation(
  *   new GenesysMessengerSession('deployment-id-123', 'region-123.pure.cloud'),
  * );
  *
- * await asyncConvo.waitForSessionToStart();
- * asyncConvo.sendText('hi');
+ * await convo.waitForSessionToStart();
+ * convo.sendText('hi');
  *
- * const reply = await asyncConvo.waitForResponse();
+ * const reply = await convo.waitForResponse();
  * console.log(reply);
  */
-export class AsyncConversation {
+export class Conversation {
   constructor(private readonly messengerSession: GenesysMessengerSession) {}
 
   public async waitForSessionToStart(): Promise<void> {
