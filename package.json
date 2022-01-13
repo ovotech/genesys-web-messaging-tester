@@ -24,7 +24,7 @@
   "dependencies": {
     "debug": "^4.3.3",
     "uuid": "^8.3.2",
-    "ws": "^8.3.0"
+    "ws": "^8.4.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.7",
