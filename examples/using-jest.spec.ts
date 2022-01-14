@@ -1,5 +1,13 @@
 import { Conversation, GenesysMessengerSession, Transcriber } from '../src';
 
+/**
+ * Loads environment variables from file named `.env` that
+ * is you have to create in the root of the project for this example to work
+ *
+ * @example contents of .env
+ * DEPLOYMENT_ID=<deployment-id-of-deployment-under-test>
+ * DEPLOYMENT_ID=<region-of-genesys-instance>
+ */
 require('dotenv').config();
 jest.setTimeout(20000); // 20s
 
@@ -14,8 +22,6 @@ describe('Using jest to perform the test', () => {
       deploymentId: process.env.DEPLOYMENT_ID!,
       region: process.env.REGION!,
     });
-
-    new Transcriber(session).on('interaction', (i) => console.log(`${i}`));
 
     const convo = new Conversation(session);
     await convo.waitForConversationToStart();
