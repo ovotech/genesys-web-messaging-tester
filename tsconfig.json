@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./lib",
-    "target": "es6",
+    "target": "es2019",
     "module": "commonjs",
     "declaration": true,
     "strict": true,
@@ -17,7 +17,11 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "esModuleInterop": true
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "lib": [
+      "es2019"
+    ]
   },
   "include": [
     "src"

@@ -19,12 +19,15 @@
   },
   "scripts": {
     "build": "rm -rf lib/ && tsc -p tsconfig.json",
-    "test": "jest tests"
+    "build:readme": "build-readme README.md",
+    "test": "jest __tests__/",
+    "example:standalone-script": "ts-node examples/standalone-script.ts",
+    "example:using-jest": "jest examples/using-jest.spec.ts"
   },
   "dependencies": {
     "debug": "^4.3.3",
     "uuid": "^8.3.2",
-    "ws": "^8.3.0"
+    "ws": "^8.4.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.7",
@@ -34,10 +37,13 @@
     "@types/ws": "^8.2.2",
     "@typescript-eslint/eslint-plugin": "^4.4.1",
     "@typescript-eslint/parser": "^4.4.1",
+    "dotenv": "^11.0.0",
     "eslint": "^7.11.0",
     "eslint-config-prettier": "^6.13.0",
     "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "get-port": "^5.1.1",
+    "@ikerin/build-readme": "^1.1.1",
     "jest": "^26.5.3",
     "prettier": "^2.1.2",
     "ts-jest": "^26.4.1",
@@ -46,17 +52,13 @@
     "typescript": "^4.0.3"
   },
   "jest": {
-    "globals": {
-      "ts-jest": {
-        "tsconfig": {
-          "resolveJsonModule": true
-        }
-      }
-    },
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testRegex": "(/tests/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "modulePathIgnorePatterns": [
+      "/__tests__/fixtures"
+    ],
     "moduleFileExtensions": [
       "ts",
       "js",

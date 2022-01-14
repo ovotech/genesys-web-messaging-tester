@@ -5,6 +5,8 @@ import { EventEmitter } from 'events';
 export interface Interaction {
   who: 'Them' | 'You';
   message: string;
+
+  toString(): string;
 }
 
 export class Transcriber extends EventEmitter {
@@ -21,8 +23,15 @@ export class Transcriber extends EventEmitter {
 
   private recordStructuredMessage(event: StructuredMessage): void {
     const who = event.body.direction === 'Inbound' ? 'You' : 'Them';
+    const message = event.body.text;
 
-    const interaction: Interaction = { who, message: event.body.text };
+    const interaction: Interaction = {
+      who,
+      message,
+      toString: (): string => {
+        return `${who}: ${message}`;
+      },
+    };
 
     this.conversation.push(interaction);
     this.emitInteraction(interaction);
