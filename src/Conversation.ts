@@ -24,7 +24,7 @@ export class Conversation {
 
   constructor(private readonly messengerSession: GenesysMessengerSession) {
     this.sessionStarted = false;
-    this.messengerSession.on('sessionStarted', () => (this.sessionStarted = true));
+    this.messengerSession.once('sessionStarted', () => (this.sessionStarted = true));
   }
 
   public async waitForConversationToStart(): Promise<void> {
@@ -33,7 +33,7 @@ export class Conversation {
     }
 
     return new Promise((resolve) => {
-      this.messengerSession.on('sessionStarted', () => resolve());
+      this.messengerSession.once('sessionStarted', () => resolve());
     });
   }
 
@@ -43,7 +43,7 @@ export class Conversation {
 
   public async waitForResponse(): Promise<string> {
     return new Promise((resolve) => {
-      this.messengerSession.on('structuredMessage', (event: StructuredMessage) => {
+      this.messengerSession.once('structuredMessage', (event: StructuredMessage) => {
         if (event.body.direction === 'Outbound') {
           resolve(event.body.text);
         }
