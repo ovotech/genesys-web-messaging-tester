@@ -1,0 +1,15 @@
+{
+  "name": "Genesys Web Messaging Tester",
+  "readme": "none",
+  "out": "docs",
+  "excludeInternal": true,
+  "entryPoints": [
+    "src/index.ts"
+  ],
+  "plugin": [
+    "typedoc-plugin-markdown"
+  ],
+  "gitRevision": "main",
+  "includeVersion": true,
+  "excludePrivate": true
+}

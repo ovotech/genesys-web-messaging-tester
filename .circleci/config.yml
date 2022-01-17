@@ -1,0 +1,66 @@
+version: 2.1
+
+aliases:
+  - &ignore-main-branch
+    branches:
+      ignore: main
+  - &only-main-branch
+    branches:
+      only: main
+  - &working_directory
+    working_directory: /home/circleci/project/
+
+commands:
+  yarn-install:
+    description: Install cached yarn packages
+    steps:
+      - restore_cache:
+          keys: [ 'v3-{{ checksum "yarn.lock" }}' ]
+      - run: yarn
+
+  yarn-save-cache:
+    description: Save yarn packages cache
+    steps:
+      - save_cache:
+          key: v3-{{ checksum "yarn.lock" }}
+          paths: [ '.yarn/cache' ]
+
+jobs:
+  test-and-build:
+    <<: *working_directory
+    docker:
+      - image: cimg/node:16.10.0
+    steps:
+      - checkout
+      - yarn-install
+      - yarn-save-cache
+      - run: yarn test
+      - run: yarn build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - lib/
+  publish:
+    <<: *working_directory
+    docker:
+      - image: cimg/node:16.10.0
+    steps:
+      - checkout
+      - yarn-install
+      - attach_workspace:
+          at: .
+      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+      - run: yarn publish
+
+workflows:
+  build_and_test:
+    jobs:
+      - test-and-build:
+          filters: *ignore-main-branch
+  main:
+    jobs:
+      - test-and-build:
+          filters: *only-main-branch
+      - publish:
+          requires:
+            - test-and-build
