@@ -1,6 +1,6 @@
-Genesys Web Messaging Tester - v1.0.8
+Genesys Web Messaging Tester
 
-# Genesys Web Messaging Tester - v1.0.8
+# Genesys Web Messaging Tester
 
 ## Table of contents
 

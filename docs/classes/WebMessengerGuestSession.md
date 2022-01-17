@@ -1,4 +1,4 @@
-[Genesys Web Messaging Tester - v1.0.8](../README.md) / WebMessengerGuestSession
+[Genesys Web Messaging Tester](../README.md) / WebMessengerGuestSession
 
 # Class: WebMessengerGuestSession
 

@@ -1,4 +1,4 @@
-[Genesys Web Messaging Tester - v1.0.8](../README.md) / StructuredMessage
+[Genesys Web Messaging Tester](../README.md) / StructuredMessage
 
 # Interface: StructuredMessage
 

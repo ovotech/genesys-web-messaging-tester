@@ -1,4 +1,4 @@
-[Genesys Web Messaging Tester - v1.0.8](../README.md) / TranscribedMessage
+[Genesys Web Messaging Tester](../README.md) / TranscribedMessage
 
 # Interface: TranscribedMessage
 

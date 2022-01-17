@@ -1,4 +1,4 @@
-[Genesys Web Messaging Tester - v1.0.8](../README.md) / SessionResponse
+[Genesys Web Messaging Tester](../README.md) / SessionResponse
 
 # Interface: SessionResponse
 

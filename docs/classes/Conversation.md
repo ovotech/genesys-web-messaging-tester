@@ -1,4 +1,4 @@
-[Genesys Web Messaging Tester - v1.0.8](../README.md) / Conversation
+[Genesys Web Messaging Tester](../README.md) / Conversation
 
 # Class: Conversation
 
@@ -59,7 +59,7 @@ console.log(reply);
 
 ▸ **sendText**(`text`): `void`
 
-Sends text to the session
+Sends text to the conversation
 
 #### Parameters
 
