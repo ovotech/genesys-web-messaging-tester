@@ -5,8 +5,8 @@
 Easily write automated, and repeatable tests
 for [Genesys' Web Messenger](https://help.mypurecloud.com/articles/web-messaging-overview/)
 flows. The library provides a simple API for interacting with conversations, allowing you to send messages and set
-expectations replies. It has been designed to run in test frameworks
-(like [Jest](https://jestjs.io/)) and standalone scripts.
+expectations on replies. It has been designed to run in test frameworks
+(e.g. [Jest](https://jestjs.io/)) and standalone scripts.
 
 [Documentation](docs/README.md)
 
