@@ -18,9 +18,6 @@
   "author": "Lucas Woodward",
   "scripts": {
     "build": "rm -rf ./lib && tsc -p tsconfig.json",
-    "build:docs": "typedoc",
-    "build:readme": "build-readme README.md",
-    "postbuild": "yarn build:docs && yarn build:readme",
     "test": "jest __tests__/"
   },
   "dependencies": {
