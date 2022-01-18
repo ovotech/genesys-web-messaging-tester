@@ -1,15 +1,13 @@
-import { Conversation, WebMessengerGuestSession, Transcriber } from '../src';
+import {
+  Conversation,
+  WebMessengerGuestSession,
+  Transcriber,
+} from '@ovotech/genesys-web-messaging-tester';
 
-/**
- * Loads environment variables from file named `.env` that
- * is you have to create in the root of the project for this example to work
- *
- * @example contents of .env
- * DEPLOYMENT_ID=<deployment-id-of-deployment-under-test>
- * REGION=<region-of-genesys-instance>
- */
-require('dotenv').config();
+// Set realistic timeout value for a Web Messenger conversation
 jest.setTimeout(20000); // 20s
+
+require('dotenv').config({ path: '../../.env' });
 
 describe('Using jest to perform the test', () => {
   let session: WebMessengerGuestSession;
@@ -69,6 +67,6 @@ describe('Using jest to perform the test', () => {
     );
 
     // Log the transcript for the entire conversation
-    console.log(transcriber.getTranscript());
+    console.log(transcriber.getTranscript().map((t) => `${t}`));
   });
 });

@@ -51,7 +51,7 @@ console.log(reply);
 
 #### Defined in
 
-[src/Conversation.ts:30](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/src/Conversation.ts#L30)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:30](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L30)
 
 ## Methods
 
@@ -73,7 +73,7 @@ Sends text to the conversation
 
 #### Defined in
 
-[src/Conversation.ts:58](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/src/Conversation.ts#L58)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:58](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L58)
 
 ___
 
@@ -92,7 +92,7 @@ background. This method allows you to wait for this process to finish.
 
 #### Defined in
 
-[src/Conversation.ts:41](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/src/Conversation.ts#L41)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:41](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L41)
 
 ___
 
@@ -110,7 +110,7 @@ If you want to wait for a specific message use [waitForResponseContaining](Conve
 
 #### Defined in
 
-[src/Conversation.ts:71](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/src/Conversation.ts#L71)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:71](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L71)
 
 ___
 
@@ -142,4 +142,4 @@ use [waitForResponse](Conversation.md#waitforresponse).
 
 #### Defined in
 
-[src/Conversation.ts:105](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/src/Conversation.ts#L105)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:105](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L105)

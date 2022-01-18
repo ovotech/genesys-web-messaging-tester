@@ -39,7 +39,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - lib/
+            - packages/genesys-web-messaging-tester/lib
   publish:
     <<: *working_directory
     docker:
@@ -49,8 +49,7 @@ jobs:
       - yarn-install
       - attach_workspace:
           at: .
-      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-      - run: yarn publish
+      - run: YARN_NPM_AUTH_TOKEN=$NPM_TOKEN yarn publish
 
 workflows:
   build_and_test:

@@ -1,10 +1,12 @@
+require('dotenv').config();
+
 // << test-section
 const WebMsgTester = require('@ovotech/genesys-web-messaging-tester');
 
 (async () => {
   const session = new WebMsgTester.WebMessengerGuestSession({
-    deploymentId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
-    region: 'xxxx.pure.cloud',
+    deploymentId: process.env.DEPLOYMENT_ID,
+    region: process.env.REGION,
   });
 
   const convo = new WebMsgTester.Conversation(session);

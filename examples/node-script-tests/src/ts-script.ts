@@ -1,13 +1,9 @@
-import { Conversation, WebMessengerGuestSession, Transcriber } from '../src';
+import {
+  Conversation,
+  WebMessengerGuestSession,
+  Transcriber,
+} from '@ovotech/genesys-web-messaging-tester';
 
-/**
- * Loads environment variables from file named `.env` that
- * is you have to create in the root of the project for this example to work
- *
- * @example contents of .env
- * DEPLOYMENT_ID=<deployment-id-of-deployment-under-test>
- * REGION=<region-of-genesys-instance>
- */
 require('dotenv').config();
 
 (async () => {
