@@ -29,7 +29,7 @@ SuccessResponse.body
 
 #### Defined in
 
-[src/genesys/Response.ts:5](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/src/genesys/Response.ts#L5)
+[packages/genesys-web-messaging-tester/src/genesys/Response.ts:5](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/Response.ts#L5)
 
 ___
 
@@ -43,7 +43,7 @@ SuccessResponse.class
 
 #### Defined in
 
-[src/genesys/SessionResponse.ts:10](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/src/genesys/SessionResponse.ts#L10)
+[packages/genesys-web-messaging-tester/src/genesys/SessionResponse.ts:10](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/SessionResponse.ts#L10)
 
 ___
 
@@ -57,7 +57,7 @@ SuccessResponse.code
 
 #### Defined in
 
-[src/genesys/Response.ts:9](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/src/genesys/Response.ts#L9)
+[packages/genesys-web-messaging-tester/src/genesys/Response.ts:9](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/Response.ts#L9)
 
 ___
 
@@ -71,4 +71,4 @@ SuccessResponse.type
 
 #### Defined in
 
-[src/genesys/SessionResponse.ts:9](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/src/genesys/SessionResponse.ts#L9)
+[packages/genesys-web-messaging-tester/src/genesys/SessionResponse.ts:9](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/SessionResponse.ts#L9)

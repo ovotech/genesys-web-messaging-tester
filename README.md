@@ -8,7 +8,7 @@ flows. The library provides a simple API for interacting with conversations, all
 expectations on replies. It has been designed to run in test frameworks
 (e.g. [Jest](https://jestjs.io/)) and standalone scripts.
 
-[Documentation](docs/README.md)
+[Documentation](packages/genesys-web-messaging-tester/docs/README.md)
 
 ```typescript
 const session = new WebMessengerGuestSession({
@@ -44,7 +44,7 @@ npm install -g @ovotech/genesys-web-messaging-tester
 
 Then write a test. In the example below we test the validation of an account number:
 
-> [examples/standalone-js-script.js:(test-section)](examples/standalone-js-script.js#L1-L25)
+> [examples/node-script-tests/src/js-script.js:(test-section)](examples/node-script-tests/src/js-script.js#L1-L25)
 
 ```javascript
 const WebMsgTester = require('@ovotech/genesys-web-messaging-tester');

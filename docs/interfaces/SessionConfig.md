@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/genesys/WebMessengerGuestSession.ts:11](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/src/genesys/WebMessengerGuestSession.ts#L11)
+[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:11](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L11)
 
 ___
 
@@ -28,7 +28,7 @@ ___
 
 #### Defined in
 
-[src/genesys/WebMessengerGuestSession.ts:13](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/src/genesys/WebMessengerGuestSession.ts#L13)
+[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:13](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L13)
 
 ___
 
@@ -38,4 +38,4 @@ ___
 
 #### Defined in
 
-[src/genesys/WebMessengerGuestSession.ts:12](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/src/genesys/WebMessengerGuestSession.ts#L12)
+[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:12](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L12)

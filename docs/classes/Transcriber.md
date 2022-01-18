@@ -62,7 +62,7 @@ Transcribes a Web Messenger session into an array of transcribed messages.
 
 #### Defined in
 
-[src/transcribe/Transcriber.ts:27](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/src/transcribe/Transcriber.ts#L27)
+[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:27](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L27)
 
 ## Properties
 
@@ -196,7 +196,7 @@ ___
 
 #### Defined in
 
-[src/transcribe/Transcriber.ts:64](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/src/transcribe/Transcriber.ts#L64)
+[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:64](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L64)
 
 ___
 
@@ -278,7 +278,7 @@ ___
 
 #### Defined in
 
-[src/transcribe/Transcriber.ts:13](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/src/transcribe/Transcriber.ts#L13)
+[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:13](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L13)
 
 ▸ **on**(`event`, `listener`): [`Transcriber`](Transcriber.md)
 
@@ -295,7 +295,7 @@ ___
 
 #### Defined in
 
-[src/transcribe/Transcriber.ts:15](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/src/transcribe/Transcriber.ts#L15)
+[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:15](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L15)
 
 ___
 

@@ -21,7 +21,7 @@
 
 #### Defined in
 
-[src/transcribe/Transcriber.ts:7](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/src/transcribe/Transcriber.ts#L7)
+[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:7](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L7)
 
 ___
 
@@ -31,7 +31,7 @@ ___
 
 #### Defined in
 
-[src/transcribe/Transcriber.ts:6](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/src/transcribe/Transcriber.ts#L6)
+[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:6](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L6)
 
 ## Methods
 
@@ -45,4 +45,4 @@ ___
 
 #### Defined in
 
-[src/transcribe/Transcriber.ts:9](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/src/transcribe/Transcriber.ts#L9)
+[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:9](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L9)

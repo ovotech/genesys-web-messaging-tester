@@ -4,11 +4,12 @@
   "out": "docs",
   "excludeInternal": true,
   "entryPoints": [
-    "src/index.ts"
+    "packages/genesys-web-messaging-tester/src/index.ts"
   ],
   "plugin": [
     "typedoc-plugin-markdown"
   ],
   "gitRevision": "main",
-  "excludePrivate": true
+  "excludePrivate": true,
+  "categorizeByGroup": true
 }
