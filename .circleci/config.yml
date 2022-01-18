@@ -39,7 +39,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - lib/
+            - packages/genesys-web-messaging-tester/lib
   publish:
     <<: *working_directory
     docker:
