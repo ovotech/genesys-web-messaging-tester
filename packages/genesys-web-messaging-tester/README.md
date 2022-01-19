@@ -8,7 +8,7 @@ flows. The library provides a simple API for interacting with conversations, all
 expectations on replies. It has been designed to run in test frameworks
 (e.g. [Jest](https://jestjs.io/)) and standalone scripts.
 
-[Documentation](../../docs/README.md)
+[Documentation](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/docs/README.md)
 
 ```typescript
 const session = new WebMessengerGuestSession({
