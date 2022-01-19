@@ -28,13 +28,7 @@ await convo.waitForResponseContaining('Your account number is too short. It is t
 
 ## Getting Started
 
-Install using [`yarn`](https://yarnpkg.com/en/package/@ovotech/genesys-web-messaging-tester):
-
-```bash
-yarn global add @ovotech/genesys-web-messaging-tester
-```
-
-Or [`npm`](https://www.npmjs.com/package/@ovotech/genesys-web-messaging-tester):
+Install using [`npm`](https://www.npmjs.com/package/@ovotech/genesys-web-messaging-tester):
 
 ```bash
 npm install -g @ovotech/genesys-web-messaging-tester
