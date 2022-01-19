@@ -56,9 +56,6 @@ workflows:
     jobs:
       - test-and-build:
           filters: *ignore-main-branch
-      - publish:
-          requires:
-            - test-and-build
   main:
     jobs:
       - test-and-build:
