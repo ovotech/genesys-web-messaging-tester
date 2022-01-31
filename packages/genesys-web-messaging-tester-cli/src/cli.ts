@@ -115,7 +115,6 @@ export function createCli({
 
     let wasError = false;
 
-    // Use p-limit for concurrency https://stackoverflow.com/a/52262024
     for (const scenario of testScriptScenarios) {
       outputConfig.writeOut(ui.aboutToTestScenario(scenario));
 
