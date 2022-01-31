@@ -34,8 +34,8 @@ jobs:
       - checkout
       - yarn-install
       - yarn-save-cache
-      - run: yarn test
       - run: yarn build
+      - run: yarn test
       - persist_to_workspace:
           root: .
           paths:
