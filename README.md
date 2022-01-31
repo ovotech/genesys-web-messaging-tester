@@ -77,11 +77,3 @@ supports [Guest Sessions](https://developer.genesys.cloud/api/digital/webmessagi
 , however support
 for [Authenticated Sessions](https://developer.genesys.cloud/api/digital/webmessaging/websocketapi#configure-an-authenticated-session)
 may be added in the near future.
-
-## Debugging
-
-Messages sent between the client and Genesys' server can be output by setting the environment variable:
-
-```shell
-DEBUG=WebMessengerGuestSession
-```

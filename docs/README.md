@@ -16,3 +16,4 @@ Genesys Web Messaging Tester
 - [SessionResponse](interfaces/SessionResponse.md)
 - [StructuredMessage](interfaces/StructuredMessage.md)
 - [TranscribedMessage](interfaces/TranscribedMessage.md)
+- [WebMessengerSession](interfaces/WebMessengerSession.md)
