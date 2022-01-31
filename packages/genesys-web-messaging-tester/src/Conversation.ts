@@ -1,4 +1,4 @@
-import { WebMessengerGuestSession } from './genesys/WebMessengerGuestSession';
+import { WebMessengerSession } from './genesys/WebMessengerGuestSession';
 import { StructuredMessage } from './genesys/StructuredMessage';
 
 /**
@@ -27,7 +27,7 @@ import { StructuredMessage } from './genesys/StructuredMessage';
 export class Conversation {
   private sessionStarted: boolean;
 
-  constructor(private readonly messengerSession: WebMessengerGuestSession) {
+  constructor(private readonly messengerSession: WebMessengerSession) {
     this.sessionStarted = false;
     this.messengerSession.once('sessionStarted', () => (this.sessionStarted = true));
   }

@@ -1,0 +1,12 @@
+{
+  "name": "@examples/cli",
+  "description": "Example of using the CLI to test a Web Messenger deployment",
+  "private": true,
+  "packageManager": "yarn@3.1.1",
+  "dependencies": {
+    "@ovotech/genesys-web-messaging-tester-cli": "*"
+  },
+  "scripts": {
+    "execute": "web-messaging-tester -id $DEPLOYMENT_ID -r $REGION -s tests/example.yml"
+  }
+}

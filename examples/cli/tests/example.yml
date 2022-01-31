@@ -1,0 +1,14 @@
+config:
+  deploymentId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+  region: xxxx.pure.cloud
+scenarios:
+  exampleName:
+    - say: hi
+    - waitForReplyContaining: Can we ask you some questions about your experience today?
+    - say: Yes
+    - waitForReplyContaining: Good! Now for the next question...
+  exampleName2:
+    - say: hi
+    - waitForReplyContaining: Would you like to continue?
+    - say: No
+    - waitForReplyContaining: Goodbye
