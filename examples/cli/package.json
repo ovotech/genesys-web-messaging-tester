@@ -7,6 +7,6 @@
     "@ovotech/genesys-web-messaging-tester-cli": "*"
   },
   "scripts": {
-    "execute": "web-messaging-tester -id $DEPLOYMENT_ID -r $REGION -s tests/example.yml"
+    "execute": "web-messaging-tester -id $DEPLOYMENT_ID -r $REGION -p tests/example.yml"
   }
 }

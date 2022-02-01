@@ -4,6 +4,7 @@
   "private": true,
   "license": "Apache-2.0",
   "repository": "git@github.com:ovotech/genesys-web-messaging-tester.git",
+  "homepage": "https://github.com/ovotech/genesys-web-messaging-tester/tree/main#readme",
   "author": "Lucas Woodward",
   "workspaces": [
     "packages/*",
