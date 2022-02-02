@@ -17,11 +17,11 @@ flows against scenarios in a YAML file. This makes testing:
 * **Automatic** - being a CLI tool means it can be integrated into your CI/CD pipeline, or run on a scheduled basis e.g.
   if you wanted to monitor production
 
-![Demo of tool executing two scenarios that pass](./docs/demo.gif)
+![Demo of tool executing two scenarios that pass](docs/assets/cli/demo.gif)
 
 The above test is using the test script:
 
-> [../../examples/cli/tests/example.yml](../../examples/cli/tests/example.yml)
+> [examples/cli/tests/example.yml](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/packages/genesys-web-messaging-tester-cli/examples/tests/example.yml)
 
 ```yaml
 config:
@@ -53,7 +53,7 @@ npm install -g @ovotech/genesys-web-messaging-tester-cli
 Write a test-script containing all the scenarios you wish to run along with
 the [ID and region of your Web Messenger Deployment](https://help.mypurecloud.com/articles/deploy-messenger/).
 
-> [../../examples/cli/tests/example.yml](../../examples/cli/tests/example.yml)
+> [examples/cli/tests/example.yml](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/packages/genesys-web-messaging-tester-cli/examples/example.yml)
 
 ```yaml
 config:
