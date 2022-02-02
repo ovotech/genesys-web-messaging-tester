@@ -17,7 +17,7 @@ flows against scenarios in a YAML file. This makes testing:
 * **Automatic** - being a CLI tool means it can be integrated into your CI/CD pipeline, or run on a scheduled basis e.g.
   if you wanted to monitor production
 
-![Demo of tool executing two scenarios that pass](docs/demo.gif)
+![Demo of tool executing two scenarios that pass](./docs/demo.gif)
 
 The above test is using the test script:
 
