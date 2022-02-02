@@ -13,7 +13,6 @@
   "scripts": {
     "test": "yarn workspaces foreach --verbose --exclude '@examples/*' run test",
     "build": "yarn workspaces foreach --verbose run build",
-    "build:readme": "build-readme README.md",
     "build:docs": "typedoc && yarn workspaces foreach --verbose run build:readme",
     "publish": "yarn workspaces foreach --no-private --verbose npm publish --tolerate-republish --access public"
   },

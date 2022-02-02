@@ -18,7 +18,7 @@
   "author": "Lucas Woodward",
   "scripts": {
     "build": "rm -rf ./lib && tsc -p tsconfig.json",
-    "build:readme": "build-readme README.md",
+    "build:readme": "build-readme README.md https://github.com/ovotech/genesys-web-messaging-tester/tree/main/packages/genesys-web-messaging-tester-cli",
     "test": "jest __tests__/"
   },
   "bin": {
