@@ -47,7 +47,7 @@ console.log(reply);
 
 | Name | Type |
 | :------ | :------ |
-| `messengerSession` | [`WebMessengerGuestSession`](WebMessengerGuestSession.md) |
+| `messengerSession` | [`WebMessengerSession`](../interfaces/WebMessengerSession.md) |
 
 #### Defined in
 

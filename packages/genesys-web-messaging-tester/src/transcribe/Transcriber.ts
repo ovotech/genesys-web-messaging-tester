@@ -1,4 +1,4 @@
-import { WebMessengerGuestSession } from '../genesys/WebMessengerGuestSession';
+import { WebMessengerSession } from '../genesys/WebMessengerGuestSession';
 import { StructuredMessage } from '../genesys/StructuredMessage';
 import { EventEmitter } from 'events';
 
@@ -9,6 +9,7 @@ export interface TranscribedMessage {
   toString(): string;
 }
 
+// TODO Implement this on other emitters
 export declare interface Transcriber {
   on(event: 'messageTranscribed', listener: (event: TranscribedMessage) => void): this;
 
@@ -25,7 +26,7 @@ export class Transcriber extends EventEmitter {
   private readonly _nameForServer: string;
 
   constructor(
-    private readonly messengerSession: WebMessengerGuestSession,
+    private readonly messengerSession: WebMessengerSession,
     {
       nameForClient = 'You',
       nameForServer = 'Them',

@@ -55,14 +55,14 @@ Transcribes a Web Messenger session into an array of transcribed messages.
 
 | Name | Type |
 | :------ | :------ |
-| `messengerSession` | [`WebMessengerGuestSession`](WebMessengerGuestSession.md) |
+| `messengerSession` | [`WebMessengerSession`](../interfaces/WebMessengerSession.md) |
 | `__namedParameters` | `Object` |
 | `__namedParameters.nameForClient?` | `string` |
 | `__namedParameters.nameForServer?` | `string` |
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:27](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L27)
+[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:28](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L28)
 
 ## Properties
 
@@ -196,7 +196,7 @@ ___
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:64](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L64)
+[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:65](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L65)
 
 ___
 
@@ -278,7 +278,7 @@ ___
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:13](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L13)
+[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:14](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L14)
 
 ▸ **on**(`event`, `listener`): [`Transcriber`](Transcriber.md)
 
@@ -295,7 +295,7 @@ ___
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:15](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L15)
+[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:16](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L16)
 
 ___
 

@@ -7,6 +7,12 @@ import { EventEmitter } from 'events';
 import debug from 'debug';
 import { ClientRequestArgs } from 'http';
 
+export interface WebMessengerSession extends EventEmitter {
+  sendText(message: string): void;
+
+  close(): void;
+}
+
 export interface SessionConfig {
   readonly deploymentId: string;
   readonly region: string;
