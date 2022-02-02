@@ -7,13 +7,15 @@ Automatically test your Web Messenger flows
 </p>
 
 This tool automatically tests [Genesys' Web Messenger](https://help.mypurecloud.com/articles/web-messaging-overview/)
-flows against scenarios in a YAML file. Meaning testing is:
+flows against scenarios in a YAML file. This makes testing:
 
-* Repeatable - each scenario in the test script ([example below](#quick-start)) are run exactly as defined. Any
-  unexpected response is flagged
-* Fast - quick feedback during the development of a flow allows you to spot problems sooner than if you manually test
+* Repeatable - scenarios in test scripts ([example below](#quick-start)) are run exactly as defined. Any response that
+  deviates is flagged
+* Fast - spot problems with your flow sooner than manually testing
 * Automatic - Being a CLI tool means it can be integrated into your CI/CD pipeline, or run on a scheduled basis e.g. if
   you wanted to monitor production
+* Customer focused - Scenarios can be created prior to development. Flows are then tested to ensure they handle
+  scenarios.
 
 ![Demo of tool executing two scenarios that pass](docs/demo.gif)
 
