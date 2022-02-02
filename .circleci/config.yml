@@ -40,6 +40,7 @@ jobs:
           root: .
           paths:
             - packages/genesys-web-messaging-tester/lib
+            - packages/genesys-web-messaging-tester-cli/lib
   publish:
     <<: *working_directory
     docker:
