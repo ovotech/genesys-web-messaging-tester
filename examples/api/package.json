@@ -1,28 +1,28 @@
 {
-  "name": "@examples/api-tests",
-  "description": "Example of using Jest to test a Web Messenger deployment",
+  "name": "@examples/api",
+  "description": "Example of interacting with Web Messenger deployment using Jest, TS and JS",
   "private": true,
   "packageManager": "yarn@3.1.1",
   "scripts": {
-    "test:jest": "jest __tests__",
-    "test:js": "node src/js-script.js",
-    "test:ts": "ts-node-dev src/ts-script.ts"
+    "test": "jest __tests__",
+    "test:js": "node ../api/src/js-script.js",
+    "test:ts": "ts-node-dev ../api/src/ts-script.ts"
   },
   "devDependencies": {
     "@ovotech/genesys-web-messaging-tester": "*",
+    "@types/jest": "^26.0.14",
     "@typescript-eslint/eslint-plugin": "^4.31.1",
     "@typescript-eslint/parser": "^4.31.1",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "prettier": "^2.3.2",
-    "ts-node-dev": "^1.0.0",
-    "typescript": "^4.4.3",
-    "@types/jest": "^26.0.14",
     "jest": "^26.5.3",
+    "prettier": "^2.3.2",
     "ts-jest": "^26.4.1",
-    "ts-loader": "^7.0.5"
+    "ts-loader": "^7.0.5",
+    "ts-node-dev": "^1.0.0",
+    "typescript": "^4.4.3"
   },
   "jest": {
     "preset": "../../jest.json"
