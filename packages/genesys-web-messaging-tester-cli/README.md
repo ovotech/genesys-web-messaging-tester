@@ -27,9 +27,9 @@ scenarios:
     - waitForReplyContaining: Goodbye
 ```
 
-<p align="center">
-  <img src="docs/demo.gif">
-</p>
+![demo](docs/demo.gif)
+![demo](docs/demo90.gif)
+![demo](docs/demo110.gif)
 
 ## Getting Started
 
