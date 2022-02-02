@@ -2,11 +2,24 @@
 
 [![npm](https://img.shields.io/npm/v/@ovotech/genesys-web-messaging-tester-cli)](https://www.npmjs.com/package/@ovotech/genesys-web-messaging-tester-cli)
 
-Tired of wasting time manually testing
-your [Genesys' Web Messenger](https://help.mypurecloud.com/articles/web-messaging-overview/)
-flows every time you make a change, or want a way to routinely check your flow is still working for customers?
+<p align="center">
+Automatically test your Web Messenger flows
+</p>
 
-This tool allows you to automatically run tests defined in a YAML file like below:
+This tool automatically tests [Genesys' Web Messenger](https://help.mypurecloud.com/articles/web-messaging-overview/)
+flows against scenarios maintained in a YAML file.
+
+The benefits of this tool are:
+
+* Repeatable - each scenario in the test script (example below) are run exactly as defined. Any unexpected response is
+  flagged
+* Fast - quick feedback during the development of a flow allows you to spot problems sooner than if you manually test
+* Automatic - Being a CLI tool means it can be integrated into your CI/CD pipeline, or run on a scheduled basis e.g. if
+  you wanted to monitor production
+
+![Demo of tool executing two scenarios that pass](docs/demo.gif)
+
+The demo above is testing a Web Messenger flow against this YAML:
 
 > [../../examples/cli/tests/example.yml](../../examples/cli/tests/example.yml)
 
@@ -27,13 +40,11 @@ scenarios:
     - waitForReplyContaining: Goodbye
 ```
 
-![demo](docs/demo.gif)
-![demo](docs/demo90.gif)
-![demo](docs/demo110.gif)
+## Quick Start
 
-## Getting Started
+Prepare your system by installing [node](https://nodejs.org/en/download/)
 
-Install using [`npm`](https://www.npmjs.com/package/@ovotech/genesys-web-messaging-tester-cli):
+Install the CLI tool using [`npm`](https://www.npmjs.com/package/@ovotech/genesys-web-messaging-tester-cli):
 
 ```bash
 npm install -g @ovotech/genesys-web-messaging-tester-cli
