@@ -17,7 +17,7 @@ flows against scenarios in a YAML file. This makes testing:
 * **Automatic** - being a CLI tool means it can be integrated into your CI/CD pipeline, or run on a scheduled basis e.g.
   if you wanted to monitor production
 
-![Demo of tool executing two scenarios that pass](docs/assets/cli/demo.gif)
+![Demo of tool executing two scenarios that pass](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/docs/assets/cli/demo.gif?raw=true)
 
 The above test is using the test script:
 
