@@ -21,7 +21,7 @@ flows against scenarios in a YAML file. This makes testing:
 
 The above test is using the test script:
 
-> [../../examples/cli/example.yml](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli/example.yml)
+> [examples/cli/example.yml](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli/example.yml)
 
 ```yaml
 config:
@@ -53,7 +53,7 @@ npm install -g @ovotech/genesys-web-messaging-tester-cli
 Write a test-script containing all the scenarios you wish to run along with
 the [ID and region of your Web Messenger Deployment](https://help.mypurecloud.com/articles/deploy-messenger/).
 
-> [../../examples/cli/example.yml](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli/example.yml)
+> [examples/cli/example.yml](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli/example.yml)
 
 ```yaml
 config:

@@ -1,7 +1,7 @@
 {
   "name": "Genesys Web Messaging Tester",
   "readme": "none",
-  "out": "docs",
+  "out": "docs/api",
   "excludeInternal": true,
   "entryPoints": [
     "packages/genesys-web-messaging-tester/src/index.ts"

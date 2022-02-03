@@ -1,6 +1,6 @@
 {
   "name": "@ovotech/genesys-web-messaging-tester",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "license": "Apache-2.0",
@@ -18,7 +18,7 @@
   "author": "Lucas Woodward",
   "scripts": {
     "build": "rm -rf ./lib && tsc -p tsconfig.json",
-    "build:readme": "build-readme README.md https://github.com/ovotech/genesys-web-messaging-tester/tree/main/packages/genesys-web-messaging-tester-cli",
+    "build:readme": "cd ../.. && yarn build-readme ./packages/genesys-web-messaging-tester/README.md https://github.com/ovotech/genesys-web-messaging-tester/tree/main",
     "test": "jest __tests__/"
   },
   "dependencies": {
