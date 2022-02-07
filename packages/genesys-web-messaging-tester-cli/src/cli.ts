@@ -53,11 +53,11 @@ export function createCli({
   );
   program.option(
     '-o, --origin <origin>',
-    'Origin domain used for restricting the Web Messenger Deployment',
+    'Origin domain used for restricting Web Messenger Deployment',
   );
   program.requiredOption<string>(
     '-p, --test-script-path <filePath>',
-    'path of the YAML test script file',
+    'Path of the YAML test script file',
     readableFileValidator(fsAccessSync),
   );
 

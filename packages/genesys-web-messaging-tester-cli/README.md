@@ -75,5 +75,5 @@ scenarios:
 Then run the test by pointing to the test script in the command-prompt:
 
 ```shell
-web-messaging-tester -s tests/example.yml
+web-messaging-tester -p tests/example.yml
 ```
