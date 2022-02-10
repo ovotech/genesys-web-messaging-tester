@@ -786,6 +786,7 @@ __metadata:
     "@types/jest-when": ^2.7.4
     "@types/js-yaml": ^4.0.5
     "@types/node": ^14.14.2
+    "@types/string-template": ^1.0.2
     "@typescript-eslint/eslint-plugin": ^4.31.1
     "@typescript-eslint/parser": ^4.31.1
     chalk: ^4.1.2
@@ -799,6 +800,7 @@ __metadata:
     joi: ^17.5.0
     js-yaml: ^4.1.0
     prettier: ^2.3.2
+    string-template: ^1.0.0
     strip-ansi: ^6.0.1
     ts-jest: ^26.4.1
     ts-loader: ^7.0.5
@@ -1050,6 +1052,13 @@ __metadata:
   version: 2.0.1
   resolution: "@types/stack-utils@npm:2.0.1"
   checksum: 205fdbe3326b7046d7eaf5e494d8084f2659086a266f3f9cf00bccc549c8e36e407f88168ad4383c8b07099957ad669f75f2532ed4bc70be2b037330f7bae019
+  languageName: node
+  linkType: hard
+
+"@types/string-template@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@types/string-template@npm:1.0.2"
+  checksum: 25b07ab4c7062dfd57c6a100a9eaac4cca9c836a1fff85351e143cf1696b311c322ca0f6f7a2bad834deeedfd0cb7ca96c180c36983092864169151e32abc15f
   languageName: node
   linkType: hard
 
@@ -5833,6 +5842,13 @@ __metadata:
     char-regex: ^1.0.2
     strip-ansi: ^6.0.0
   checksum: ce85533ef5113fcb7e522bcf9e62cb33871aa99b3729cec5595f4447f660b0cefd542ca6df4150c97a677d58b0cb727a3fe09ac1de94071d05526c73579bf505
+  languageName: node
+  linkType: hard
+
+"string-template@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "string-template@npm:1.0.0"
+  checksum: 15b0e8616ff25f3ddcd42e4a58a6833cc7be81029f97afc7b8f8d2e7c4d482a136e67399d207b7d2c31080e7a88266c670131a59e50ebc482bfeddb06b3a4215
   languageName: node
   linkType: hard
 

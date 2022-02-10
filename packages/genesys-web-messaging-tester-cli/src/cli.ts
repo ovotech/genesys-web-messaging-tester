@@ -60,6 +60,11 @@ export function createCli({
     'Path of the YAML test script file',
     readableFileValidator(fsAccessSync),
   );
+  program.option(
+    '-var, --variable [variables...]',
+    'Variable key=value for text templates in scenarios. Can be defined multiple times',
+    // /\w+\s*=\s*/,
+  );
 
   const yamlFileReader = createYamlFileReader(fsReadFileSync);
 
@@ -111,6 +116,7 @@ export function createCli({
     const testScriptScenarios = extractScenarios(
       testScriptValidationResults.validTestScript,
       sessionConfigValidationResults.validSessionConfig,
+      options.variable,
     );
 
     let wasError = false;
