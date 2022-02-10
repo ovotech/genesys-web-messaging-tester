@@ -1,4 +1,5 @@
 import { Conversation, SessionConfig } from '@ovotech/genesys-web-messaging-tester';
+import stringTemplate from 'string-template';
 
 export type TestScriptFileScenarioStep =
   | {
@@ -27,13 +28,16 @@ export interface TestScriptScenario {
 
 export function parseScenarioStep(
   step: TestScriptFileScenarioStep,
+  variables: Record<string, string>,
 ): (convo: Conversation) => Promise<unknown | void> {
   if ('say' in step) {
-    return async (convo) => convo.sendText(step.say);
+    const say = stringTemplate(step.say, variables);
+    return async (convo) => convo.sendText(say);
   }
 
   if ('waitForReplyContaining' in step) {
-    return async (convo) => convo.waitForResponseContaining(step.waitForReplyContaining);
+    const waitForReplyContaining = stringTemplate(step.waitForReplyContaining, variables);
+    return async (convo) => convo.waitForResponseContaining(waitForReplyContaining);
   }
 
   throw new Error(`Unsupported step ${step}`);
@@ -42,10 +46,11 @@ export function parseScenarioStep(
 export function extractScenarios(
   testScript: Exclude<TestScriptFile, 'config'>,
   sessionConfig: SessionConfig,
+  variables: Record<string, string>,
 ): TestScriptScenario[] {
   return Object.entries(testScript.scenarios ?? []).map(([scenarioName, actions]) => ({
     sessionConfig,
     name: scenarioName,
-    steps: actions.map(parseScenarioStep),
+    steps: actions.map((a) => parseScenarioStep(a, variables)),
   }));
 }

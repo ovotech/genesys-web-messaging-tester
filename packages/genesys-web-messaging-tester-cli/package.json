@@ -29,7 +29,8 @@
     "chalk": "^4.1.2",
     "commander": "^8.3.0",
     "joi": "^17.5.0",
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.0",
+    "string-template": "^1.0.0"
   },
   "devDependencies": {
     "@ikerin/build-readme": "^1.1.1",
@@ -37,6 +38,7 @@
     "@types/jest-when": "^2.7.4",
     "@types/js-yaml": "^4.0.5",
     "@types/node": "^14.14.2",
+    "@types/string-template": "^1.0.2",
     "@typescript-eslint/eslint-plugin": "^4.31.1",
     "@typescript-eslint/parser": "^4.31.1",
     "eslint": "^7.32.0",
