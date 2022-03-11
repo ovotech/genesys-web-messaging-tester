@@ -1,6 +1,39 @@
 import { WebMessengerSession } from './genesys/WebMessengerGuestSession';
 import { StructuredMessage } from './genesys/StructuredMessage';
 
+export class TimeoutWaitingForResponseError extends Error {
+  constructor(
+    private readonly _expectedResponse: string,
+    private readonly _responsesReceived: ReadonlyArray<StructuredMessage> = [],
+  ) {
+    super(TimeoutWaitingForResponseError.createFailureMessage(_expectedResponse, _responsesReceived));
+
+    Object.setPrototypeOf(this, TimeoutWaitingForResponseError.prototype);
+  }
+
+  private static createFailureMessage(
+    expectedResponse: string,
+    responsesReceived: ReadonlyArray<StructuredMessage>,
+  ): string {
+    if (responsesReceived.length === 0) {
+      return `Timed out waiting for a message that contained '${expectedResponse}'.
+No messages were received.`;
+    } else {
+      return `Timed out waiting for a message that contained '${expectedResponse}'
+Received:
+  ${responsesReceived.map((m) => ` - ${m.body.text}`).join('\n')}`;
+    }
+  }
+
+  public get expectedResponse() {
+    return this._expectedResponse;
+  }
+
+  public get responsesReceived() {
+    return this._responsesReceived;
+  }
+}
+
 /**
  * Provides an API to simplify sending and receiving messages in a Web Messenger
  * session.
@@ -78,20 +111,6 @@ export class Conversation {
     });
   }
 
-  private static createFailureMessage(
-    expectedText: string,
-    messagesReceived: StructuredMessage[],
-  ): string {
-    if (messagesReceived.length === 0) {
-      return `Timed out waiting for a message that contained '${expectedText}'.
-No messages were received.`;
-    } else {
-      return `Timed out waiting for a message that contained '${expectedText}'
-Received:
-  ${messagesReceived.map((m) => ` - ${m.body.text}`).join('\n')}`;
-    }
-  }
-
   /**
    * Resolves when a response is received that contains a specific piece of text.
    * If a response that contains the text isn't received within the timeout period then
@@ -138,7 +157,7 @@ Received:
       timeout = setTimeout(() => {
         this.messengerSession.off('structuredMessage', checkMessage);
 
-        reject(new Error(Conversation.createFailureMessage(text, messagesReceived)));
+        reject(new TimeoutWaitingForResponseError(text, messagesReceived));
       }, timeoutInMs);
     });
   }

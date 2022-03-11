@@ -1,11 +1,28 @@
 import chalk from 'chalk';
 import { TestScriptScenario } from './testScript/parseTestScript';
-import { TranscribedMessage } from '@ovotech/genesys-web-messaging-tester';
+import {
+  TranscribedMessage,
+  TimeoutWaitingForResponseError,
+  StructuredMessage,
+} from '@ovotech/genesys-web-messaging-tester';
 import { ValidationError } from 'joi';
 
 interface ScenarioTestResult {
   scenario: TestScriptScenario;
   hasPassed: boolean;
+  error?: Error;
+}
+
+function createUserFriendlyErrorForTimeoutError(error: TimeoutWaitingForResponseError): string[] {
+  if (error.responsesReceived.length === 0) {
+    return [`Did not receive any response. Expected '${error.expectedResponse}'.`];
+  } else {
+    return [
+      `Response did not contain '${error.expectedResponse}'`,
+      'Responses received instead:',
+      `  ${error.responsesReceived.map((m: StructuredMessage) => ` - ${m.body.text}`).join('\n')}`,
+    ];
+  }
 }
 
 class TestScriptSummaryBuilder {
@@ -15,15 +32,15 @@ class TestScriptSummaryBuilder {
     this.results = [];
   }
 
-  public addFailedScenario(scenario: TestScriptScenario): void {
-    this.results.push({ scenario, hasPassed: false });
+  public addFailedScenario(scenario: TestScriptScenario, error: Error): void {
+    this.results.push({ scenario, hasPassed: false, error });
   }
 
   public addPassedScenario(scenario: TestScriptScenario): void {
     this.results.push({ scenario, hasPassed: true });
   }
 
-  public build(): string {
+  private buildScenarioStatuses(): string[] {
     let reportLines: string[] = [];
 
     for (const r of this.results) {
@@ -34,11 +51,37 @@ class TestScriptSummaryBuilder {
       }
     }
 
-    return reportLines.join('\n');
+    return reportLines;
+  }
+
+  private buildFailureSummaries(): string[] {
+    const lines: string[] = [];
+    for (const r of this.results) {
+      if (!r.hasPassed) {
+        lines.push(chalk.bold.red(`Failure reason for '${r.scenario.name}'`));
+        if (r.error) {
+          if (r.error instanceof TimeoutWaitingForResponseError) {
+            lines.push(...createUserFriendlyErrorForTimeoutError(r.error).map(l => chalk.red(l)));
+          } else {
+            lines.push(chalk.red(r.error.message));
+          }
+        } else {
+          lines.push(chalk.red('No error why why failure occurred'));
+        }
+        lines.push('');
+      }
+    }
+    return lines;
+  }
+
+  public build(): string {
+    return [...this.buildScenarioStatuses(), '', ...this.buildFailureSummaries()].join('\n');
   }
 }
 
 export class Ui {
+  public displayScenarioNames: boolean = false;
+
   constructor(
     private readonly summaryBuilder: TestScriptSummaryBuilder = new TestScriptSummaryBuilder(),
   ) {}
@@ -48,11 +91,18 @@ export class Ui {
   }
 
   public errorReadingTestScriptFile(error: Error): string {
-    return `${error.message}\n`;
+    return chalk.red(`${error.message}\n`);
   }
 
-  public messageTranscribed(event: TranscribedMessage): string {
-    return `${chalk.bold.grey(`${event.who}:`)} ${chalk.grey(event.message)}\n`;
+  public messageTranscribed(scenario: TestScriptScenario, event: TranscribedMessage): string {
+    let prefix: string;
+    if (this.displayScenarioNames) {
+      prefix = `${scenario.name} - ${event.who}:`;
+    } else {
+      prefix = `${event.who}:`;
+    }
+
+    return `${chalk.bold.grey(prefix)} ${chalk.grey(event.message)}\n`;
   }
 
   public validatingTestScriptFailed(error: ValidationError | undefined): string {
@@ -64,16 +114,32 @@ export class Ui {
   }
 
   public scenarioFailed(scenario: TestScriptScenario, error: Error): string {
-    this.summaryBuilder.addFailedScenario(scenario);
+    this.summaryBuilder.addFailedScenario(scenario, error);
 
-    return `${chalk.bold.red('Scenario failed')}
-${chalk.red(`Reason for failure: ${error.message}\n\n`)}`;
+    let errorReason: string;
+    if (error instanceof TimeoutWaitingForResponseError) {
+      errorReason = createUserFriendlyErrorForTimeoutError(error).join('\n');
+    } else {
+      errorReason = `Reason for failure: ${error.message}`;
+    }
+
+    if (this.displayScenarioNames) {
+      return `${chalk.bold.red(`Scenario '${scenario.name}' failed`)}
+${chalk.red(errorReason)}\n\n`;
+    } else {
+      return `${chalk.bold.red('Scenario failed')}
+${chalk.red(errorReason)}\n\n`;
+    }
   }
 
   public scenarioPassed(scenario: TestScriptScenario): string {
     this.summaryBuilder.addPassedScenario(scenario);
 
-    return chalk.bold.green(`Scenario passed\n\n`);
+    if (this.displayScenarioNames) {
+      return chalk.bold.green(`Scenario '${scenario.name}' passed\n\n`);
+    } else {
+      return chalk.bold.green(`Scenario passed\n\n`);
+    }
   }
 
   public testScriptSummary(): string {
