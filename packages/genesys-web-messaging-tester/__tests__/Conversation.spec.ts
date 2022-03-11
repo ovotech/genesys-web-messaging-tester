@@ -76,7 +76,7 @@ describe('Conversation', () => {
 
     await expect(
       conversation.waitForResponseContaining('hello', { timeoutInSeconds: 1 }),
-    ).rejects.toStrictEqual(
+    ).rejects.toEqual(
       new Error(
         `Timed out waiting for a message that contained 'hello'
 Received:
