@@ -56,20 +56,21 @@ class TestScriptSummaryBuilder {
 
   private buildFailureSummaries(): string[] {
     const lines: string[] = [];
-    for (const r of this.results) {
-      if (!r.hasPassed) {
-        lines.push(chalk.bold.red(`Failure reason for '${r.scenario.name}'`));
-        if (r.error) {
-          if (r.error instanceof TimeoutWaitingForResponseError) {
-            lines.push(...createUserFriendlyErrorForTimeoutError(r.error).map(l => chalk.red(l)));
-          } else {
-            lines.push(chalk.red(r.error.message));
-          }
+
+    const failedScenarioTests = this.results.filter((r) => !r.hasPassed);
+    for (const f of failedScenarioTests) {
+      lines.push(chalk.bold.red(`Failure reason for '${f.scenario.name}'`));
+
+      if (!f.error) {
+        lines.push(chalk.red('No error why why failure occurred'));
+      } else {
+        if (f.error instanceof TimeoutWaitingForResponseError) {
+          lines.push(...createUserFriendlyErrorForTimeoutError(f.error).map((l) => chalk.red(l)));
         } else {
-          lines.push(chalk.red('No error why why failure occurred'));
+          lines.push(chalk.red(f.error.message));
         }
-        lines.push('');
       }
+      lines.push('');
     }
     return lines;
   }
