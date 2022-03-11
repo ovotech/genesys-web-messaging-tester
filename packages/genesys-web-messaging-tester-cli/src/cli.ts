@@ -74,7 +74,7 @@ export function createCli({
     'Path of the YAML test script file',
     readableFileValidator(fsAccessSync),
   );
-  program?.option('-pl, --parallel <number>', 'Run test-scripts in parallel', parsePositiveInt, 1);
+  program?.option('-pl, --parallel <number>', 'Maximum scenarios to run in parallel', parsePositiveInt, 1);
 
   const yamlFileReader = createYamlFileReader(fsReadFileSync);
 
