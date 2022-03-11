@@ -7,6 +7,7 @@ Genesys Web Messaging Tester
 ### Classes
 
 - [Conversation](classes/Conversation.md)
+- [TimeoutWaitingForResponseError](classes/TimeoutWaitingForResponseError.md)
 - [Transcriber](classes/Transcriber.md)
 - [WebMessengerGuestSession](classes/WebMessengerGuestSession.md)
 
