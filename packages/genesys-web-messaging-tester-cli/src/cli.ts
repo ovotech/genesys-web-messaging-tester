@@ -1,4 +1,5 @@
 import { Command } from 'commander';
+import * as commander from 'commander';
 import { accessSync, readFileSync } from 'fs';
 import { readableFileValidator } from './fileSystem/readableFileValidator';
 import { createYamlFileReader } from './fileSystem/yamlFileReader';
@@ -15,6 +16,18 @@ import { Ui } from './ui';
 import { validateSessionConfig } from './testScript/validateSessionConfig';
 import { validateTestScript } from './testScript/validateTestScript';
 import pLimit from 'p-limit';
+
+function parsePositiveInt(value: string) {
+  const parsedValue = parseInt(value, 10);
+  if (isNaN(parsedValue)) {
+    throw new commander.InvalidArgumentError('Not a number.');
+  }
+  if (parsedValue <= 0) {
+    throw new commander.InvalidArgumentError('Must be greater than 0.');
+  }
+
+  return parsedValue;
+}
 
 export interface Dependencies {
   outputConsole?: Console;
@@ -61,7 +74,7 @@ export function createCli({
     'Path of the YAML test script file',
     readableFileValidator(fsAccessSync),
   );
-  program?.option('--parallel', 'Run test-scripts in parallel');
+  program?.option('-pl, --parallel <number>', 'Maximum scenarios to run in parallel', parsePositiveInt, 1);
 
   const yamlFileReader = createYamlFileReader(fsReadFileSync);
 
@@ -115,8 +128,8 @@ export function createCli({
       sessionConfigValidationResults.validSessionConfig,
     );
 
-    ui.displayScenarioNames = !!options.parallel;
-    const limit = pLimit(options.parallel ? 5 : 1);
+    ui.displayScenarioNames = options.parallel > 1;
+    const limit = pLimit(options.parallel);
 
     const limits = testScriptScenarios.map((scenario) =>
       limit<[], { scenarioFailed: boolean }>(async () => {
