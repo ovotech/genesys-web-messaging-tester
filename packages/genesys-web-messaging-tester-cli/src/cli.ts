@@ -14,6 +14,7 @@ import {
 import { Ui } from './ui';
 import { validateSessionConfig } from './testScript/validateSessionConfig';
 import { validateTestScript } from './testScript/validateTestScript';
+import pLimit from 'p-limit';
 
 export interface Dependencies {
   outputConsole?: Console;
@@ -60,6 +61,7 @@ export function createCli({
     'Path of the YAML test script file',
     readableFileValidator(fsAccessSync),
   );
+  program?.option('--parallel', 'Run test-scripts in parallel');
 
   const yamlFileReader = createYamlFileReader(fsReadFileSync);
 
@@ -113,35 +115,46 @@ export function createCli({
       sessionConfigValidationResults.validSessionConfig,
     );
 
-    let wasError = false;
+    ui.displayScenarioNames = !!options.parallel;
+    const limit = pLimit(options.parallel ? 5 : 1);
 
-    for (const scenario of testScriptScenarios) {
-      outputConfig.writeOut(ui.aboutToTestScenario(scenario));
+    const limits = testScriptScenarios.map((scenario) =>
+      limit<[], { scenarioFailed: boolean }>(async () => {
+        let scenarioFailed = false;
 
-      const session = webMessengerSessionFactory(scenario.sessionConfig);
-      try {
-        new Transcriber(session).on('messageTranscribed', (event: TranscribedMessage) =>
+        // @ts-ignore
+        outputConfig.writeOut(ui.aboutToTestScenario(scenario));
+
+        const session = webMessengerSessionFactory(scenario.sessionConfig);
+        try {
+          new Transcriber(session).on('messageTranscribed', (event: TranscribedMessage) =>
+            // @ts-ignore
+            outputConfig.writeOut(ui.messageTranscribed(scenario, event)),
+          );
+
+          const convo = conversationFactory(session);
+          await convo.waitForConversationToStart();
+
+          for (const step of scenario.steps) {
+            await step(convo);
+          }
           // @ts-ignore
-          outputConfig.writeOut(ui.messageTranscribed(event)),
-        );
-
-        const convo = conversationFactory(session);
-        await convo.waitForConversationToStart();
-
-        for (const step of scenario.steps) {
-          await step(convo);
+          outputConfig.writeOut(ui.scenarioPassed(scenario));
+        } catch (error) {
+          scenarioFailed = true;
+          // @ts-ignore
+          outputConfig.writeErr(ui.scenarioFailed(scenario, error as Error));
         }
-        outputConfig.writeOut(ui.scenarioPassed(scenario));
-      } catch (error) {
-        wasError = true;
-        outputConfig.writeErr(ui.scenarioFailed(scenario, error as Error));
-      } finally {
+
         session.close();
-      }
-    }
+        return { scenarioFailed };
+      }),
+    );
+
+    const results = await Promise.all(limits);
 
     outputConfig.writeOut(ui.testScriptSummary());
-    if (wasError) {
+    if (results.some((r) => r.scenarioFailed)) {
       processExitOverride(1);
       return;
     }
