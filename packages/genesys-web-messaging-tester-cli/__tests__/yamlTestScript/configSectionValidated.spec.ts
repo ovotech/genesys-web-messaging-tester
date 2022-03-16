@@ -75,7 +75,7 @@ scenarios:
     - say: hi from scenario
 `);
     await expect(
-      cli([...['node', '/path/to/cli'], ...['--test-script-path', 'test-path']]),
+      cli([...['node', '/path/to/cli'], ...['test-path']]),
     ).rejects.toBeDefined();
 
     expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual([expectedError]);
@@ -101,7 +101,7 @@ scenarios:
     - say: hi from scenario
 `);
     await expect(
-      cli([...['node', '/path/to/cli'], ...args, ...['--test-script-path', 'test-path']]),
+      cli([...['node', '/path/to/cli'], ...args, ...['test-path']]),
     ).rejects.toBeDefined();
 
     expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual([expectedError]);

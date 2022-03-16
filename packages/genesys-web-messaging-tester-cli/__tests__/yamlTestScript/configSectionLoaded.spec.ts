@@ -49,7 +49,7 @@ scenarios:
       ...['--deployment-id', 'test-deployment-id'],
       ...['--region', 'test-region'],
       ...['--origin', 'test-origin'],
-      ...['--test-script-path', '/test/path'],
+      ...['/test/path'],
     ]);
 
     expect(webMessengerSessionFactory).toHaveBeenCalledWith({
@@ -71,7 +71,7 @@ scenarios:
       ...['--deployment-id', 'test-deployment-id-2'],
       ...['--region', 'test-region-2'],
       ...['--origin', 'test-origin-2'],
-      ...['--test-script-path', '/test/path'],
+      ...['/test/path'],
     ]);
 
     expect(webMessengerSessionFactory).toHaveBeenCalledWith({
@@ -92,7 +92,7 @@ scenarios:
     - say: "hi"
 `);
 
-    await cli([...['node', '/path/to/cli'], ...['--test-script-path', '/test/path']]);
+    await cli([...['node', '/path/to/cli'], ...['/test/path']]);
 
     expect(webMessengerSessionFactory).toHaveBeenCalledWith({
       deploymentId: 'test-deployment-id-3',

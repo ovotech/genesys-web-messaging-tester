@@ -51,7 +51,7 @@ scenarios:
         ...['node', '/path/to/cli'],
         ...['--deployment-id', 'test-deployment-id'],
         ...['--region', 'test-region'],
-        ...['--test-script-path', 'test-path'],
+        ...['test-path'],
       ]),
     ).resolves.toBeUndefined();
 
@@ -65,7 +65,7 @@ config:
   region: xx
 `);
     await expect(
-      cli([...['node', '/path/to/cli'], ...['--test-script-path', 'test-path']]),
+      cli([...['node', '/path/to/cli'], ...['test-path']]),
     ).rejects.toBeDefined();
 
     expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual(['"scenarios" is required']);
@@ -82,7 +82,7 @@ scenarios:
       waitForReplyContaining: hello
 `);
     await expect(
-      cli([...['node', '/path/to/cli'], ...['--test-script-path', 'test-path']]),
+      cli([...['node', '/path/to/cli'], ...['test-path']]),
     ).rejects.toBeDefined();
 
     expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual([
@@ -100,7 +100,7 @@ scenarios:
     - testing: 123
 `);
     await expect(
-      cli([...['node', '/path/to/cli'], ...['--test-script-path', 'test-path']]),
+      cli([...['node', '/path/to/cli'], ...['test-path']]),
     ).rejects.toBeDefined();
 
     expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual([

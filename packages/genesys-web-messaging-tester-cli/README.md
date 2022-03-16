@@ -83,5 +83,34 @@ scenarios:
 Then run the test by pointing to the test-script in the terminal:
 
 ```shell
-web-messaging-tester -p tests/example.yml
+web-messaging-tester tests/example.yml
+```
+
+## Examples
+
+```
+$ web-messaging-tester --help
+Usage: index [options] <filePath>
+
+Arguments:
+  filePath                             Path of the YAML test-script file
+
+Options:
+  -id, --deployment-id <deploymentId>  Web Messenger Deployment's ID
+  -r, --region <region>                Region of Genesys instance that hosts the Web Messenger Deployment
+  -o, --origin <origin>                Origin domain used for restricting Web Messenger Deployment
+  -p, --parallel <number>              Maximum scenarios to run in parallel (default: 1)
+  -h, --help                           display help for command
+```
+
+Override Deployment ID and Region in test-script file:
+
+```shell
+web-messaging-tester -id 00000000-0000-0000-0000-000000000000 -r xxxx.pure.cloud test-script.yaml
+```
+
+Run 10 scenarios in parallel:
+
+```shell
+web-messaging-tester --parallel 10 test-script.yaml
 ```

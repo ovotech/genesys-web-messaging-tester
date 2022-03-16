@@ -56,11 +56,11 @@ describe('Test script YAML loaded', () => {
     });
 
     await expect(
-      cli([...['node', '/path/to/cli'], ...['--test-script-path', 'test-file.yml']]),
+      cli([...['node', '/path/to/cli'], ...['test-file.yml']]),
     ).rejects.toBeDefined();
 
     expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual([
-      "error: option '-p, --test-script-path <filePath>' argument 'test-file.yml' is invalid. File 'test-file.yml' is not readable\n",
+      "error: command-argument value 'test-file.yml' is invalid for argument 'filePath'. File 'test-file.yml' is not readable\n"
     ]);
   });
 
@@ -78,7 +78,7 @@ scenarios:
 
     when(fsReadFileSync).calledWith(validScenarioFilePath, 'utf8').mockReturnValue(yaml);
 
-    await cli([...['node', '/path/to/cli'], ...['--test-script-path', validScenarioFilePath]]);
+    await cli([...['node', '/path/to/cli'], ...[validScenarioFilePath]]);
 
     expect(capturedOutput.errOut).toStrictEqual([]);
 
