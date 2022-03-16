@@ -60,6 +60,11 @@ export function createCli({
 }: Dependencies = {}): Cli {
   program?.exitOverride(() => processExitOverride(1));
 
+  program.argument(
+    '<filePath>',
+    'Path of the YAML test-script file',
+    readableFileValidator(fsAccessSync),
+  );
   program.option('-id, --deployment-id <deploymentId>', "Web Messenger Deployment's ID");
   program.option(
     '-r, --region <region>',
@@ -69,12 +74,12 @@ export function createCli({
     '-o, --origin <origin>',
     'Origin domain used for restricting Web Messenger Deployment',
   );
-  program.requiredOption<string>(
-    '-p, --test-script-path <filePath>',
-    'Path of the YAML test script file',
-    readableFileValidator(fsAccessSync),
+  program?.option(
+    '-p, --parallel <number>',
+    'Maximum scenarios to run in parallel',
+    parsePositiveInt,
+    1,
   );
-  program?.option('-pl, --parallel <number>', 'Maximum scenarios to run in parallel', parsePositiveInt, 1);
 
   const yamlFileReader = createYamlFileReader(fsReadFileSync);
 
@@ -87,11 +92,12 @@ export function createCli({
     program.parse(args);
 
     const options = program.opts();
+    const testScriptPath = program.args[0];
 
     // 1. Read YAML file
     let testScriptFileContents: unknown;
     try {
-      testScriptFileContents = yamlFileReader(options.testScriptPath);
+      testScriptFileContents = yamlFileReader(testScriptPath);
     } catch (error) {
       outputConfig.writeErr(ui.errorReadingTestScriptFile(error as Error));
       processExitOverride(1);
