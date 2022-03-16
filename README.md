@@ -46,7 +46,7 @@ simulate a customer talking to a Web Messenger Deployment. Once the tool starts 
 defined in a file called a 'test-script', which tells it what to say and what it should expect in response. If the
 response deviates from the test-script then the tool flags the test as a failure, otherwise the test passes.
 
-![Tool using test-script file to test Web Messenger Deployment](./docs/assets/cli/overview.png)
+![Tool using test-script file to test Web Messenger Deployment](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/docs/assets/cli/overview.png?raw=true)
 
 ## Quick Start
 
