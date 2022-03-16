@@ -13,7 +13,7 @@
   "scripts": {
     "test": "yarn workspaces foreach --verbose --exclude '@examples/*' run test",
     "build": "yarn workspaces foreach --verbose run build",
-    "build:docs": "typedoc && yarn workspaces foreach --verbose run build:readme",
+    "build:docs": "cp README.md packages/genesys-web-messaging-tester-cli/README.md && typedoc && yarn workspaces foreach --verbose run build:readme",
     "publish": "yarn workspaces foreach --no-private --verbose npm publish --tolerate-republish --access public"
   },
   "devDependencies": {
