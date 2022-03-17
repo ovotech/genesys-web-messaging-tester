@@ -135,12 +135,11 @@ export function createCli({
     );
 
     ui.displayScenarioNames = options.parallel > 1;
-    const limit = pLimit(options.parallel);
+    if (options.parallel <= 1) {
+      console.log('No parallel');
 
-    const limits = testScriptScenarios.map((scenario) =>
-      limit<[], { scenarioFailed: boolean }>(async () => {
-        let scenarioFailed = false;
-
+      const results: { scenarioFailed: boolean }[] = [];
+      for (const scenario of testScriptScenarios) {
         // @ts-ignore
         outputConfig.writeOut(ui.aboutToTestScenario(scenario));
 
@@ -160,22 +159,63 @@ export function createCli({
           // @ts-ignore
           outputConfig.writeOut(ui.scenarioPassed(scenario));
         } catch (error) {
-          scenarioFailed = true;
+          results.push({ scenarioFailed: true });
           // @ts-ignore
           outputConfig.writeErr(ui.scenarioFailed(scenario, error as Error));
         }
 
         session.close();
-        return { scenarioFailed };
-      }),
-    );
+        results.push({ scenarioFailed: false });
+      }
 
-    const results = await Promise.all(limits);
+      outputConfig.writeOut(ui.testScriptSummary());
+      if (results.some((r) => r.scenarioFailed)) {
+        processExitOverride(1);
+        return;
+      }
 
-    outputConfig.writeOut(ui.testScriptSummary());
-    if (results.some((r) => r.scenarioFailed)) {
-      processExitOverride(1);
       return;
+    } else {
+      const limit = pLimit(options.parallel);
+
+      const limits = testScriptScenarios.map((scenario) =>
+        limit<[], { scenarioFailed: boolean }>(async () => {
+          // @ts-ignore
+          outputConfig.writeOut(ui.aboutToTestScenario(scenario));
+
+          const session = webMessengerSessionFactory(scenario.sessionConfig);
+          try {
+            new Transcriber(session).on('messageTranscribed', (event: TranscribedMessage) =>
+              // @ts-ignore
+              outputConfig.writeOut(ui.messageTranscribed(scenario, event)),
+            );
+
+            const convo = conversationFactory(session);
+            await convo.waitForConversationToStart();
+
+            for (const step of scenario.steps) {
+              await step(convo);
+            }
+            // @ts-ignore
+            outputConfig.writeOut(ui.scenarioPassed(scenario));
+            session.close();
+            return { scenarioFailed: false };
+          } catch (error) {
+            // @ts-ignore
+            outputConfig.writeErr(ui.scenarioFailed(scenario, error as Error));
+            session.close();
+            return { scenarioFailed: true };
+          }
+        }),
+      );
+
+      const results = await Promise.all(limits);
+
+      outputConfig.writeOut(ui.testScriptSummary());
+      if (results.some((r) => r.scenarioFailed)) {
+        processExitOverride(1);
+        return;
+      }
     }
   };
 }
