@@ -1,14 +1,15 @@
-import { SessionConfig } from '@ovotech/genesys-web-messaging-tester';
 import Joi, { ValidationError } from 'joi';
+import { TestScriptFile } from './parseTestScript';
 
-const schema = Joi.object({
+const schema = Joi.object<TestScriptFile['config']>({
   deploymentId: Joi.string().required(),
   region: Joi.string().required(),
   origin: Joi.string(),
+  stepTimeoutInSeconds: Joi.number(),
 });
 
-export function validateSessionConfig(sessionConfig: Partial<SessionConfig>): {
-  validSessionConfig?: SessionConfig;
+export function validateSessionConfig(sessionConfig: NonNullable<TestScriptFile['config']>): {
+  validSessionConfig?: NonNullable<TestScriptFile['config']>;
   error?: ValidationError;
 } {
   const { error, value } = schema.validate(sessionConfig);
