@@ -1,5 +1,5 @@
 {
-  "name": "genesys-web-messaging-tester",
+  "name": "@ovotech/genesys-web-messaging-tester-root",
   "version": "1.0.0",
   "private": true,
   "license": "Apache-2.0",

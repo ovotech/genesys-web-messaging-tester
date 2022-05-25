@@ -809,6 +809,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ovotech/genesys-web-messaging-tester-root@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@ovotech/genesys-web-messaging-tester-root@workspace:."
+  dependencies:
+    "@ikerin/build-readme": ^1.1.1
+    typedoc: ^0.22.3
+    typedoc-plugin-markdown: ^3.11.11
+    typescript: ^4.4.3
+  languageName: unknown
+  linkType: soft
+
 "@ovotech/genesys-web-messaging-tester@*, @ovotech/genesys-web-messaging-tester@^1.1.7, @ovotech/genesys-web-messaging-tester@workspace:packages/genesys-web-messaging-tester":
   version: 0.0.0-use.local
   resolution: "@ovotech/genesys-web-messaging-tester@workspace:packages/genesys-web-messaging-tester"
@@ -2879,17 +2890,6 @@ __metadata:
   checksum: 637b34c84f518defa89319dbef68211a24e9302182ad2a619e3be1be5b7dcf2a962c8359e889294af667440f4722e7e6e61671859e00bd8ec280a136ded89b25
   languageName: node
   linkType: hard
-
-"genesys-web-messaging-tester@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "genesys-web-messaging-tester@workspace:."
-  dependencies:
-    "@ikerin/build-readme": ^1.1.1
-    typedoc: ^0.22.3
-    typedoc-plugin-markdown: ^3.11.11
-    typescript: ^4.4.3
-  languageName: unknown
-  linkType: soft
 
 "gensync@npm:^1.0.0-beta.2":
   version: 1.0.0-beta.2
