@@ -43,9 +43,9 @@
 - [removeListener](WebMessengerGuestSession.md#removelistener)
 - [sendText](WebMessengerGuestSession.md#sendtext)
 - [setMaxListeners](WebMessengerGuestSession.md#setmaxlisteners)
-- [listenerCount](WebMessengerGuestSession.md#listenercount)
-- [on](WebMessengerGuestSession.md#on)
-- [once](WebMessengerGuestSession.md#once)
+- [listenerCount](WebMessengerGuestSession.md#listenercount-1)
+- [on](WebMessengerGuestSession.md#on-1)
+- [once](WebMessengerGuestSession.md#once-1)
 
 ## Constructors
 

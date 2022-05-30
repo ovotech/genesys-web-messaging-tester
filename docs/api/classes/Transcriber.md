@@ -41,9 +41,9 @@ Transcribes a Web Messenger session into an array of transcribed messages.
 - [removeAllListeners](Transcriber.md#removealllisteners)
 - [removeListener](Transcriber.md#removelistener)
 - [setMaxListeners](Transcriber.md#setmaxlisteners)
-- [listenerCount](Transcriber.md#listenercount)
-- [on](Transcriber.md#on)
-- [once](Transcriber.md#once)
+- [listenerCount](Transcriber.md#listenercount-1)
+- [on](Transcriber.md#on-1)
+- [once](Transcriber.md#once-1)
 
 ## Constructors
 

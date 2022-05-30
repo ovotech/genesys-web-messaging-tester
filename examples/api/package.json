@@ -6,13 +6,15 @@
   "scripts": {
     "test": "jest __tests__",
     "test:js": "node ../api/src/js-script.js",
-    "test:ts": "ts-node-dev ../api/src/ts-script.ts"
+    "test:ts": "node -r ts-node/register ../api/src/ts-script.ts"
   },
   "devDependencies": {
     "@ovotech/genesys-web-messaging-tester": "*",
     "@types/jest": "^26.0.14",
+    "@types/node": "^14.14.2",
     "@typescript-eslint/eslint-plugin": "^4.31.1",
     "@typescript-eslint/parser": "^4.31.1",
+    "dotenv": "^16.0.1",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jest": "^24.1.0",
@@ -21,7 +23,7 @@
     "prettier": "^2.3.2",
     "ts-jest": "^26.4.1",
     "ts-loader": "^7.0.5",
-    "ts-node-dev": "^1.0.0",
+    "ts-node": "^10.8.0",
     "typescript": "^4.4.3"
   },
   "jest": {
