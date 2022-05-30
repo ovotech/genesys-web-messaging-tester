@@ -849,8 +849,8 @@ __metadata:
   resolution: "@ovotech/genesys-web-messaging-tester-root@workspace:."
   dependencies:
     "@ikerin/build-readme": ^1.1.1
-    typedoc: ^0.22.3
-    typedoc-plugin-markdown: ^3.11.11
+    typedoc: ^0.22.15
+    typedoc-plugin-markdown: ^3.12.1
     typescript: ^4.4.3
   languageName: unknown
   linkType: soft
@@ -1674,6 +1674,15 @@ __metadata:
     balanced-match: ^1.0.0
     concat-map: 0.0.1
   checksum: faf34a7bb0c3fcf4b59c7808bc5d2a96a40988addf2e7e09dfbb67a2251800e0d14cd2bfc1aa79174f2f5095c54ff27f46fb1289fe2d77dac755b5eb3434cc07
+  languageName: node
+  linkType: hard
+
+"brace-expansion@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "brace-expansion@npm:2.0.1"
+  dependencies:
+    balanced-match: ^1.0.0
+  checksum: a61e7cd2e8a8505e9f0036b3b6108ba5e926b4b55089eeb5550cd04a471fe216c96d4fe7e4c7f995c728c554ae20ddfc4244cad10aef255e72b62930afd233d1
   languageName: node
   linkType: hard
 
@@ -4444,12 +4453,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:^3.0.8":
-  version: 3.0.8
-  resolution: "marked@npm:3.0.8"
+"marked@npm:^4.0.12":
+  version: 4.0.16
+  resolution: "marked@npm:4.0.16"
   bin:
-    marked: bin/marked
-  checksum: 3cdeaa126bbeca5b1b8d2f91e9728018dcd63b250233f3607009a4d70bb6bd9df8c769f1bc52ce9856d1316c91c9dacb1d94d80696f76d094146b4fab126a4eb
+    marked: bin/marked.js
+  checksum: c0ef780bf56c9bb49c15b66683e5648410c924c1d725f1489fc3c7dc3bd01194c50d720052bb0282ad7907f472dfdc8fa278acbc7903c5db3be4b83487e0d684
   languageName: node
   linkType: hard
 
@@ -4537,6 +4546,15 @@ __metadata:
   dependencies:
     brace-expansion: ^1.1.7
   checksum: 66ac295f8a7b59788000ea3749938b0970344c841750abd96694f80269b926ebcafad3deeb3f1da2522978b119e6ae3a5869b63b13a7859a456b3408bd18a078
+  languageName: node
+  linkType: hard
+
+"minimatch@npm:^5.0.1":
+  version: 5.1.0
+  resolution: "minimatch@npm:5.1.0"
+  dependencies:
+    brace-expansion: ^2.0.1
+  checksum: 15ce53d31a06361e8b7a629501b5c75491bc2b59712d53e802b1987121d91b433d73fcc5be92974fde66b2b51d8fb28d75a9ae900d249feb792bb1ba2a4f0a90
   languageName: node
   linkType: hard
 
@@ -5566,14 +5584,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"shiki@npm:^0.9.12":
-  version: 0.9.15
-  resolution: "shiki@npm:0.9.15"
+"shiki@npm:^0.10.1":
+  version: 0.10.1
+  resolution: "shiki@npm:0.10.1"
   dependencies:
     jsonc-parser: ^3.0.0
     vscode-oniguruma: ^1.6.1
     vscode-textmate: 5.2.0
-  checksum: 58d1e3e106320252b67c63dc1269c4b834152e9c675a06a4565ec41db1c93aea2dd94e22640d7ec99334cb47cd41b914642d936577143b689ef2a0db7d938c13
+  checksum: fb746f3cb3de7e545e3b10a6cb658d3938f840e4ccc9a3c90ceb7e69a8f89dbb432171faac1e9f02a03f103684dad88ee5e54b5c4964fa6b579fca6e8e26424d
   languageName: node
   linkType: hard
 
@@ -6212,31 +6230,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-plugin-markdown@npm:^3.11.11":
-  version: 3.11.11
-  resolution: "typedoc-plugin-markdown@npm:3.11.11"
+"typedoc-plugin-markdown@npm:^3.12.1":
+  version: 3.12.1
+  resolution: "typedoc-plugin-markdown@npm:3.12.1"
   dependencies:
     handlebars: ^4.7.7
   peerDependencies:
     typedoc: ">=0.22.0"
-  checksum: 6a34d3b6e4477f191db36d507f3bb752bbae4d3db2857249bd795b653cd1afe2c1c95a26d813cbb24e720dbc83e68a94ab7b7f740e341d7fb7a79d1a8d7d4171
+  checksum: 72c4ab6076f327ca9366d2244cedd7d476b999056eec75b02c0573f89fa02d988914ade66d8245a6df28af41e8bb5ffd6b934383a6ab4a2688c099e47cff4ed1
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.22.3":
-  version: 0.22.10
-  resolution: "typedoc@npm:0.22.10"
+"typedoc@npm:^0.22.15":
+  version: 0.22.15
+  resolution: "typedoc@npm:0.22.15"
   dependencies:
     glob: ^7.2.0
     lunr: ^2.3.9
-    marked: ^3.0.8
-    minimatch: ^3.0.4
-    shiki: ^0.9.12
+    marked: ^4.0.12
+    minimatch: ^5.0.1
+    shiki: ^0.10.1
   peerDependencies:
-    typescript: 4.0.x || 4.1.x || 4.2.x || 4.3.x || 4.4.x || 4.5.x
+    typescript: 4.0.x || 4.1.x || 4.2.x || 4.3.x || 4.4.x || 4.5.x || 4.6.x
   bin:
     typedoc: bin/typedoc
-  checksum: 404932ae8e62d1507209d50b635d9d5cefead344e7e84e2d21fc84741fb739e011dcffcf335d6d4e2a31fe45910757b27f11678f6ae5b89514d2f291fe41884e
+  checksum: 3f5f1cb9288bf811f42df59750c7062a026a23257b38dfe227515a30007a28e3d8139187949fcd19300fd6b2ef76bcdc4cf54549100bff3e000e61bb19958fb2
   languageName: node
   linkType: hard
 
