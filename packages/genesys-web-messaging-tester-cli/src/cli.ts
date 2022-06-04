@@ -3,7 +3,7 @@ import * as commander from 'commander';
 import { accessSync, readFileSync } from 'fs';
 import { readableFileValidator } from './fileSystem/readableFileValidator';
 import { createYamlFileReader } from './fileSystem/yamlFileReader';
-import { extractScenarios } from './testScript/parseTestScript';
+import { extractScenarios, TestScriptFile } from "./testScript/parseTestScript";
 import {
   Conversation,
   SessionConfig,
@@ -114,7 +114,7 @@ export function createCli({
 
     // 3. Merge session config from args and Test Script - args take priority
     const { validTestScript } = testScriptValidationResults;
-    const mergedSessionConfig: Partial<SessionConfig> = {
+    const mergedSessionConfig: NonNullable<TestScriptFile['config']> = {
       deploymentId: options.deploymentId ?? validTestScript?.config?.deploymentId,
       region: options.region ?? validTestScript?.config?.region,
       origin: options.origin ?? validTestScript?.config?.origin,
