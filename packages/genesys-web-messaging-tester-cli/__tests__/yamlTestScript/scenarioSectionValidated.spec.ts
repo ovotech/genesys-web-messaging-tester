@@ -68,7 +68,7 @@ config:
       cli([...['node', '/path/to/cli'], ...['test-path']]),
     ).rejects.toBeDefined();
 
-    expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual(['"scenarios" is required']);
+    expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual(['"scenarios" is required\n']);
   });
 
   test('scenario step can only contain one element', async () => {
@@ -86,7 +86,7 @@ scenarios:
     ).rejects.toBeDefined();
 
     expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual([
-      '"scenarios.scenario-name[0]" must have 1 key',
+      '"scenarios.scenario-name[0]" must have 1 key\n',
     ]);
   });
 
@@ -104,7 +104,7 @@ scenarios:
     ).rejects.toBeDefined();
 
     expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual([
-      '"scenarios.scenario-name[0].testing" is not allowed',
+      '"scenarios.scenario-name[0].testing" is not allowed\n',
     ]);
   });
 });

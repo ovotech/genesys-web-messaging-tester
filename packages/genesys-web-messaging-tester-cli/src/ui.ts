@@ -83,16 +83,26 @@ class TestScriptSummaryBuilder {
 export class Ui {
   public displayScenarioNames: boolean = false;
 
+  /**
+   * Given the extensive use of Chalk in here, this utility method makes it clear
+   * that trailing newlines are safer encoded outside the Chalk string.
+   *
+   * @see https://github.com/ovotech/genesys-web-messaging-tester/issues/20#issuecomment-1246630078
+   */
+  private static trailingNewline(text: string, count = 1): string {
+    return `${text}${'\n'.repeat(count)}`;
+  }
+
   constructor(
     private readonly summaryBuilder: TestScriptSummaryBuilder = new TestScriptSummaryBuilder(),
   ) {}
 
   public aboutToTestScenario(scenario: TestScriptScenario): string {
-    return chalk.bold.white(`Testing scenario '${scenario.name}'...\n`);
+    return Ui.trailingNewline(chalk.bold.white(`Testing scenario '${scenario.name}'...`));
   }
 
   public errorReadingTestScriptFile(error: Error): string {
-    return chalk.red(`${error.message}\n`);
+    return Ui.trailingNewline(chalk.red(error.message));
   }
 
   public messageTranscribed(scenario: TestScriptScenario, event: TranscribedMessage): string {
@@ -103,15 +113,15 @@ export class Ui {
       prefix = `${event.who}:`;
     }
 
-    return `${chalk.bold.grey(prefix)} ${chalk.grey(event.message)}\n`;
+    return Ui.trailingNewline(`${chalk.bold.grey(prefix)} ${chalk.grey(event.message)}`);
   }
 
   public validatingTestScriptFailed(error: ValidationError | undefined): string {
-    return chalk.red(error?.message ?? 'Failed to validate Test Script\n');
+    return Ui.trailingNewline(chalk.red(error?.message ?? 'Failed to validate Test Script'));
   }
 
   public validatingSessionConfigFailed(error: ValidationError | undefined): string {
-    return chalk.red(error?.message ?? 'Failed to validate Session config\n');
+    return Ui.trailingNewline(chalk.red(error?.message ?? 'Failed to validate Session config'));
   }
 
   public scenarioFailed(scenario: TestScriptScenario, error: Error): string {
@@ -125,11 +135,17 @@ export class Ui {
     }
 
     if (this.displayScenarioNames) {
-      return `${chalk.bold.red(`Scenario '${scenario.name}' failed`)}
-${chalk.red(errorReason)}\n\n`;
+      return Ui.trailingNewline(
+        `${chalk.bold.red(`Scenario '${scenario.name}' failed`)}
+${chalk.red(errorReason)}`,
+        2,
+      );
     } else {
-      return `${chalk.bold.red('Scenario failed')}
-${chalk.red(errorReason)}\n\n`;
+      return Ui.trailingNewline(
+        `${chalk.bold.red('Scenario failed')}
+${chalk.red(errorReason)}`,
+        2,
+      );
     }
   }
 
@@ -137,16 +153,17 @@ ${chalk.red(errorReason)}\n\n`;
     this.summaryBuilder.addPassedScenario(scenario);
 
     if (this.displayScenarioNames) {
-      return chalk.bold.green(`Scenario '${scenario.name}' passed\n\n`);
+      return Ui.trailingNewline(chalk.bold.green(`Scenario '${scenario.name}' passed`), 2);
     } else {
-      return chalk.bold.green(`Scenario passed\n\n`);
+      return Ui.trailingNewline(chalk.bold.green('Scenario passed'), 2);
     }
   }
 
   public testScriptSummary(): string {
-    return `${chalk.bold('Scenario Test Results')}
+    return Ui.trailingNewline(
+      `${chalk.bold('Scenario Test Results')}
 ---------------------
-${this.summaryBuilder.build()}
-`;
+${this.summaryBuilder.build()}`,
+    );
   }
 }

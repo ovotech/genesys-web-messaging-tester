@@ -43,26 +43,26 @@ describe('Session Config Validated', () => {
   test.each([
     [
       {
-        expectedError: '"region" is required',
+        expectedError: '"region" is required\n',
         configSection: ['deploymentId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'],
       },
     ],
     [
       {
-        expectedError: '"config.region" must be a string',
+        expectedError: '"config.region" must be a string\n',
         configSection: ['deploymentId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', 'region: 1'],
       },
     ],
-    [{ expectedError: '"deploymentId" is required', configSection: ['region: xx'] }],
+    [{ expectedError: '"deploymentId" is required\n', configSection: ['region: xx'] }],
     [
       {
-        expectedError: '"config.deploymentId" must be a string',
+        expectedError: '"config.deploymentId" must be a string\n',
         configSection: ['deploymentId: 1', 'region: xx'],
       },
     ],
     [
       {
-        expectedError: '"config.origin" must be a string',
+        expectedError: '"config.origin" must be a string\n',
         configSection: ['deploymentId: xx', 'region: xx', 'origin: 1'],
       },
     ],
@@ -84,13 +84,13 @@ scenarios:
   test.each([
     [
       {
-        expectedError: '"region" is required',
+        expectedError: '"region" is required\n',
         args: ['--deployment-id', 'xx'],
       },
     ],
     [
       {
-        expectedError: '"deploymentId" is required',
+        expectedError: '"deploymentId" is required\n',
         args: ['--region', 'xx'],
       },
     ],
