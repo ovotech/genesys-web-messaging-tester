@@ -4,6 +4,7 @@ import getPort from 'get-port';
 
 import {
   WebMessageServerFixture,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
 } from './fixtures/WebMessageServerFixture';
 
@@ -20,7 +21,7 @@ describe('WebMessengerGuestSession', () => {
     genesysServerFixture.close();
   });
 
-  test('WebSocket server request structured correctly', async () => {
+  test('WebSocket server request structured correctly', () => {
     const wsFactory = jest.fn().mockImplementation(() => ({
       on: jest.fn(),
       close: jest.fn(),

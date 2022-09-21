@@ -1,5 +1,6 @@
-import { Command } from 'commander';
+import { Listr } from 'listr2';
 import * as commander from 'commander';
+import { Command } from 'commander';
 import { accessSync, readFileSync } from 'fs';
 import { readableFileValidator } from './fileSystem/readableFileValidator';
 import { createYamlFileReader } from './fileSystem/yamlFileReader';
@@ -15,7 +16,7 @@ import {
 import { Ui } from './ui';
 import { validateSessionConfig } from './testScript/validateSessionConfig';
 import { validateTestScript } from './testScript/validateTestScript';
-import pLimit from 'p-limit';
+import { ScenarioError, ScenarioSuccess } from './ScenarioResult';
 
 function parsePositiveInt(value: string) {
   const parsedValue = parseInt(value, 10);
@@ -27,6 +28,10 @@ function parsePositiveInt(value: string) {
   }
 
   return parsedValue;
+}
+
+interface ListrRunContext {
+  scenarioResults: (ScenarioError | ScenarioSuccess)[];
 }
 
 export interface Dependencies {
@@ -99,7 +104,7 @@ export function createCli({
     try {
       testScriptFileContents = yamlFileReader(testScriptPath);
     } catch (error) {
-      outputConfig.writeErr(ui.errorReadingTestScriptFile(error as Error));
+      outputConfig.writeErr(ui?.errorReadingTestScriptFile(error as Error));
       processExitOverride(1);
       return;
     }
@@ -107,7 +112,7 @@ export function createCli({
     // 2. Validate Test Script
     const testScriptValidationResults = validateTestScript(testScriptFileContents);
     if (!testScriptValidationResults.validTestScript) {
-      outputConfig.writeErr(ui.validatingTestScriptFailed(testScriptValidationResults.error));
+      outputConfig.writeErr(ui?.validatingTestScriptFailed(testScriptValidationResults.error));
       processExitOverride(1);
       return;
     }
@@ -123,7 +128,9 @@ export function createCli({
     // 4. Validate session config
     const sessionConfigValidationResults = validateSessionConfig(mergedSessionConfig);
     if (!sessionConfigValidationResults.validSessionConfig) {
-      outputConfig.writeErr(ui.validatingSessionConfigFailed(sessionConfigValidationResults.error));
+      outputConfig.writeErr(
+        ui?.validatingSessionConfigFailed(sessionConfigValidationResults.error),
+      );
       processExitOverride(1);
       return;
     }
@@ -134,46 +141,81 @@ export function createCli({
       sessionConfigValidationResults.validSessionConfig,
     );
 
-    ui.displayScenarioNames = options.parallel > 1;
-    const limit = pLimit(options.parallel);
+    const hasMultipleTests = testScriptScenarios.length > 1;
 
-    const limits = testScriptScenarios.map((scenario) =>
-      limit<[], { scenarioFailed: boolean }>(async () => {
-        let scenarioFailed = false;
+    const tasks = new Listr<ListrRunContext>(
+      testScriptScenarios.map((scenario) => ({
+        title: ui?.titleOfTask(scenario),
+        task: async (context, task) => {
+          const transcription: TranscribedMessage[] = [];
+          const session = webMessengerSessionFactory(scenario.sessionConfig);
+          try {
+            new Transcriber(session).on('messageTranscribed', (event: TranscribedMessage) => {
+              transcription.push(event);
 
-        // @ts-ignore
-        outputConfig.writeOut(ui.aboutToTestScenario(scenario));
+              if (hasMultipleTests) {
+                task.output = ui?.firstLineOfMessageTranscribed(event);
+              } else {
+                const message = ui?.messageTranscribed(event);
+                if (task.output) {
+                  task.output += message;
+                } else {
+                  task.output = message;
+                }
+              }
+            });
 
-        const session = webMessengerSessionFactory(scenario.sessionConfig);
-        try {
-          new Transcriber(session).on('messageTranscribed', (event: TranscribedMessage) =>
-            // @ts-ignore
-            outputConfig.writeOut(ui.messageTranscribed(scenario, event)),
-          );
+            const convo = conversationFactory(session);
+            await convo.waitForConversationToStart();
 
-          const convo = conversationFactory(session);
-          await convo.waitForConversationToStart();
-
-          for (const step of scenario.steps) {
-            await step(convo);
+            for (const step of scenario.steps) {
+              await step(convo);
+            }
+          } catch (error) {
+            context.scenarioResults.push({
+              scenario,
+              transcription,
+              hasPassed: false,
+              reasonForError:
+                error instanceof Error ? error : new Error('Unexpected error occurred'),
+            });
+            throw new Error(ui?.titleOfFinishedTask(scenario, false));
+          } finally {
+            session.close();
           }
-          // @ts-ignore
-          outputConfig.writeOut(ui.scenarioPassed(scenario));
-        } catch (error) {
-          scenarioFailed = true;
-          // @ts-ignore
-          outputConfig.writeErr(ui.scenarioFailed(scenario, error as Error));
-        }
 
-        session.close();
-        return { scenarioFailed };
-      }),
+          task.title = ui?.titleOfFinishedTask(scenario, true);
+          context.scenarioResults.push({ scenario, transcription, hasPassed: true });
+        },
+      })),
+      { concurrent: options.parallel, exitOnError: false, collectErrors: false },
     );
 
-    const results = await Promise.all(limits);
+    const results = await tasks.run({ scenarioResults: [] });
 
-    outputConfig.writeOut(ui.testScriptSummary());
-    if (results.some((r) => r.scenarioFailed)) {
+    const scenariosThatPassed = results.scenarioResults.filter(
+      (s) => s.hasPassed,
+    ) as ScenarioSuccess[];
+
+    scenariosThatPassed.forEach((s) =>
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      outputConfig.writeOut(ui?.scenarioTestResult(s)),
+    );
+
+    const scenariosThatFailed = results.scenarioResults.filter(
+      (s) => !s.hasPassed,
+    ) as ScenarioSuccess[];
+
+    scenariosThatFailed.forEach((s) =>
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      outputConfig.writeOut(ui?.scenarioTestResult(s)),
+    );
+
+    outputConfig.writeOut(ui?.testScriptSummary(results.scenarioResults));
+
+    if (results.scenarioResults.some((r) => !r.hasPassed)) {
       processExitOverride(1);
       return;
     }

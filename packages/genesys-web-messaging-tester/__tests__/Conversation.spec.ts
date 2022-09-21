@@ -4,10 +4,12 @@ import getPort from 'get-port';
 
 import {
   WebMessageServerFixture,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
 } from './fixtures/WebMessageServerFixture';
 import {
   WebMessageServerConnectionFixture,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
 } from './fixtures/WebMessageServerConnectionFixture';
 
@@ -78,7 +80,7 @@ describe('Conversation', () => {
       conversation.waitForResponseContaining('hello', { timeoutInSeconds: 1 }),
     ).rejects.toEqual(
       new Error(
-        `Timed out waiting for a message that contained 'hello'
+        `Timed-out after 1000ms waiting for a message that contained 'hello'
 Received:
    - This is an example question`,
       ),

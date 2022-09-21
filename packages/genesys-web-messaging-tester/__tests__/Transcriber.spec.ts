@@ -4,10 +4,12 @@ import getPort from 'get-port';
 
 import {
   WebMessageServerFixture,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
 } from './fixtures/WebMessageServerFixture';
 import {
   WebMessageServerConnectionFixture,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
 } from './fixtures/WebMessageServerConnectionFixture';
 
@@ -36,35 +38,39 @@ describe('Transcriber', () => {
     genesysServerFixture.close();
   });
 
-  test("Outbound message transcribed as being from 'them'", (done) => {
-    new Transcriber(session).on('messageTranscribed', (event: TranscribedMessage) => {
-      expect(event).toStrictEqual({
-        message: 'Example outbound',
-        who: 'Them',
-        toString: expect.any(Function),
+  test("Outbound message transcribed as being from 'them'", async () => {
+    return new Promise<void>((done) => {
+      new Transcriber(session).on('messageTranscribed', (event: TranscribedMessage) => {
+        expect(event).toStrictEqual({
+          message: 'Example outbound',
+          who: 'Them',
+          toString: expect.any(Function),
+        });
+        expect(event.toString()).toStrictEqual('Them: Example outbound');
+        done();
       });
-      expect(`${event}`).toStrictEqual('Them: Example outbound');
-      done();
+
+      serverConnection.simulateOutboundStructuredMessage('Example outbound');
     });
-
-    serverConnection.simulateOutboundStructuredMessage('Example outbound');
-  });
-
-  test("Inbound message transcribed as being from 'you'", (done) => {
-    new Transcriber(session).on('messageTranscribed', (event: TranscribedMessage) => {
-      expect(event).toStrictEqual({
-        message: 'Example inbound',
-        who: 'You',
-        toString: expect.any(Function),
-      });
-      expect(`${event}`).toStrictEqual('You: Example inbound');
-      done();
-    });
-
-    serverConnection.simulateInboundStructuredMessage('Example inbound');
   });
 
   test("Inbound message transcribed as being from 'you'", async () => {
+    return new Promise<void>((done) => {
+      new Transcriber(session).on('messageTranscribed', (event: TranscribedMessage) => {
+        expect(event).toStrictEqual({
+          message: 'Example inbound',
+          who: 'You',
+          toString: expect.any(Function),
+        });
+        expect(event.toString()).toStrictEqual('You: Example inbound');
+        done();
+      });
+
+      serverConnection.simulateInboundStructuredMessage('Example inbound');
+    });
+  });
+
+  test("Inbound/Outbound messages transcribed as being from 'you'/'them'", async () => {
     const transcriber = new Transcriber(session);
 
     serverConnection.simulateInboundStructuredMessage('Example inbound');

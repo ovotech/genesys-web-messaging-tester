@@ -58,7 +58,7 @@ describe('Using jest to perform the test', () => {
     const transcriber = new Transcriber(session);
 
     // Log interactions as they occur
-    transcriber.on('messageTranscribed', (i) => console.log(`${i}`));
+    transcriber.on('messageTranscribed', (t) => console.log(t.toString()));
 
     convo.sendText('hi');
 
@@ -67,6 +67,6 @@ describe('Using jest to perform the test', () => {
     );
 
     // Log the transcript for the entire conversation
-    console.log(transcriber.getTranscript().map((t) => `${t}`));
+    console.log(transcriber.getTranscript().map((t) => t.toString()));
   });
 });
