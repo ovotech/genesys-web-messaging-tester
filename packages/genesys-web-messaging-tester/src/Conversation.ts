@@ -3,34 +3,46 @@ import { StructuredMessage } from './genesys/StructuredMessage';
 
 export class TimeoutWaitingForResponseError extends Error {
   constructor(
+    private readonly _timeoutInMs: number,
     private readonly _expectedResponse: string,
     private readonly _responsesReceived: ReadonlyArray<StructuredMessage> = [],
   ) {
-    super(TimeoutWaitingForResponseError.createFailureMessage(_expectedResponse, _responsesReceived));
+    super(
+      TimeoutWaitingForResponseError.createFailureMessage(
+        _timeoutInMs,
+        _expectedResponse,
+        _responsesReceived,
+      ),
+    );
 
     Object.setPrototypeOf(this, TimeoutWaitingForResponseError.prototype);
   }
 
   private static createFailureMessage(
+    timeoutInMs: number,
     expectedResponse: string,
     responsesReceived: ReadonlyArray<StructuredMessage>,
   ): string {
     if (responsesReceived.length === 0) {
-      return `Timed out waiting for a message that contained '${expectedResponse}'.
+      return `Timed-out after ${timeoutInMs}ms waiting for a message that contained '${expectedResponse}'.
 No messages were received.`;
     } else {
-      return `Timed out waiting for a message that contained '${expectedResponse}'
+      return `Timed-out after ${timeoutInMs}ms waiting for a message that contained '${expectedResponse}'
 Received:
   ${responsesReceived.map((m) => ` - ${m.body.text}`).join('\n')}`;
     }
   }
 
-  public get expectedResponse() {
+  public get expectedResponse(): string {
     return this._expectedResponse;
   }
 
-  public get responsesReceived() {
+  public get responsesReceived(): ReadonlyArray<StructuredMessage> {
     return this._responsesReceived;
+  }
+
+  public get timeoutInMs(): number {
+    return this._timeoutInMs;
   }
 }
 
@@ -157,7 +169,7 @@ export class Conversation {
       timeout = setTimeout(() => {
         this.messengerSession.off('structuredMessage', checkMessage);
 
-        reject(new TimeoutWaitingForResponseError(text, messagesReceived));
+        reject(new TimeoutWaitingForResponseError(timeoutInMs, text, messagesReceived));
       }, timeoutInMs);
     });
   }

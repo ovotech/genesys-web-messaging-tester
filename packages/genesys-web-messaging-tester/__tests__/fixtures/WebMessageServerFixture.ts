@@ -1,6 +1,7 @@
 import WebSocket, { WebSocketServer } from 'ws';
 import {
   WebMessageServerConnectionFixture,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
 } from './WebMessageServerConnectionFixture';
 
@@ -23,7 +24,7 @@ export class WebMessageServerFixture {
     });
   }
 
-  close() {
+  public close(): void {
     this.connections.forEach((c) => c.close());
     this.wss.close();
   }

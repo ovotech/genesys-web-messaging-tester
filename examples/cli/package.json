@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "yarn@3.1.1",
   "scripts": {
-    "execute": "web-messaging-tester -id $DEPLOYMENT_ID -r $REGION -p example.yml"
+    "execute": "web-messaging-tester example.yml -id $DEPLOYMENT_ID -r $REGION -p 10"
   },
   "dependencies": {
     "@ovotech/genesys-web-messaging-tester-cli": "*"
