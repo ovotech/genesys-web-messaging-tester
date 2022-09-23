@@ -36,7 +36,13 @@ scenarios:
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
     - say: No
-    - waitForReplyContaining: Goodbye
+    - waitForReplyContaining: Maybe next time. Goodbye
+  "Provide Incorrect Answer to Survey Question":
+    - say: hi
+    - waitForReplyContaining: Can we ask you some questions about your experience today?
+    - say: Not sure
+    - waitForReplyContaining: Sorry I didn't understand you. Please answer with either 'yes' or 'no'
+    - waitForReplyContaining: Can we ask you some questions about your experience today?
 ```
 
 ## How it works
@@ -77,7 +83,13 @@ scenarios:
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
     - say: No
-    - waitForReplyContaining: Goodbye
+    - waitForReplyContaining: Maybe next time. Goodbye
+  "Provide Incorrect Answer to Survey Question":
+    - say: hi
+    - waitForReplyContaining: Can we ask you some questions about your experience today?
+    - say: Not sure
+    - waitForReplyContaining: Sorry I didn't understand you. Please answer with either 'yes' or 'no'
+    - waitForReplyContaining: Can we ask you some questions about your experience today?
 ```
 
 Then run the test by pointing to the test-script in the terminal:

@@ -51,7 +51,7 @@ console.log(reply);
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:63](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L63)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:75](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L75)
 
 ## Methods
 
@@ -73,7 +73,7 @@ Sends text to the conversation
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:91](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L91)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:103](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L103)
 
 ___
 
@@ -92,7 +92,7 @@ background. This method allows you to wait for this process to finish.
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:74](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L74)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:86](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L86)
 
 ___
 
@@ -110,7 +110,7 @@ If you want to wait for a specific message use [waitForResponseContaining](Conve
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:104](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L104)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:116](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L116)
 
 ___
 
@@ -142,4 +142,4 @@ use [waitForResponse](Conversation.md#waitforresponse).
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:124](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L124)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:136](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L136)
