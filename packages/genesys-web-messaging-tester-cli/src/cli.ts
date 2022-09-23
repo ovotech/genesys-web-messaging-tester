@@ -221,7 +221,7 @@ export function createCli({
       outputConfig.writeOut(ui?.scenarioTestResult(s)),
     );
 
-    outputConfig.writeOut(ui?.testScriptSummary(results.scenarioResults));
+    outputConfig.writeOut(ui?.testScriptSummary([...scenariosThatPassed, ...scenariosThatFailed]));
 
     if (results.scenarioResults.some((r) => !r.hasPassed)) {
       processExitOverride(1);
