@@ -4,7 +4,7 @@ import {
   Transcriber,
 } from '@ovotech/genesys-web-messaging-tester';
 
-require('dotenv').config();
+require('dotenv').config({ path: '../../.env' });
 
 (async () => {
   // << test-section
@@ -13,7 +13,7 @@ require('dotenv').config();
     region: process.env.REGION!,
   });
 
-  new Transcriber(session).on('messageTranscribed', (i) => console.log(`${i}`));
+  new Transcriber(session).on('messageTranscribed', (i) => console.log(i.toString()));
 
   const convo = new Conversation(session);
 
@@ -23,20 +23,23 @@ require('dotenv').config();
   convo.sendText('hi');
 
   // Waits for response containing text. Error thrown if exceeds timeout
-  await convo.waitForResponseContaining('Please enter your account number', {
+  await convo.waitForResponseContaining(
+    'Can we ask you some questions about your experience today?',
+    {
+      timeoutInSeconds: 10,
+      caseInsensitive: true,
+    },
+  );
+
+  convo.sendText('Yes');
+  // test-section
+
+  await convo.waitForResponseContaining('Thank you! Now for the next question...', {
     timeoutInSeconds: 10,
     caseInsensitive: true,
   });
 
-  convo.sendText('123');
-  // test-section
-
-  const response = await convo.waitForResponse();
-  if (response.includes('thank you, what would you like to do?')) {
-    convo.sendText('change address');
-  } else if (response.includes('sorry we cannot find your account. what is your phone number')) {
-    convo.sendText('000000');
-  }
+  session.close();
 })().catch((e) => {
   throw e;
 });
