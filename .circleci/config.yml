@@ -49,6 +49,7 @@ jobs:
       - checkout
       - yarn-install
       - yarn-save-cache
+      - run: yarn build
       - run: yarn build:docs
   publish:
     <<: *working_directory
