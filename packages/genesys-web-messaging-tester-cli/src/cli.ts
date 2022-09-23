@@ -50,6 +50,11 @@ export interface Dependencies {
    * otherwise it calls `process.exit` regardless.
    */
   processExitOverride?: (code?: number | undefined) => never;
+  /**
+   * Progress is shown by outputting the current line of a scenario's transcription, however
+   * under certain circumstances (e.g. non-TTY output) this adds a lot of unnecessary noise.
+   */
+  showProgress?: boolean;
 }
 
 export type Cli = (args: string[]) => Promise<void>;
@@ -62,6 +67,7 @@ export function createCli({
   fsReadFileSync = readFileSync,
   fsAccessSync = accessSync,
   processExitOverride = (c) => process.exit(c),
+  showProgress = process.stdout.isTTY,
 }: Dependencies = {}): Cli {
   program?.exitOverride(() => processExitOverride(1));
 
@@ -153,14 +159,16 @@ export function createCli({
             new Transcriber(session).on('messageTranscribed', (event: TranscribedMessage) => {
               transcription.push(event);
 
-              if (hasMultipleTests) {
-                task.output = ui?.firstLineOfMessageTranscribed(event);
-              } else {
-                const message = ui?.messageTranscribed(event);
-                if (task.output) {
-                  task.output += message;
+              if (showProgress) {
+                if (hasMultipleTests) {
+                  task.output = ui?.firstLineOfMessageTranscribed(event);
                 } else {
-                  task.output = message;
+                  const message = ui?.messageTranscribed(event);
+                  if (task.output) {
+                    task.output += message;
+                  } else {
+                    task.output = message;
+                  }
                 }
               }
             });
@@ -213,7 +221,7 @@ export function createCli({
       outputConfig.writeOut(ui?.scenarioTestResult(s)),
     );
 
-    outputConfig.writeOut(ui?.testScriptSummary(results.scenarioResults));
+    outputConfig.writeOut(ui?.testScriptSummary([...scenariosThatPassed, ...scenariosThatFailed]));
 
     if (results.scenarioResults.some((r) => !r.hasPassed)) {
       processExitOverride(1);

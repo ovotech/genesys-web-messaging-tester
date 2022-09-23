@@ -44,7 +44,7 @@ export class Ui {
 
     const message = `${chalk.bold.grey(`${event.who}:`)} ${chalk.grey(lines[0])}`;
     if (lines.length > 1) {
-      return `${message}...`;
+      return `${message}${chalk.grey('...')}`;
     }
 
     return message;
