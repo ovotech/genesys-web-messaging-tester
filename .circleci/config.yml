@@ -41,6 +41,16 @@ jobs:
           paths:
             - packages/genesys-web-messaging-tester/lib
             - packages/genesys-web-messaging-tester-cli/lib
+  test-building-docs:
+    <<: *working_directory
+    docker:
+      - image: cimg/node:16.10.0
+    steps:
+      - checkout
+      - yarn-install
+      - yarn-save-cache
+      - run: yarn build
+      - run: yarn build:docs
   publish:
     <<: *working_directory
     docker:
@@ -56,6 +66,8 @@ workflows:
   build_and_test:
     jobs:
       - test-and-build:
+          filters: *ignore-main-branch
+      - test-building-docs:
           filters: *ignore-main-branch
   main:
     jobs:
