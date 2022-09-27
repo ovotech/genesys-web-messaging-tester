@@ -26,22 +26,20 @@ describe('Using jest to perform the test', () => {
 
     convo.sendText('hi');
 
-    // Ignores welcome messages and waits for question
     await expect(
-      convo.waitForResponseContaining('Please enter your account number', {
-        timeoutInSeconds: 10,
-      }),
+      convo.waitForResponseContaining(
+        'Can we ask you some questions about your experience today?',
+        {
+          timeoutInSeconds: 10,
+        },
+      ),
     ).resolves.toBeDefined();
 
-    await expect(convo.waitForResponse()).resolves.toContain(
-      'Can we ask you some questions about your experience today?',
-    );
     convo.sendText('Yes');
 
     await expect(convo.waitForResponse()).resolves.toContain(
-      'Out of 10 how would you rate your experience with us?',
+      'Thank you! Now for the next question...',
     );
-    convo.sendText('5');
 
     console.log(transcriber.getTranscript());
   });

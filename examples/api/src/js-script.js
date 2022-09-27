@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: '../../.env' });
 
 // << test-section
 const WebMsgTester = require('@ovotech/genesys-web-messaging-tester');
@@ -14,13 +14,15 @@ const WebMsgTester = require('@ovotech/genesys-web-messaging-tester');
 
   convo.sendText('hi');
 
-  await convo.waitForResponseContaining('Please enter your account number');
-
-  convo.sendText('123');
-
   await convo.waitForResponseContaining(
-    'Your account number is too short. It is the 6 digit number on your bills',
+    'Can we ask you some questions about your experience today?',
   );
+
+  convo.sendText('Yes');
+
+  await convo.waitForResponseContaining('Thank you! Now for the next question...');
+
+  session.close();
 })().catch((e) => {
   throw e;
 });

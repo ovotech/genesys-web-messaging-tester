@@ -2,7 +2,9 @@
 
 # Class: WebMessengerGuestSession
 
-**`see`** https://developer.genesys.cloud/api/digital/webmessaging/websocketapi#configure-a-guest-session
+**`See`**
+
+https://developer.genesys.cloud/api/digital/webmessaging/websocketapi#configure-a-guest-session
 
 ## Hierarchy
 
@@ -58,7 +60,7 @@
 | Name | Type |
 | :------ | :------ |
 | `config` | [`SessionConfig`](../interfaces/SessionConfig.md) |
-| `wsFactory` | (`url`: `string`, `options?`: `ClientOptions` \| `ClientRequestArgs`) => `WebSocket` |
+| `wsFactory` | (`url`: `string`, `options?`: `ClientRequestArgs` \| `ClientOptions`) => `WebSocket` |
 
 #### Overrides
 
@@ -72,7 +74,7 @@ EventEmitter.constructor
 
 ### wsFactory
 
-• `Readonly` **wsFactory**: (`url`: `string`, `options?`: `ClientOptions` \| `ClientRequestArgs`) => `WebSocket`
+• `Readonly` **wsFactory**: (`url`: `string`, `options?`: `ClientRequestArgs` \| `ClientOptions`) => `WebSocket`
 
 #### Type declaration
 
@@ -83,11 +85,15 @@ EventEmitter.constructor
 | Name | Type |
 | :------ | :------ |
 | `url` | `string` |
-| `options?` | `ClientOptions` \| `ClientRequestArgs` |
+| `options?` | `ClientRequestArgs` \| `ClientOptions` |
 
 ##### Returns
 
 `WebSocket`
+
+#### Defined in
+
+[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:33](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L33)
 
 ___
 
@@ -551,7 +557,9 @@ ___
 
 ▸ `Static` **listenerCount**(`emitter`, `event`): `number`
 
-**`deprecated`** since v4.0.0
+**`Deprecated`**
+
+since v4.0.0
 
 #### Parameters
 

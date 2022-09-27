@@ -38,7 +38,7 @@ npm install -g @ovotech/genesys-web-messaging-tester
 
 Then write a test. In the example below we test the validation of an account number:
 
-> [examples/api/src/js-script.js:(test-section)](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/api/src/js-script.js#L3-L27)
+> [examples/api/src/js-script.js:(test-section)](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/api/src/js-script.js#L3-L29)
 
 ```javascript
 const WebMsgTester = require('@ovotech/genesys-web-messaging-tester');
@@ -54,13 +54,15 @@ const WebMsgTester = require('@ovotech/genesys-web-messaging-tester');
 
   convo.sendText('hi');
 
-  await convo.waitForResponseContaining('Please enter your account number');
-
-  convo.sendText('123');
-
   await convo.waitForResponseContaining(
-    'Your account number is too short. It is the 6 digit number on your bills',
+    'Can we ask you some questions about your experience today?',
   );
+
+  convo.sendText('Yes');
+
+  await convo.waitForResponseContaining('Thank you! Now for the next question...');
+
+  session.close();
 })().catch((e) => {
   throw e;
 });

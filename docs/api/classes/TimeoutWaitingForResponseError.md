@@ -26,6 +26,7 @@
 
 - [expectedResponse](TimeoutWaitingForResponseError.md#expectedresponse)
 - [responsesReceived](TimeoutWaitingForResponseError.md#responsesreceived)
+- [timeoutInMs](TimeoutWaitingForResponseError.md#timeoutinms)
 
 ### Methods
 
@@ -35,12 +36,13 @@
 
 ### constructor
 
-• **new TimeoutWaitingForResponseError**(`_expectedResponse`, `_responsesReceived?`)
+• **new TimeoutWaitingForResponseError**(`_timeoutInMs`, `_expectedResponse`, `_responsesReceived?`)
 
 #### Parameters
 
 | Name | Type | Default value |
 | :------ | :------ | :------ |
+| `_timeoutInMs` | `number` | `undefined` |
 | `_expectedResponse` | `string` | `undefined` |
 | `_responsesReceived` | readonly [`StructuredMessage`](../interfaces/StructuredMessage.md)[] | `[]` |
 
@@ -64,7 +66,7 @@ Error.message
 
 #### Defined in
 
-node_modules/typescript/lib/lib.es5.d.ts:1023
+node_modules/typescript/lib/lib.es5.d.ts:1041
 
 ___
 
@@ -78,7 +80,7 @@ Error.name
 
 #### Defined in
 
-node_modules/typescript/lib/lib.es5.d.ts:1022
+node_modules/typescript/lib/lib.es5.d.ts:1040
 
 ___
 
@@ -92,7 +94,7 @@ Error.stack
 
 #### Defined in
 
-node_modules/typescript/lib/lib.es5.d.ts:1024
+node_modules/typescript/lib/lib.es5.d.ts:1042
 
 ___
 
@@ -106,7 +108,9 @@ ___
 
 Optional override for formatting stack traces
 
-**`see`** https://v8.dev/docs/stack-trace-api#customizing-stack-traces
+**`See`**
+
+https://v8.dev/docs/stack-trace-api#customizing-stack-traces
 
 ##### Parameters
 
@@ -153,7 +157,7 @@ node_modules/@types/node/globals.d.ts:13
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:28](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L28)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:36](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L36)
 
 ___
 
@@ -167,7 +171,21 @@ readonly [`StructuredMessage`](../interfaces/StructuredMessage.md)[]
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:32](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L32)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:40](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L40)
+
+___
+
+### timeoutInMs
+
+• `get` **timeoutInMs**(): `number`
+
+#### Returns
+
+`number`
+
+#### Defined in
+
+[packages/genesys-web-messaging-tester/src/Conversation.ts:44](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L44)
 
 ## Methods
 
