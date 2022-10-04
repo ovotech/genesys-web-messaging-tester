@@ -1,6 +1,6 @@
 {
   "name": "@ovotech/genesys-web-messaging-tester",
-  "version": "1.1.8",
+  "version": "2.0.0",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "license": "Apache-2.0",
