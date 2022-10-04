@@ -30,6 +30,7 @@ export class WebMessengerGuestSession extends EventEmitter {
 
   constructor(
     private readonly config: SessionConfig,
+    private readonly participantData: Record<string, string> = {},
     readonly wsFactory = (url: string, options?: ClientOptions | ClientRequestArgs) =>
       new WebSocket(url, options),
   ) {
@@ -101,6 +102,15 @@ export class WebMessengerGuestSession extends EventEmitter {
         type: 'Text',
         text: message,
       },
+      ...(Object.keys(this.participantData).length === 0
+        ? {}
+        : {
+            channel: {
+              metadata: {
+                customAttributes: this.participantData ?? {},
+              },
+            },
+          }),
     };
 
     WebMessengerGuestSession.debugger('Sending: %O', payload);

@@ -32,6 +32,7 @@ describe('WebMessengerGuestSession', () => {
         region: 'xxxx.pure.cloud',
         origin: 'x.test',
       },
+      {},
       wsFactory,
     );
 
@@ -47,6 +48,7 @@ describe('WebMessengerGuestSession', () => {
         deploymentId: '11111111-2222-3333-4444-555555555555',
         region: 'xxxx.pure.cloud',
       },
+      {},
       () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
     );
 
@@ -65,6 +67,7 @@ describe('WebMessengerGuestSession', () => {
         deploymentId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
         region: 'xxxx.pure.cloud',
       },
+      {},
       () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
     );
 
@@ -89,6 +92,7 @@ describe('WebMessengerGuestSession', () => {
         deploymentId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
         region: 'xxxx.pure.cloud',
       },
+      {},
       () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
     );
 
@@ -116,6 +120,38 @@ describe('WebMessengerGuestSession', () => {
       class: 'StructuredMessage',
       code: 200,
       type: 'message',
+    });
+  });
+
+  test('Message contains custom attributes', async () => {
+    session = new WebMessengerGuestSession(
+      {
+        deploymentId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+        region: 'xxxx.pure.cloud',
+      },
+      { test: 'test-value' },
+      () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
+    );
+
+    const serverConnection = await genesysServerFixture.waitForConnection();
+    const sessionConfigurePayload = await serverConnection.waitForMessage();
+
+    session.sendText('hello world');
+
+    await expect(serverConnection.waitForMessage()).resolves.toStrictEqual({
+      action: 'onMessage',
+      message: {
+        text: 'hello world',
+        type: 'Text',
+      },
+      token: sessionConfigurePayload?.token,
+      channel: {
+        metadata: {
+          customAttributes: {
+            test: 'test-value',
+          },
+        },
+      },
     });
   });
 });
