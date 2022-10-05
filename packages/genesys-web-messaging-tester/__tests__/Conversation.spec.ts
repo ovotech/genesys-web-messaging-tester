@@ -27,6 +27,7 @@ describe('Conversation', () => {
         deploymentId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
         region: 'xxxx.pure.cloud',
       },
+      {},
       () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
     );
 

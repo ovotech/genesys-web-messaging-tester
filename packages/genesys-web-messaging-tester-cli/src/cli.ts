@@ -17,6 +17,7 @@ import { Ui } from './ui';
 import { validateSessionConfig } from './testScript/validateSessionConfig';
 import { validateTestScript } from './testScript/validateTestScript';
 import { ScenarioError, ScenarioSuccess } from './ScenarioResult';
+import { v4 as uuidv4 } from 'uuid';
 
 function parsePositiveInt(value: string) {
   const parsedValue = parseInt(value, 10);
@@ -38,7 +39,10 @@ export interface Dependencies {
   outputConsole?: Console;
   program?: Command;
   ui?: Ui;
-  webMessengerSessionFactory?: (sessionConfig: SessionConfig) => WebMessengerSession;
+  webMessengerSessionFactory?: (
+    sessionConfig: SessionConfig,
+    testId: string,
+  ) => WebMessengerSession;
   conversationFactory?: (session: WebMessengerSession) => Conversation;
   fsReadFileSync?: typeof readFileSync;
   fsAccessSync?: typeof accessSync;
@@ -62,7 +66,8 @@ export type Cli = (args: string[]) => Promise<void>;
 export function createCli({
   program = new Command(),
   ui = new Ui(),
-  webMessengerSessionFactory = (config) => new WebMessengerGuestSession(config),
+  webMessengerSessionFactory = (config, testId: string) =>
+    new WebMessengerGuestSession(config, { TestID: testId }),
   conversationFactory = (session) => new Conversation(session),
   fsReadFileSync = readFileSync,
   fsAccessSync = accessSync,
@@ -153,8 +158,10 @@ export function createCli({
       testScriptScenarios.map((scenario) => ({
         title: ui?.titleOfTask(scenario),
         task: async (context, task) => {
+          const testId = uuidv4();
+
           const transcription: TranscribedMessage[] = [];
-          const session = webMessengerSessionFactory(scenario.sessionConfig);
+          const session = webMessengerSessionFactory(scenario.sessionConfig, testId);
           try {
             new Transcriber(session).on('messageTranscribed', (event: TranscribedMessage) => {
               transcription.push(event);

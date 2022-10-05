@@ -26,13 +26,14 @@
     "web-messaging-tester": "lib/index.js"
   },
   "dependencies": {
-    "@ovotech/genesys-web-messaging-tester": "^1.1.8",
+    "@ovotech/genesys-web-messaging-tester": "^1.2.0",
     "chalk": "^4.1.2",
     "commander": "^8.3.0",
     "humanize-duration": "^3.27.3",
     "joi": "^17.5.0",
     "js-yaml": "^4.1.0",
-    "listr2": "^5.0.5"
+    "listr2": "^5.0.5",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@ikerin/build-readme": "^1.1.1",

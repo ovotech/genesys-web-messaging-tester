@@ -52,14 +52,17 @@ scenarios:
       ...['/test/path'],
     ]);
 
-    expect(webMessengerSessionFactory).toHaveBeenCalledWith({
-      deploymentId: 'test-deployment-id',
-      region: 'test-region',
-      origin: 'test-origin',
-    });
+    expect(webMessengerSessionFactory).toHaveBeenCalledWith(
+      {
+        deploymentId: 'test-deployment-id',
+        region: 'test-region',
+        origin: 'test-origin',
+      },
+      expect.any(String),
+    );
   });
 
-  test('Test Script session config not necessary if session config args provided', async () => {
+  test('Test-Script session config not necessary if session config args provided', async () => {
     fsReadFileSync.mockReturnValue(`
 scenarios:
   exampleName:
@@ -74,14 +77,17 @@ scenarios:
       ...['/test/path'],
     ]);
 
-    expect(webMessengerSessionFactory).toHaveBeenCalledWith({
-      deploymentId: 'test-deployment-id-2',
-      region: 'test-region-2',
-      origin: 'test-origin-2',
-    });
+    expect(webMessengerSessionFactory).toHaveBeenCalledWith(
+      {
+        deploymentId: 'test-deployment-id-2',
+        region: 'test-region-2',
+        origin: 'test-origin-2',
+      },
+      expect.any(String),
+    );
   });
 
-  test('Test Script session config used if session config args not provided', async () => {
+  test('Test-Script session config used if session config args not provided', async () => {
     fsReadFileSync.mockReturnValue(`
 config:
   deploymentId: test-deployment-id-3
@@ -94,10 +100,13 @@ scenarios:
 
     await cli([...['node', '/path/to/cli'], ...['/test/path']]);
 
-    expect(webMessengerSessionFactory).toHaveBeenCalledWith({
-      deploymentId: 'test-deployment-id-3',
-      region: 'test-region-3',
-      origin: 'test-origin-3',
-    });
+    expect(webMessengerSessionFactory).toHaveBeenCalledWith(
+      {
+        deploymentId: 'test-deployment-id-3',
+        region: 'test-region-3',
+        origin: 'test-origin-3',
+      },
+      expect.any(String),
+    );
   });
 });
