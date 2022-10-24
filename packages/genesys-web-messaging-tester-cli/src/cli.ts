@@ -1,3 +1,4 @@
+import ci from 'ci-info';
 import { Listr } from 'listr2';
 import * as commander from 'commander';
 import { Command } from 'commander';
@@ -55,10 +56,10 @@ export interface Dependencies {
    */
   processExitOverride?: (code?: number | undefined) => never;
   /**
-   * Progress is shown by outputting the current line of a scenario's transcription, however
-   * under certain circumstances (e.g. non-TTY output) this adds a lot of unnecessary noise.
+   * Quiet mode is used for non-TTY and CI environments, where outputting the progress
+   * of a test would cause too much noise in the UI
    */
-  showProgress?: boolean;
+  quietMode?: boolean;
 }
 
 export type Cli = (args: string[]) => Promise<void>;
@@ -72,7 +73,7 @@ export function createCli({
   fsReadFileSync = readFileSync,
   fsAccessSync = accessSync,
   processExitOverride = (c) => process.exit(c),
-  showProgress = process.stdout.isTTY,
+  quietMode = !process.stdout.isTTY || ci.isCI,
 }: Dependencies = {}): Cli {
   program?.exitOverride(() => processExitOverride(1));
 
@@ -96,6 +97,7 @@ export function createCli({
     parsePositiveInt,
     1,
   );
+  program?.option('-fo, --failures-only', 'Only output failures', false);
 
   const yamlFileReader = createYamlFileReader(fsReadFileSync);
 
@@ -166,7 +168,7 @@ export function createCli({
             new Transcriber(session).on('messageTranscribed', (event: TranscribedMessage) => {
               transcription.push(event);
 
-              if (showProgress) {
+              if (!quietMode) {
                 if (hasMultipleTests) {
                   task.output = ui?.firstLineOfMessageTranscribed(event);
                 } else {
@@ -203,7 +205,12 @@ export function createCli({
           context.scenarioResults.push({ scenario, transcription, hasPassed: true });
         },
       })),
-      { concurrent: options.parallel, exitOnError: false, collectErrors: false },
+      {
+        concurrent: options.parallel,
+        exitOnError: false,
+        collectErrors: false,
+        rendererFallback: () => quietMode,
+      },
     );
 
     const results = await tasks.run({ scenarioResults: [] });
@@ -212,11 +219,13 @@ export function createCli({
       (s) => s.hasPassed,
     ) as ScenarioSuccess[];
 
-    scenariosThatPassed.forEach((s) =>
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      outputConfig.writeOut(ui?.scenarioTestResult(s)),
-    );
+    if (!options.failuresOnly) {
+      scenariosThatPassed.forEach((s) =>
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        outputConfig.writeOut(ui?.scenarioTestResult(s)),
+      );
+    }
 
     const scenariosThatFailed = results.scenarioResults.filter(
       (s) => !s.hasPassed,
