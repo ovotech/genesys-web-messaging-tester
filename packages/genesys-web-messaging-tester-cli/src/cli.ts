@@ -97,6 +97,7 @@ export function createCli({
     parsePositiveInt,
     1,
   );
+  program?.option('-fo, --failures-only', 'Only output failures', false);
 
   const yamlFileReader = createYamlFileReader(fsReadFileSync);
 
@@ -218,11 +219,13 @@ export function createCli({
       (s) => s.hasPassed,
     ) as ScenarioSuccess[];
 
-    scenariosThatPassed.forEach((s) =>
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      outputConfig.writeOut(ui?.scenarioTestResult(s)),
-    );
+    if (!options.failuresOnly) {
+      scenariosThatPassed.forEach((s) =>
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        outputConfig.writeOut(ui?.scenarioTestResult(s)),
+      );
+    }
 
     const scenariosThatFailed = results.scenarioResults.filter(
       (s) => !s.hasPassed,
