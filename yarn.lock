@@ -897,6 +897,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^4.31.1
     "@typescript-eslint/parser": ^4.31.1
     chalk: ^4.1.2
+    ci-info: ^3.5.0
     commander: ^8.3.0
     eslint: ^7.32.0
     eslint-config-prettier: ^8.3.0
@@ -1781,6 +1782,13 @@ __metadata:
   version: 3.4.0
   resolution: "ci-info@npm:3.4.0"
   checksum: 7f660730170a6ce248e173b670587a0c583e31526d21afcd21f77c811c1aaeb8926999081542d1f30e12cce1df582d4c88709fa45f44c00498b46bdf21d4d21a
+  languageName: node
+  linkType: hard
+
+"ci-info@npm:^3.5.0":
+  version: 3.5.0
+  resolution: "ci-info@npm:3.5.0"
+  checksum: 7def3789706ec18db3dc371dc699bd0df12057d54b796201f50ba87200e0849d3d83c68da00ab2ab8cdd738d91b25ab9e31620588f8d7e64ffaa1f760fd121cf
   languageName: node
   linkType: hard
 
