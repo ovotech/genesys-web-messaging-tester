@@ -109,4 +109,30 @@ scenarios:
       expect.any(String),
     );
   });
+
+  test.todo('stepTimeoutInSeconds in config passed to wait step', async () => {
+    fsReadFileSync.mockReturnValue(`
+config:
+  deploymentId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+  region: xxxx.pure.cloud
+  stepTimeoutInSeconds: 123
+scenarios:
+  exampleName:
+    - say: "hi"
+`);
+
+    await cli([
+      ...['node', '/path/to/cli'],
+      ...['--deployment-id', 'test-deployment-id'],
+      ...['--region', 'test-region'],
+      ...['--origin', 'test-origin'],
+      ...['/test/path'],
+    ]);
+
+    expect(webMessengerSessionFactory).toHaveBeenCalledWith({
+      deploymentId: 'test-deployment-id',
+      region: 'test-region',
+      origin: 'test-origin',
+    });
+  });
 });
