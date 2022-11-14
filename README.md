@@ -106,6 +106,7 @@ Options:
                                        GENESYS_REGION
                                        GENESYSCLOUD_OAUTHCLIENT_ID
                                        GENESYSCLOUD_OAUTHCLIENT_SECRET (default: false)
+  -fo, --failures-only                 Only output failures (default: false)
   -h, --help                           display help for command
 ```
 
