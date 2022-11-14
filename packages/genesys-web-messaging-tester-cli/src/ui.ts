@@ -7,7 +7,10 @@ import {
 import { ValidationError } from 'joi';
 import { ScenarioError, ScenarioSuccess } from './ScenarioResult';
 import humanizeDuration from 'humanize-duration';
-import { PreflightError } from './genesysPlatform/messageIdToConversationIdFactory';
+import {
+  ConversationIdGetterFailure,
+  PreflightError,
+} from './genesysPlatform/messageIdToConversationIdFactory';
 
 export class Ui {
   /**
@@ -85,14 +88,32 @@ export class Ui {
     );
   }
 
+  private conversationIdGetterErrorToFriendlyMessage(failure: ConversationIdGetterFailure): string {
+    switch (failure.reason) {
+      case 'not-received-structured-message':
+        return 'Convo ID unknown as test did not receive a reply';
+      case 'convo-id-not-in-response':
+        return 'Convo ID unknown as Genesys reply missing Message ID';
+      case 'unknown-error':
+        if (failure.error instanceof Error) {
+          return `Convo ID unknown as: ${failure.error.message}`;
+        }
+        if (typeof failure.error === 'string') {
+          return `Convo ID unknown as: ${failure.error}`;
+        }
+        return 'Convo ID unknown';
+    }
+  }
+
   public async scenarioTestResult(result: ScenarioError | ScenarioSuccess): Promise<string> {
     let suffix = '';
     if (result.conversationId.associateId) {
       const conversationIdResult = await result.conversationId.conversationIdGetter();
       if (conversationIdResult.successful) {
-        suffix = ` - ${conversationIdResult.id}`;
+        suffix = ` - ${chalk.green(conversationIdResult.id)}`;
       } else {
-        suffix = ` - ${conversationIdResult.reason}`;
+        const friendlyError = this.conversationIdGetterErrorToFriendlyMessage(conversationIdResult);
+        suffix = ` - ${chalk.red(friendlyError)}`;
       }
     }
 

@@ -75,7 +75,7 @@ interface ConversationIdGetterSuccess {
   id: string;
 }
 
-interface ConversationIdGetterFailure {
+export interface ConversationIdGetterFailure {
   successful: false;
   reason: 'not-received-structured-message' | 'convo-id-not-in-response' | 'unknown-error';
   error?: unknown;
