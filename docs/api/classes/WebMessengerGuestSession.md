@@ -53,13 +53,14 @@ https://developer.genesys.cloud/api/digital/webmessaging/websocketapi#configure-
 
 ### constructor
 
-• **new WebMessengerGuestSession**(`config`, `wsFactory?`)
+• **new WebMessengerGuestSession**(`config`, `participantData?`, `wsFactory?`)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `config` | [`SessionConfig`](../interfaces/SessionConfig.md) |
+| `participantData` | `Record`<`string`, `string`\> |
 | `wsFactory` | (`url`: `string`, `options?`: `ClientRequestArgs` \| `ClientOptions`) => `WebSocket` |
 
 #### Overrides
@@ -93,7 +94,7 @@ EventEmitter.constructor
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:33](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L33)
+[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:34](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L34)
 
 ___
 
@@ -198,7 +199,7 @@ ___
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:110](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L110)
+[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:120](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L120)
 
 ___
 
@@ -525,7 +526,7 @@ ___
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:96](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L96)
+[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:97](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L97)
 
 ___
 

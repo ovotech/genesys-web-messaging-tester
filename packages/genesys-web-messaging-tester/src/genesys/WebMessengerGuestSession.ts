@@ -70,7 +70,7 @@ export class WebMessengerGuestSession extends EventEmitter {
       throw new Error(`Unexpected payload: ${payload}`);
     }
 
-    const message = payload as Response<any>;
+    const message = payload as Response<unknown>;
 
     if (message.code !== 200) {
       throw Error(`Session Response was ${payload.code} instead of 200 due to '${payload.body}'`);

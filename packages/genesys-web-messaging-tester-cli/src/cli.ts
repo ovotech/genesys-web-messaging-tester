@@ -17,7 +17,13 @@ import { Ui } from './ui';
 import { validateSessionConfig } from './testScript/validateSessionConfig';
 import { validateTestScript } from './testScript/validateTestScript';
 import { ScenarioError, ScenarioSuccess } from './ScenarioResult';
-import { v4 as uuidv4 } from 'uuid';
+import { validateGenesysEnvVariables } from './genesysPlatform/validateGenesysEnvVariables';
+import { configurePlatformClients } from './genesysPlatform/configurePlatformClients';
+import {
+  createConversationIdGetter,
+  messageIdToConversationIdFactory,
+  MessageIdToConvoIdClient,
+} from './genesysPlatform/messageIdToConversationIdFactory';
 
 function parsePositiveInt(value: string) {
   const parsedValue = parseInt(value, 10);
@@ -39,10 +45,7 @@ export interface Dependencies {
   outputConsole?: Console;
   program?: Command;
   ui?: Ui;
-  webMessengerSessionFactory?: (
-    sessionConfig: SessionConfig,
-    testId: string,
-  ) => WebMessengerSession;
+  webMessengerSessionFactory?: (sessionConfig: SessionConfig) => WebMessengerSession;
   conversationFactory?: (session: WebMessengerSession) => Conversation;
   fsReadFileSync?: typeof readFileSync;
   fsAccessSync?: typeof accessSync;
@@ -66,8 +69,7 @@ export type Cli = (args: string[]) => Promise<void>;
 export function createCli({
   program = new Command(),
   ui = new Ui(),
-  webMessengerSessionFactory = (config, testId: string) =>
-    new WebMessengerGuestSession(config, { TestID: testId }),
+  webMessengerSessionFactory = (config) => new WebMessengerGuestSession(config, { IsTest: 'true' }),
   conversationFactory = (session) => new Conversation(session),
   fsReadFileSync = readFileSync,
   fsAccessSync = accessSync,
@@ -96,6 +98,16 @@ export function createCli({
     parsePositiveInt,
     1,
   );
+  program?.option(
+    '-a, --associate-id',
+    `Associate tests their conversation ID.
+This requires the following environment variables to be set for an OAuth client
+with the role conversation:webmessaging:view:
+GENESYS_REGION
+GENESYSCLOUD_OAUTHCLIENT_ID
+GENESYSCLOUD_OAUTHCLIENT_SECRET`,
+    false,
+  );
 
   const yamlFileReader = createYamlFileReader(fsReadFileSync);
 
@@ -109,6 +121,29 @@ export function createCli({
 
     const options = program.opts();
     const testScriptPath = program.args[0];
+
+    let associateId: { enabled: false } | { enabled: true; client: MessageIdToConvoIdClient };
+    if (!options.associateId) {
+      associateId = { enabled: false };
+    } else {
+      const genesysEnvValidationResult = validateGenesysEnvVariables(process.env);
+      if (!genesysEnvValidationResult.genesysVariables) {
+        outputConfig.writeErr(
+          ui?.validatingAssociateConvoIdEnvValidationFailed(genesysEnvValidationResult.error),
+        );
+      } else {
+        const clients = await configurePlatformClients(genesysEnvValidationResult.genesysVariables);
+
+        const messageIdToConversationIdClient = messageIdToConversationIdFactory(clients);
+        associateId = { enabled: true, client: messageIdToConversationIdClient };
+
+        const checkResult = await messageIdToConversationIdClient.preflightCheck();
+        if (!checkResult.ok) {
+          outputConfig.writeErr(ui?.preflightCheckOfAssociateConvoIdFailed(checkResult));
+          processExitOverride(1);
+        }
+      }
+    }
 
     // 1. Read YAML file
     let testScriptFileContents: unknown;
@@ -158,10 +193,15 @@ export function createCli({
       testScriptScenarios.map((scenario) => ({
         title: ui?.titleOfTask(scenario),
         task: async (context, task) => {
-          const testId = uuidv4();
-
           const transcription: TranscribedMessage[] = [];
-          const session = webMessengerSessionFactory(scenario.sessionConfig, testId);
+          const session = webMessengerSessionFactory(scenario.sessionConfig);
+
+          let conversationIdGetter: ReturnType<typeof createConversationIdGetter> | undefined =
+            undefined;
+          if (associateId.enabled) {
+            conversationIdGetter = createConversationIdGetter(session, associateId.client);
+          }
+
           try {
             new Transcriber(session).on('messageTranscribed', (event: TranscribedMessage) => {
               transcription.push(event);
@@ -184,7 +224,7 @@ export function createCli({
             await convo.waitForConversationToStart();
 
             for (const step of scenario.steps) {
-              await step(convo);
+              await step(convo, {});
             }
           } catch (error) {
             context.scenarioResults.push({
@@ -193,6 +233,7 @@ export function createCli({
               hasPassed: false,
               reasonForError:
                 error instanceof Error ? error : new Error('Unexpected error occurred'),
+              conversationId: { associateId: false },
             });
             throw new Error(ui?.titleOfFinishedTask(scenario, false));
           } finally {
@@ -200,10 +241,22 @@ export function createCli({
           }
 
           task.title = ui?.titleOfFinishedTask(scenario, true);
-          context.scenarioResults.push({ scenario, transcription, hasPassed: true });
+          context.scenarioResults.push({
+            scenario,
+            transcription,
+            hasPassed: true,
+            conversationId: conversationIdGetter
+              ? { associateId: true, conversationIdGetter }
+              : { associateId: false },
+          });
         },
       })),
-      { concurrent: options.parallel, exitOnError: false, collectErrors: false },
+      {
+        concurrent: options.parallel,
+        exitOnError: false,
+        collectErrors: false,
+        rendererFallback: () => true,
+      },
     );
 
     const results = await tasks.run({ scenarioResults: [] });
@@ -212,21 +265,17 @@ export function createCli({
       (s) => s.hasPassed,
     ) as ScenarioSuccess[];
 
-    scenariosThatPassed.forEach((s) =>
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      outputConfig.writeOut(ui?.scenarioTestResult(s)),
-    );
+    for (const s of scenariosThatPassed) {
+      outputConfig.writeOut(await ui?.scenarioTestResult(s));
+    }
 
     const scenariosThatFailed = results.scenarioResults.filter(
       (s) => !s.hasPassed,
     ) as ScenarioSuccess[];
 
-    scenariosThatFailed.forEach((s) =>
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      outputConfig.writeOut(ui?.scenarioTestResult(s)),
-    );
+    for (const s of scenariosThatFailed) {
+      outputConfig.writeOut(await ui?.scenarioTestResult(s));
+    }
 
     outputConfig.writeOut(ui?.testScriptSummary([...scenariosThatPassed, ...scenariosThatFailed]));
 

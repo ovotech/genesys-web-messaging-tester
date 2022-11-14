@@ -112,6 +112,12 @@ Options:
   -r, --region <region>                Region of Genesys instance that hosts the Web Messenger Deployment
   -o, --origin <origin>                Origin domain used for restricting Web Messenger Deployment
   -p, --parallel <number>              Maximum scenarios to run in parallel (default: 1)
+  -a, --associate-id                   Associate tests their conversation ID.
+                                       This requires the following environment variables to be set for an OAuth client
+                                       with the role conversation:webmessaging:view:
+                                       GENESYS_REGION
+                                       GENESYSCLOUD_OAUTHCLIENT_ID
+                                       GENESYSCLOUD_OAUTHCLIENT_SECRET (default: false)
   -h, --help                           display help for command
 ```
 
