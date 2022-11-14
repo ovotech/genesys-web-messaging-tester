@@ -1,3 +1,4 @@
+import ci from 'ci-info';
 import { Listr } from 'listr2';
 import * as commander from 'commander';
 import { Command } from 'commander';
@@ -58,10 +59,10 @@ export interface Dependencies {
    */
   processExitOverride?: (code?: number | undefined) => never;
   /**
-   * Progress is shown by outputting the current line of a scenario's transcription, however
-   * under certain circumstances (e.g. non-TTY output) this adds a lot of unnecessary noise.
+   * Quiet mode is used for non-TTY and CI environments, where outputting the progress
+   * of a test would cause too much noise in the UI
    */
-  showProgress?: boolean;
+  quietMode?: boolean;
 }
 
 export type Cli = (args: string[]) => Promise<void>;
@@ -74,7 +75,7 @@ export function createCli({
   fsReadFileSync = readFileSync,
   fsAccessSync = accessSync,
   processExitOverride = (c) => process.exit(c),
-  showProgress = process.stdout.isTTY,
+  quietMode = !process.stdout.isTTY || ci.isCI,
 }: Dependencies = {}): Cli {
   program?.exitOverride(() => processExitOverride(1));
 
@@ -108,6 +109,7 @@ GENESYSCLOUD_OAUTHCLIENT_ID
 GENESYSCLOUD_OAUTHCLIENT_SECRET`,
     false,
   );
+  program?.option('-fo, --failures-only', 'Only output failures', false);
 
   const yamlFileReader = createYamlFileReader(fsReadFileSync);
 
@@ -206,7 +208,7 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
             new Transcriber(session).on('messageTranscribed', (event: TranscribedMessage) => {
               transcription.push(event);
 
-              if (showProgress) {
+              if (!quietMode) {
                 if (hasMultipleTests) {
                   task.output = ui?.firstLineOfMessageTranscribed(event);
                 } else {
@@ -255,7 +257,7 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
         concurrent: options.parallel,
         exitOnError: false,
         collectErrors: false,
-        rendererFallback: () => true,
+        rendererFallback: () => quietMode,
       },
     );
 
@@ -265,8 +267,10 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
       (s) => s.hasPassed,
     ) as ScenarioSuccess[];
 
-    for (const s of scenariosThatPassed) {
-      outputConfig.writeOut(await ui?.scenarioTestResult(s));
+    if (!options.failuresOnly) {
+      for (const s of scenariosThatPassed) {
+        outputConfig.writeOut(await ui?.scenarioTestResult(s));
+      }
     }
 
     const scenariosThatFailed = results.scenarioResults.filter(
