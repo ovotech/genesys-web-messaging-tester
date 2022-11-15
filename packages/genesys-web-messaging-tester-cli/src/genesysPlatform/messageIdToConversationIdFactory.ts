@@ -89,14 +89,13 @@ export function createConversationIdGetter(
   session: WebMessengerSession,
   client: MessageIdToConvoIdClient,
 ): () => Promise<ConversationIdGetterResponse> {
-  let messageId: string | undefined;
-
+  let getConversationId: Promise<string | undefined> | undefined = undefined;
   session.once('structuredMessage', (msg: StructuredMessage) => {
-    messageId = msg.body.id;
+    getConversationId = client.get(msg.body.id);
   });
 
   return async (): Promise<ConversationIdGetterResponse> => {
-    if (!messageId) {
+    if (getConversationId === undefined) {
       return {
         successful: false,
         reason: 'not-received-structured-message',
@@ -104,7 +103,7 @@ export function createConversationIdGetter(
     }
 
     try {
-      const conversationId = await client.get(messageId);
+      const conversationId = await getConversationId;
       if (conversationId) {
         return { successful: true, id: conversationId };
       } else {

@@ -88,32 +88,16 @@ export class Ui {
     );
   }
 
-  private conversationIdGetterErrorToFriendlyMessage(failure: ConversationIdGetterFailure): string {
-    switch (failure.reason) {
-      case 'not-received-structured-message':
-        return 'Convo ID unknown as test did not receive a reply';
-      case 'convo-id-not-in-response':
-        return 'Convo ID unknown as Genesys reply missing Message ID';
-      case 'unknown-error':
-        if (failure.error instanceof Error) {
-          return `Convo ID unknown as: ${failure.error.message}`;
-        }
-        if (typeof failure.error === 'string') {
-          return `Convo ID unknown as: ${failure.error}`;
-        }
-        return 'Convo ID unknown';
-    }
-  }
-
   public async scenarioTestResult(result: ScenarioError | ScenarioSuccess): Promise<string> {
     let suffix = '';
+    let conversationIdFailure: ConversationIdGetterFailure | undefined = undefined;
     if (result.conversationId.associateId) {
       const conversationIdResult = await result.conversationId.conversationIdGetter();
       if (conversationIdResult.successful) {
         suffix = ` - ${chalk.green(conversationIdResult.id)}`;
       } else {
-        const friendlyError = this.conversationIdGetterErrorToFriendlyMessage(conversationIdResult);
-        suffix = ` - ${chalk.red(friendlyError)}`;
+        conversationIdFailure = conversationIdResult;
+        suffix = ` - ${chalk.yellow('unable to associate conversation ID')}`;
       }
     }
 
@@ -159,6 +143,33 @@ export class Ui {
       }
     }
 
+    if (result.conversationId.associateId && conversationIdFailure) {
+      let errorMsg = `WARNING: Could not find Conversation ID for test `;
+
+      switch (conversationIdFailure.reason) {
+        case 'not-received-structured-message':
+          errorMsg += 'as your test did not receive a response from your flow.';
+          break;
+        case 'convo-id-not-in-response':
+          errorMsg +=
+            "as the response from your flow did not contain a Message ID, which is necessary for finding the test's Conversation ID.";
+          break;
+        case 'unknown-error':
+          if (conversationIdFailure.error instanceof Error) {
+            errorMsg += `due to an unexpected error: ${conversationIdFailure.error.message}.`;
+          }
+          if (typeof conversationIdFailure.error === 'string') {
+            errorMsg += `due to an unexpected error: ${conversationIdFailure.error}.`;
+          }
+          errorMsg += `due to an unexpected error.`;
+          break;
+        default:
+          errorMsg += `due to an unexpected error.`;
+          break;
+      }
+
+      lines.push(chalk.yellow(errorMsg));
+    }
     return Ui.trailingNewline(lines.join('\n'), 1);
   }
 
