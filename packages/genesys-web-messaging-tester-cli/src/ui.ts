@@ -147,7 +147,7 @@ export class Ui {
       let errorMsg = `WARNING: Could not find Conversation ID for test `;
 
       switch (conversationIdFailure.reason) {
-        case 'not-received-structured-message':
+        case 'not-received-message':
           errorMsg += 'as your test did not receive a response from your flow.';
           break;
         case 'convo-id-not-in-response':

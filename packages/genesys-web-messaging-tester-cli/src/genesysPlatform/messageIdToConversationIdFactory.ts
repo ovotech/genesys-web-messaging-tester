@@ -77,7 +77,7 @@ interface ConversationIdGetterSuccess {
 
 export interface ConversationIdGetterFailure {
   successful: false;
-  reason: 'not-received-structured-message' | 'convo-id-not-in-response' | 'unknown-error';
+  reason: 'not-received-message' | 'convo-id-not-in-response' | 'unknown-error';
   error?: unknown;
 }
 
@@ -89,21 +89,25 @@ export function createConversationIdGetter(
   session: WebMessengerSession,
   client: MessageIdToConvoIdClient,
 ): () => Promise<ConversationIdGetterResponse> {
-  let getConversationId: Promise<string | undefined> | undefined = undefined;
+  let messageId: string | undefined;
+
   session.once('structuredMessage', (msg: StructuredMessage) => {
-    getConversationId = client.get(msg.body.id);
+    messageId = msg.body.id;
   });
 
+  let conversationId: string | undefined = undefined;
   return async (): Promise<ConversationIdGetterResponse> => {
-    if (getConversationId === undefined) {
+    if (!messageId) {
       return {
         successful: false,
-        reason: 'not-received-structured-message',
+        reason: 'not-received-message',
       };
     }
 
     try {
-      const conversationId = await getConversationId;
+      if (!conversationId) {
+        conversationId = await client.get(messageId);
+      }
       if (conversationId) {
         return { successful: true, id: conversationId };
       } else {
