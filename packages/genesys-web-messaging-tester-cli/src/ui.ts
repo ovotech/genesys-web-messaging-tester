@@ -7,6 +7,10 @@ import {
 import { ValidationError } from 'joi';
 import { ScenarioError, ScenarioSuccess } from './ScenarioResult';
 import humanizeDuration from 'humanize-duration';
+import {
+  ConversationIdGetterFailure,
+  PreflightError,
+} from './genesysPlatform/messageIdToConversationIdFactory';
 
 export class Ui {
   /**
@@ -58,10 +62,48 @@ export class Ui {
     return Ui.trailingNewline(chalk.red(error?.message ?? 'Failed to validate Session config'));
   }
 
-  public scenarioTestResult(result: ScenarioError | ScenarioSuccess): string {
+  public preflightCheckOfAssociateConvoIdFailed(error: PreflightError): string {
+    if (error.errorType === 'missing-permissions') {
+      return Ui.trailingNewline(
+        chalk.red(
+          'Your OAuth Client does not have the necessary permissions to associate a conversation IDs to tests:\n' +
+            `'${error.reasonForError}'`,
+        ),
+      );
+    }
+
+    return Ui.trailingNewline(
+      chalk.red(
+        'There was a problem checking whether your OAuth Client has the necessary permissions to associate a conversation IDs to tests:\n' +
+          error.reasonForError,
+      ),
+    );
+  }
+  public validatingAssociateConvoIdEnvValidationFailed(error: ValidationError | undefined): string {
+    return Ui.trailingNewline(
+      chalk.red(
+        error?.message ??
+          'Failed to validate environment variables containing Genesys OAuth Client credentials',
+      ),
+    );
+  }
+
+  public async scenarioTestResult(result: ScenarioError | ScenarioSuccess): Promise<string> {
+    let suffix = '';
+    let conversationIdFailure: ConversationIdGetterFailure | undefined = undefined;
+    if (result.conversationId.associateId) {
+      const conversationIdResult = await result.conversationId.conversationIdGetter();
+      if (conversationIdResult.successful) {
+        suffix = ` - ${chalk.green(conversationIdResult.id)}`;
+      } else {
+        conversationIdFailure = conversationIdResult;
+        suffix = ` - ${chalk.yellow('unable to associate conversation ID')}`;
+      }
+    }
+
     const title = result.hasPassed
-      ? `${chalk.bold(result.scenario.name)} (${chalk.green('PASS')})`
-      : `${chalk.bold(result.scenario.name)} (${chalk.red('FAIL')})`;
+      ? `${chalk.bold(result.scenario.name)} (${chalk.green('PASS')}${suffix})`
+      : `${chalk.bold(result.scenario.name)} (${chalk.red('FAIL')})${suffix}`;
 
     const lines = [
       '',
@@ -101,6 +143,33 @@ export class Ui {
       }
     }
 
+    if (result.conversationId.associateId && conversationIdFailure) {
+      let errorMsg = `WARNING: Could not find Conversation ID for test `;
+
+      switch (conversationIdFailure.reason) {
+        case 'not-received-message':
+          errorMsg += 'as your test did not receive a response from your flow.';
+          break;
+        case 'convo-id-not-in-response':
+          errorMsg +=
+            "as the response from your flow did not contain a Message ID, which is necessary for finding the test's Conversation ID.";
+          break;
+        case 'unknown-error':
+          if (conversationIdFailure.error instanceof Error) {
+            errorMsg += `due to an unexpected error: ${conversationIdFailure.error.message}.`;
+          }
+          if (typeof conversationIdFailure.error === 'string') {
+            errorMsg += `due to an unexpected error: ${conversationIdFailure.error}.`;
+          }
+          errorMsg += `due to an unexpected error.`;
+          break;
+        default:
+          errorMsg += `due to an unexpected error.`;
+          break;
+      }
+
+      lines.push(chalk.yellow(errorMsg));
+    }
     return Ui.trailingNewline(lines.join('\n'), 1);
   }
 

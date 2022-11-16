@@ -52,14 +52,11 @@ scenarios:
       ...['/test/path'],
     ]);
 
-    expect(webMessengerSessionFactory).toHaveBeenCalledWith(
-      {
-        deploymentId: 'test-deployment-id',
-        region: 'test-region',
-        origin: 'test-origin',
-      },
-      expect.any(String),
-    );
+    expect(webMessengerSessionFactory).toHaveBeenCalledWith({
+      deploymentId: 'test-deployment-id',
+      region: 'test-region',
+      origin: 'test-origin',
+    });
   });
 
   test('Test-Script session config not necessary if session config args provided', async () => {
@@ -77,14 +74,11 @@ scenarios:
       ...['/test/path'],
     ]);
 
-    expect(webMessengerSessionFactory).toHaveBeenCalledWith(
-      {
-        deploymentId: 'test-deployment-id-2',
-        region: 'test-region-2',
-        origin: 'test-origin-2',
-      },
-      expect.any(String),
-    );
+    expect(webMessengerSessionFactory).toHaveBeenCalledWith({
+      deploymentId: 'test-deployment-id-2',
+      region: 'test-region-2',
+      origin: 'test-origin-2',
+    });
   });
 
   test('Test-Script session config used if session config args not provided', async () => {
@@ -100,13 +94,10 @@ scenarios:
 
     await cli([...['node', '/path/to/cli'], ...['/test/path']]);
 
-    expect(webMessengerSessionFactory).toHaveBeenCalledWith(
-      {
-        deploymentId: 'test-deployment-id-3',
-        region: 'test-region-3',
-        origin: 'test-origin-3',
-      },
-      expect.any(String),
-    );
+    expect(webMessengerSessionFactory).toHaveBeenCalledWith({
+      deploymentId: 'test-deployment-id-3',
+      region: 'test-region-3',
+      origin: 'test-origin-3',
+    });
   });
 });

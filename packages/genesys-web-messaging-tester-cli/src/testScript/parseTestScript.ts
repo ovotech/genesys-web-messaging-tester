@@ -19,15 +19,17 @@ export interface TestScriptFile {
   };
 }
 
+export type StepContext = Record<string, string>;
+
 export interface TestScriptScenario {
   sessionConfig: SessionConfig;
   name: string;
-  steps: ((convo: Conversation) => Promise<unknown>)[];
+  steps: ((convo: Conversation, context: StepContext) => Promise<unknown>)[];
 }
 
 export function parseScenarioStep(
   step: TestScriptFileScenarioStep,
-): (convo: Conversation) => Promise<unknown | void> {
+): (convo: Conversation, context: StepContext) => Promise<unknown | void> {
   if ('say' in step) {
     return async (convo) => convo.sendText(step.say);
   }

@@ -53,13 +53,14 @@ https://developer.genesys.cloud/api/digital/webmessaging/websocketapi#configure-
 
 ### constructor
 
-• **new WebMessengerGuestSession**(`config`, `wsFactory?`)
+• **new WebMessengerGuestSession**(`config`, `participantData?`, `wsFactory?`)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `config` | [`SessionConfig`](../interfaces/SessionConfig.md) |
+| `participantData` | `Record`<`string`, `string`\> |
 | `wsFactory` | (`url`: `string`, `options?`: `ClientRequestArgs` \| `ClientOptions`) => `WebSocket` |
 
 #### Overrides
@@ -93,7 +94,7 @@ EventEmitter.constructor
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:33](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L33)
+[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:34](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L34)
 
 ___
 
@@ -107,7 +108,7 @@ EventEmitter.captureRejectionSymbol
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:38
+node_modules/@types/node/ts4.8/events.d.ts:38
 
 ___
 
@@ -123,7 +124,7 @@ EventEmitter.captureRejections
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:44
+node_modules/@types/node/ts4.8/events.d.ts:44
 
 ___
 
@@ -137,7 +138,7 @@ EventEmitter.defaultMaxListeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:45
+node_modules/@types/node/ts4.8/events.d.ts:45
 
 ___
 
@@ -159,7 +160,7 @@ EventEmitter.errorMonitor
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:37
+node_modules/@types/node/ts4.8/events.d.ts:37
 
 ## Methods
 
@@ -184,7 +185,7 @@ EventEmitter.addListener
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:57
+node_modules/@types/node/ts4.8/events.d.ts:57
 
 ___
 
@@ -198,7 +199,7 @@ ___
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:110](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L110)
+[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:120](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L120)
 
 ___
 
@@ -223,7 +224,7 @@ EventEmitter.emit
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:67
+node_modules/@types/node/ts4.8/events.d.ts:67
 
 ___
 
@@ -241,7 +242,7 @@ EventEmitter.eventNames
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:72
+node_modules/@types/node/ts4.8/events.d.ts:72
 
 ___
 
@@ -259,7 +260,7 @@ EventEmitter.getMaxListeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:64
+node_modules/@types/node/ts4.8/events.d.ts:64
 
 ___
 
@@ -283,7 +284,7 @@ EventEmitter.listenerCount
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:68
+node_modules/@types/node/ts4.8/events.d.ts:68
 
 ___
 
@@ -307,7 +308,7 @@ EventEmitter.listeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:65
+node_modules/@types/node/ts4.8/events.d.ts:65
 
 ___
 
@@ -332,7 +333,7 @@ EventEmitter.off
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:61
+node_modules/@types/node/ts4.8/events.d.ts:61
 
 ___
 
@@ -357,7 +358,7 @@ EventEmitter.on
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:58
+node_modules/@types/node/ts4.8/events.d.ts:58
 
 ___
 
@@ -382,7 +383,7 @@ EventEmitter.once
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:59
+node_modules/@types/node/ts4.8/events.d.ts:59
 
 ___
 
@@ -407,7 +408,7 @@ EventEmitter.prependListener
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:70
+node_modules/@types/node/ts4.8/events.d.ts:70
 
 ___
 
@@ -432,7 +433,7 @@ EventEmitter.prependOnceListener
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:71
+node_modules/@types/node/ts4.8/events.d.ts:71
 
 ___
 
@@ -456,7 +457,7 @@ EventEmitter.rawListeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:66
+node_modules/@types/node/ts4.8/events.d.ts:66
 
 ___
 
@@ -480,7 +481,7 @@ EventEmitter.removeAllListeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:62
+node_modules/@types/node/ts4.8/events.d.ts:62
 
 ___
 
@@ -505,7 +506,7 @@ EventEmitter.removeListener
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:60
+node_modules/@types/node/ts4.8/events.d.ts:60
 
 ___
 
@@ -525,7 +526,7 @@ ___
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:96](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L96)
+[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:97](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L97)
 
 ___
 
@@ -549,7 +550,7 @@ EventEmitter.setMaxListeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:63
+node_modules/@types/node/ts4.8/events.d.ts:63
 
 ___
 
@@ -578,7 +579,7 @@ EventEmitter.listenerCount
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:26
+node_modules/@types/node/ts4.8/events.d.ts:26
 
 ___
 
@@ -603,7 +604,7 @@ EventEmitter.on
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:23
+node_modules/@types/node/ts4.8/events.d.ts:23
 
 ___
 
@@ -628,7 +629,7 @@ EventEmitter.once
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:21
+node_modules/@types/node/ts4.8/events.d.ts:21
 
 ▸ `Static` **once**(`emitter`, `event`): `Promise`<`any`[]\>
 
@@ -649,4 +650,4 @@ EventEmitter.once
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:22
+node_modules/@types/node/ts4.8/events.d.ts:22

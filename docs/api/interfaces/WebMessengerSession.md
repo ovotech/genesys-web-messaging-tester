@@ -53,7 +53,7 @@ EventEmitter.addListener
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:57
+node_modules/@types/node/ts4.8/events.d.ts:57
 
 ___
 
@@ -92,7 +92,7 @@ EventEmitter.emit
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:67
+node_modules/@types/node/ts4.8/events.d.ts:67
 
 ___
 
@@ -110,7 +110,7 @@ EventEmitter.eventNames
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:72
+node_modules/@types/node/ts4.8/events.d.ts:72
 
 ___
 
@@ -128,7 +128,7 @@ EventEmitter.getMaxListeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:64
+node_modules/@types/node/ts4.8/events.d.ts:64
 
 ___
 
@@ -152,7 +152,7 @@ EventEmitter.listenerCount
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:68
+node_modules/@types/node/ts4.8/events.d.ts:68
 
 ___
 
@@ -176,7 +176,7 @@ EventEmitter.listeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:65
+node_modules/@types/node/ts4.8/events.d.ts:65
 
 ___
 
@@ -201,7 +201,7 @@ EventEmitter.off
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:61
+node_modules/@types/node/ts4.8/events.d.ts:61
 
 ___
 
@@ -226,7 +226,7 @@ EventEmitter.on
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:58
+node_modules/@types/node/ts4.8/events.d.ts:58
 
 ___
 
@@ -251,7 +251,7 @@ EventEmitter.once
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:59
+node_modules/@types/node/ts4.8/events.d.ts:59
 
 ___
 
@@ -276,7 +276,7 @@ EventEmitter.prependListener
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:70
+node_modules/@types/node/ts4.8/events.d.ts:70
 
 ___
 
@@ -301,7 +301,7 @@ EventEmitter.prependOnceListener
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:71
+node_modules/@types/node/ts4.8/events.d.ts:71
 
 ___
 
@@ -325,7 +325,7 @@ EventEmitter.rawListeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:66
+node_modules/@types/node/ts4.8/events.d.ts:66
 
 ___
 
@@ -349,7 +349,7 @@ EventEmitter.removeAllListeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:62
+node_modules/@types/node/ts4.8/events.d.ts:62
 
 ___
 
@@ -374,7 +374,7 @@ EventEmitter.removeListener
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:60
+node_modules/@types/node/ts4.8/events.d.ts:60
 
 ___
 
@@ -418,4 +418,4 @@ EventEmitter.setMaxListeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:63
+node_modules/@types/node/ts4.8/events.d.ts:63

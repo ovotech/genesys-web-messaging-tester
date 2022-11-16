@@ -129,7 +129,7 @@ Error.prepareStackTrace
 
 #### Defined in
 
-node_modules/@types/node/globals.d.ts:11
+node_modules/@types/node/ts4.8/globals.d.ts:11
 
 ___
 
@@ -143,7 +143,7 @@ Error.stackTraceLimit
 
 #### Defined in
 
-node_modules/@types/node/globals.d.ts:13
+node_modules/@types/node/ts4.8/globals.d.ts:13
 
 ## Accessors
 
@@ -212,4 +212,4 @@ Error.captureStackTrace
 
 #### Defined in
 
-node_modules/@types/node/globals.d.ts:4
+node_modules/@types/node/ts4.8/globals.d.ts:4
