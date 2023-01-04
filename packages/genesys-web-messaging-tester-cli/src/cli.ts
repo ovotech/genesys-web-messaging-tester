@@ -235,7 +235,9 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
               hasPassed: false,
               reasonForError:
                 error instanceof Error ? error : new Error('Unexpected error occurred'),
-              conversationId: { associateId: false },
+              conversationId: conversationIdGetter
+                ? { associateId: true, conversationIdGetter }
+                : { associateId: false },
             });
             throw new Error(ui?.titleOfFinishedTask(scenario, false));
           } finally {
