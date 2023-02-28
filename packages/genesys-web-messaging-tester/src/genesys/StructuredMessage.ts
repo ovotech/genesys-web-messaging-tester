@@ -41,9 +41,6 @@ export interface StructuredMessageStructuredBody {
   };
 }
 
-/**
- * Unsupported type
- */
 export interface StructuredMessageEventBody {
   type: 'Event';
   direction: 'Inbound' | 'Outbound';
