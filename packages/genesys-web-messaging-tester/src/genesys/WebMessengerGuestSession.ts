@@ -67,13 +67,14 @@ export class WebMessengerGuestSession extends EventEmitter {
 
     const payload = JSON.parse(textPayload);
     if (typeof payload.type !== 'string') {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       throw new Error(`Unexpected payload: ${payload}`);
     }
 
     const message = payload as Response<unknown>;
 
     if (message.code !== 200) {
-      throw Error(`Session Response was ${payload.code} instead of 200 due to '${payload.body}'`);
+      throw Error(`Session Response was ${message.code} instead of 200 due to '${message.body}'`);
     }
 
     switch (message.type) {
@@ -117,7 +118,7 @@ export class WebMessengerGuestSession extends EventEmitter {
     this.ws.send(JSON.stringify(payload));
   }
 
-  public close() {
+  public close(): void {
     this.ws.close();
   }
 }

@@ -96,7 +96,7 @@ describe('WebMessengerGuestSession', () => {
       () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
     );
 
-    (await genesysServerFixture.waitForConnection()).simulateOutboundStructuredMessage(
+    (await genesysServerFixture.waitForConnection()).simulateOutboundTextStructuredMessage(
       'Hello world',
     );
 

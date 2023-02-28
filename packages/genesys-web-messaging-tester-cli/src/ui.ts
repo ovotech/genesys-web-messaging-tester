@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 import { TestScriptScenario } from './testScript/parseTestScript';
 import {
+  BotDisconnectedWaitingForResponseError,
   TimeoutWaitingForResponseError,
   TranscribedMessage,
 } from '@ovotech/genesys-web-messaging-tester';
@@ -115,9 +116,30 @@ export class Ui {
     if (!result.hasPassed) {
       lines.push('');
       const error = result.reasonForError;
-      if (!(error instanceof TimeoutWaitingForResponseError)) {
-        lines.push(chalk.red(result.reasonForError.message));
-      } else {
+      if (error instanceof BotDisconnectedWaitingForResponseError) {
+        if (error.responsesReceived.length === 0) {
+          lines.push(
+            chalk.red(
+              [
+                `Bot disconnected from the conversation whilst waiting a message containing:`,
+                ` ${error.expectedResponse}`,
+                `No messages were received before disconnection`,
+              ].join('\n'),
+            ),
+          );
+        } else {
+          lines.push(
+            chalk.red(
+              [
+                `Bot disconnected from the conversation whilst waiting a message containing:`,
+                ` ${error.expectedResponse}`,
+                'Received the following messages before disconnection:',
+                ...error.responsesReceived.map((m) => ` - ${m.text}`),
+              ].join('\n'),
+            ),
+          );
+        }
+      } else if (error instanceof TimeoutWaitingForResponseError) {
         if (error.responsesReceived.length === 0) {
           lines.push(
             chalk.red(
@@ -135,11 +157,13 @@ export class Ui {
                 `Expected a message within ${humanizeDuration(error.timeoutInMs)} containing:`,
                 ` ${error.expectedResponse}`,
                 'Received:',
-                ...error.responsesReceived.map((m) => ` - ${m.body.text}`),
+                ...error.responsesReceived.map((m) => ` - ${m.text}`),
               ].join('\n'),
             ),
           );
         }
+      } else {
+        lines.push(chalk.red(result.reasonForError.message));
       }
     }
 

@@ -35,7 +35,7 @@ export function parseScenarioStep(
   }
 
   if ('waitForReplyContaining' in step) {
-    return async (convo) => convo.waitForResponseContaining(step.waitForReplyContaining);
+    return async (convo) => convo.waitForResponseWithTextContaining(step.waitForReplyContaining);
   }
 
   throw new Error(`Unsupported step ${step}`);

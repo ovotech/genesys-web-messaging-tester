@@ -1,11 +1,18 @@
 import { WebMessengerSession } from './genesys/WebMessengerGuestSession';
-import { StructuredMessage } from './genesys/StructuredMessage';
+import {
+  StructuredMessage,
+  StructuredMessageEventBody,
+  StructuredMessageStructuredBody,
+  StructuredMessageTextBody,
+} from './genesys/StructuredMessage';
 
 export class TimeoutWaitingForResponseError extends Error {
   constructor(
     private readonly _timeoutInMs: number,
     private readonly _expectedResponse: string,
-    private readonly _responsesReceived: ReadonlyArray<StructuredMessage> = [],
+    private readonly _responsesReceived: ReadonlyArray<
+      StructuredMessageTextBody | StructuredMessageStructuredBody
+    > = [],
   ) {
     super(
       TimeoutWaitingForResponseError.createFailureMessage(
@@ -21,7 +28,7 @@ export class TimeoutWaitingForResponseError extends Error {
   private static createFailureMessage(
     timeoutInMs: number,
     expectedResponse: string,
-    responsesReceived: ReadonlyArray<StructuredMessage>,
+    responsesReceived: ReadonlyArray<StructuredMessageTextBody | StructuredMessageStructuredBody>,
   ): string {
     if (responsesReceived.length === 0) {
       return `Timed-out after ${timeoutInMs}ms waiting for a message that contained '${expectedResponse}'.
@@ -29,7 +36,7 @@ No messages were received.`;
     } else {
       return `Timed-out after ${timeoutInMs}ms waiting for a message that contained '${expectedResponse}'
 Received:
-  ${responsesReceived.map((m) => ` - ${m.body.text}`).join('\n')}`;
+  ${responsesReceived.map((m) => ` - ${m.text}`).join('\n')}`;
     }
   }
 
@@ -37,12 +44,56 @@ Received:
     return this._expectedResponse;
   }
 
-  public get responsesReceived(): ReadonlyArray<StructuredMessage> {
+  public get responsesReceived(): ReadonlyArray<
+    StructuredMessageTextBody | StructuredMessageStructuredBody
+  > {
     return this._responsesReceived;
   }
 
   public get timeoutInMs(): number {
     return this._timeoutInMs;
+  }
+}
+
+export class BotDisconnectedWaitingForResponseError extends Error {
+  constructor(
+    private readonly _expectedResponse: string,
+    private readonly _responsesReceived: ReadonlyArray<
+      StructuredMessageTextBody | StructuredMessageStructuredBody
+    > = [],
+  ) {
+    super(
+      BotDisconnectedWaitingForResponseError.createFailureMessage(
+        _expectedResponse,
+        _responsesReceived,
+      ),
+    );
+
+    Object.setPrototypeOf(this, BotDisconnectedWaitingForResponseError.prototype);
+  }
+
+  private static createFailureMessage(
+    expectedResponse: string,
+    responsesReceived: ReadonlyArray<StructuredMessageTextBody | StructuredMessageStructuredBody>,
+  ): string {
+    if (responsesReceived.length === 0) {
+      return `Bot disconnected from the conversation whilst waiting a message that contained '${expectedResponse}'.
+No messages were received before disconnection.`;
+    } else {
+      return `Bot disconnected from the conversation whilst waiting a message that contained '${expectedResponse}'
+Received before disconnection:
+  ${responsesReceived.map((m) => ` - ${m.text}`).join('\n')}`;
+    }
+  }
+
+  public get expectedResponse(): string {
+    return this._expectedResponse;
+  }
+
+  public get responsesReceived(): ReadonlyArray<
+    StructuredMessageTextBody | StructuredMessageStructuredBody
+  > {
+    return this._responsesReceived;
   }
 }
 
@@ -77,6 +128,10 @@ export class Conversation {
     this.messengerSession.once('sessionStarted', () => (this.sessionStarted = true));
   }
 
+  private static containsDisconnectEvent(event: StructuredMessageEventBody): boolean {
+    return event.events.some((e) => e.eventType === 'Presence' && e.presence.type === 'Disconnect');
+  }
+
   /**
    * Resolves when the conversation has started.
    *
@@ -109,14 +164,17 @@ export class Conversation {
   }
 
   /**
-   * Resolves on the next response from the other participant in the conversation.
+   * Resolves on the next response from the other participant in the conversation that contains text.
    *
-   * If you want to wait for a specific message use {@link waitForResponseContaining}.
+   * If you want to wait for a specific message use {@link waitForResponseWithTextContaining}.
    */
-  public async waitForResponse(): Promise<string> {
+  public async waitForResponseText(): Promise<string> {
     return new Promise((resolve) => {
       this.messengerSession.on('structuredMessage', (event: StructuredMessage) => {
-        if (event.body.direction === 'Outbound') {
+        if (
+          (event.body.type === 'Text' || event.body.type === 'Structured') &&
+          event.body.direction === 'Outbound'
+        ) {
           resolve(event.body.text);
         }
       });
@@ -131,9 +189,9 @@ export class Conversation {
    * Case-insensitive by default.
    *
    * If you want to wait for the next response, regardless of what it contains
-   * use {@link waitForResponse}.
+   * use {@link waitForResponseText}.
    */
-  public async waitForResponseContaining(
+  public async waitForResponseWithTextContaining(
     text: string,
     {
       timeoutInSeconds = 10,
@@ -141,25 +199,41 @@ export class Conversation {
     }: { timeoutInSeconds?: number; caseInsensitive?: boolean } = {},
   ): Promise<string> {
     const timeoutInMs = timeoutInSeconds * 1000;
-    const messagesReceived: StructuredMessage[] = [];
+    const messagesWithTextReceived: (
+      | StructuredMessageTextBody
+      | StructuredMessageStructuredBody
+    )[] = [];
 
     return new Promise<string>((resolve, reject) => {
       let timeout: NodeJS.Timeout | undefined = undefined;
 
       const checkMessage = (event: StructuredMessage): void => {
-        if (event.body.direction === 'Outbound') {
-          messagesReceived.push(event);
+        if (
+          event.body.direction === 'Outbound' &&
+          event.body.type === 'Event' &&
+          Conversation.containsDisconnectEvent(event.body)
+        ) {
+          if (timeout) {
+            clearTimeout(timeout);
+          }
+          reject(new BotDisconnectedWaitingForResponseError(text, messagesWithTextReceived));
+        }
 
-          const message = caseInsensitive ? event.body.text.toLocaleLowerCase() : event.body.text;
-          const expectedText = caseInsensitive ? text.toLocaleLowerCase() : text;
+        if (event.body.type === 'Text' || event.body.type === 'Structured') {
+          if (event.body.direction === 'Outbound') {
+            messagesWithTextReceived.push(event.body);
 
-          if (message.includes(expectedText)) {
-            this.messengerSession.off('structuredMessage', checkMessage);
+            const message = caseInsensitive ? event.body.text.toLocaleLowerCase() : event.body.text;
+            const expectedText = caseInsensitive ? text.toLocaleLowerCase() : text;
 
-            if (timeout) {
-              clearTimeout(timeout);
+            if (message.includes(expectedText)) {
+              this.messengerSession.off('structuredMessage', checkMessage);
+
+              if (timeout) {
+                clearTimeout(timeout);
+              }
+              resolve(event.body.text);
             }
-            resolve(event.body.text);
           }
         }
       };
@@ -169,7 +243,7 @@ export class Conversation {
       timeout = setTimeout(() => {
         this.messengerSession.off('structuredMessage', checkMessage);
 
-        reject(new TimeoutWaitingForResponseError(timeoutInMs, text, messagesReceived));
+        reject(new TimeoutWaitingForResponseError(timeoutInMs, text, messagesWithTextReceived));
       }, timeoutInMs);
     });
   }

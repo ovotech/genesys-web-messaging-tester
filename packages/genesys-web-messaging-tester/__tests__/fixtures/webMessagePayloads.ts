@@ -29,7 +29,7 @@ export const webMessagePayloads = {
       },
     },
   }),
-  outboundStructuredMessage: (text: string, date: Date): StructuredMessage => ({
+  outboundTextStructuredMessage: (text: string, date: Date): StructuredMessage => ({
     type: 'message',
     class: 'StructuredMessage',
     code: 200,
@@ -43,6 +43,28 @@ export const webMessagePayloads = {
       metadata: {
         correlationId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
       },
+    },
+  }),
+  outboundDisconnectEventStructuredMessage: (date: Date): StructuredMessage => ({
+    type: 'message',
+    class: 'StructuredMessage',
+    code: 200,
+    body: {
+      direction: 'Outbound',
+      id: '0000000-0000-0000-0000-0000000000',
+      channel: {
+        time: date.toISOString(),
+        messageId: '0000000-0000-0000-0000-0000000000',
+      },
+      type: 'Event',
+      events: [
+        {
+          eventType: 'Presence',
+          presence: {
+            type: 'Disconnect',
+          },
+        },
+      ],
     },
   }),
 };

@@ -27,7 +27,7 @@ describe('Using jest to perform the test', () => {
     convo.sendText('hi');
 
     await expect(
-      convo.waitForResponseContaining(
+      convo.waitForResponseWithTextContaining(
         'Can we ask you some questions about your experience today?',
         {
           timeoutInSeconds: 10,
@@ -37,7 +37,7 @@ describe('Using jest to perform the test', () => {
 
     convo.sendText('Yes');
 
-    await expect(convo.waitForResponse()).resolves.toContain(
+    await expect(convo.waitForResponseText()).resolves.toContain(
       'Thank you! Now for the next question...',
     );
 
@@ -60,7 +60,7 @@ describe('Using jest to perform the test', () => {
 
     convo.sendText('hi');
 
-    await expect(convo.waitForResponse()).resolves.toContain(
+    await expect(convo.waitForResponseText()).resolves.toContain(
       'Can we ask you some questions about your experience today?',
     );
 

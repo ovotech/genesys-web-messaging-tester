@@ -4,6 +4,7 @@ import {
   Transcriber,
 } from '@ovotech/genesys-web-messaging-tester';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '../../.env' });
 
 (async () => {
@@ -23,7 +24,7 @@ require('dotenv').config({ path: '../../.env' });
   convo.sendText('hi');
 
   // Waits for response containing text. Error thrown if exceeds timeout
-  await convo.waitForResponseContaining(
+  await convo.waitForResponseWithTextContaining(
     'Can we ask you some questions about your experience today?',
     {
       timeoutInSeconds: 10,
@@ -34,7 +35,7 @@ require('dotenv').config({ path: '../../.env' });
   convo.sendText('Yes');
   // test-section
 
-  await convo.waitForResponseContaining('Thank you! Now for the next question...', {
+  await convo.waitForResponseWithTextContaining('Thank you! Now for the next question...', {
     timeoutInSeconds: 10,
     caseInsensitive: true,
   });
