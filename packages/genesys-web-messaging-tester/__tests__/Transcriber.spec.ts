@@ -51,7 +51,7 @@ describe('Transcriber', () => {
         done();
       });
 
-      serverConnection.simulateOutboundStructuredMessage('Example outbound');
+      serverConnection.simulateOutboundTextStructuredMessage('Example outbound');
     });
   });
 
@@ -67,15 +67,15 @@ describe('Transcriber', () => {
         done();
       });
 
-      serverConnection.simulateInboundStructuredMessage('Example inbound');
+      serverConnection.simulateInboundTextStructuredMessage('Example inbound');
     });
   });
 
   test("Inbound/Outbound messages transcribed as being from 'you'/'them'", async () => {
     const transcriber = new Transcriber(session);
 
-    serverConnection.simulateInboundStructuredMessage('Example inbound');
-    serverConnection.simulateOutboundStructuredMessage('Example outbound');
+    serverConnection.simulateInboundTextStructuredMessage('Example inbound');
+    serverConnection.simulateOutboundTextStructuredMessage('Example outbound');
 
     // Wait for both inbound/outbound messages to be received
     await new Promise<void>((resolve) => {

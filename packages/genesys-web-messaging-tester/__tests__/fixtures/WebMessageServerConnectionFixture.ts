@@ -29,12 +29,17 @@ export class WebMessageServerConnectionFixture {
     this.ws.send(JSON.stringify(payload));
   }
 
-  public simulateOutboundStructuredMessage(text: string, date: Date = new Date()): void {
-    const payload = webMessagePayloads.outboundStructuredMessage(text, date);
+  public simulateOutboundTextStructuredMessage(text: string, date: Date = new Date()): void {
+    const payload = webMessagePayloads.outboundTextStructuredMessage(text, date);
     this.ws.send(JSON.stringify(payload));
   }
 
-  public simulateInboundStructuredMessage(text: string, date: Date = new Date()): void {
+  public simulateOutboundDisconnectEventStructuredMessage(date: Date = new Date()): void {
+    const payload = webMessagePayloads.outboundDisconnectEventStructuredMessage(date);
+    this.ws.send(JSON.stringify(payload));
+  }
+
+  public simulateInboundTextStructuredMessage(text: string, date: Date = new Date()): void {
     const payload = webMessagePayloads.inboundStructuredMessage(text, date);
     this.ws.send(JSON.stringify(payload));
   }

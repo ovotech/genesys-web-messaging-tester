@@ -52,9 +52,9 @@ describe('Conversation', () => {
     serverConnection.simulateSessionResponseMessage();
     await conversation.waitForConversationToStart();
 
-    serverConnection.simulateInboundStructuredMessage('Hello World');
-    serverConnection.simulateOutboundStructuredMessage('Hello World');
-    await expect(conversation.waitForResponse()).resolves.toStrictEqual('Hello World');
+    serverConnection.simulateInboundTextStructuredMessage('Hello World');
+    serverConnection.simulateOutboundTextStructuredMessage('Hello World');
+    await expect(conversation.waitForResponseText()).resolves.toStrictEqual('Hello World');
   });
 
   test('Waits for outbound message containing text before continuing', async () => {
@@ -63,10 +63,10 @@ describe('Conversation', () => {
     serverConnection.simulateSessionResponseMessage();
     await conversation.waitForConversationToStart();
 
-    serverConnection.simulateOutboundStructuredMessage('This is an example question');
-    await expect(conversation.waitForResponseContaining('example question')).resolves.toStrictEqual(
-      'This is an example question',
-    );
+    serverConnection.simulateOutboundTextStructuredMessage('This is an example question');
+    await expect(
+      conversation.waitForResponseWithTextContaining('example question'),
+    ).resolves.toStrictEqual('This is an example question');
   });
 
   test('Times out when waiting for outbound message containing text if exceeds timeout', async () => {
@@ -75,14 +75,34 @@ describe('Conversation', () => {
     serverConnection.simulateSessionResponseMessage();
     await conversation.waitForConversationToStart();
 
-    serverConnection.simulateOutboundStructuredMessage('This is an example question');
+    serverConnection.simulateOutboundTextStructuredMessage('This is an example question');
 
     await expect(
-      conversation.waitForResponseContaining('hello', { timeoutInSeconds: 1 }),
+      conversation.waitForResponseWithTextContaining('hello', { timeoutInSeconds: 1 }),
     ).rejects.toEqual(
       new Error(
         `Timed-out after 1000ms waiting for a message that contained 'hello'
 Received:
+   - This is an example question`,
+      ),
+    );
+  });
+
+  test('Throws error when waiting for outbound message containing text if bot disconnects', async () => {
+    const conversation = new Conversation(session);
+
+    serverConnection.simulateSessionResponseMessage();
+    await conversation.waitForConversationToStart();
+
+    serverConnection.simulateOutboundTextStructuredMessage('This is an example question');
+    serverConnection.simulateOutboundDisconnectEventStructuredMessage();
+
+    await expect(
+      conversation.waitForResponseWithTextContaining('hello', { timeoutInSeconds: 1 }),
+    ).rejects.toEqual(
+      new Error(
+        `Bot disconnected from the conversation whilst waiting a message that contained 'hello'
+Received before disconnection:
    - This is an example question`,
       ),
     );

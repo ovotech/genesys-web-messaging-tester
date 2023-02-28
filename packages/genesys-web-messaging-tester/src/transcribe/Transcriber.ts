@@ -12,8 +12,7 @@ export interface TranscribedMessage {
 // TODO Implement this on other emitters
 export declare interface Transcriber {
   on(event: 'messageTranscribed', listener: (event: TranscribedMessage) => void): this;
-
-  on(event: string, listener: Function): this;
+  on(event: string, listener: (...args: unknown[]) => void): this;
 }
 
 /**
@@ -43,6 +42,10 @@ export class Transcriber extends EventEmitter {
   }
 
   private recordStructuredMessage(event: StructuredMessage): void {
+    if (event.body.type !== 'Text' && event.body.type !== 'Structured') {
+      return;
+    }
+
     const who = event.body.direction === 'Inbound' ? this._nameForClient : this._nameForServer;
     const message = event.body.text;
 
