@@ -6,6 +6,7 @@ Genesys Web Messaging Tester
 
 ### Classes
 
+- [BotDisconnectedWaitingForResponseError](classes/BotDisconnectedWaitingForResponseError.md)
 - [Conversation](classes/Conversation.md)
 - [TimeoutWaitingForResponseError](classes/TimeoutWaitingForResponseError.md)
 - [Transcriber](classes/Transcriber.md)

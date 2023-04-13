@@ -49,20 +49,20 @@ Transcribes a Web Messenger session into an array of transcribed messages.
 
 ### constructor
 
-• **new Transcriber**(`messengerSession`, `__namedParameters?`)
+• **new Transcriber**(`messengerSession`, `«destructured»?`)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `messengerSession` | [`WebMessengerSession`](../interfaces/WebMessengerSession.md) |
-| `__namedParameters` | `Object` |
-| `__namedParameters.nameForClient?` | `string` |
-| `__namedParameters.nameForServer?` | `string` |
+| `«destructured»` | `Object` |
+| › `nameForClient?` | `string` |
+| › `nameForServer?` | `string` |
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:28](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L28)
+[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:27](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L27)
 
 ## Properties
 
@@ -72,7 +72,7 @@ Transcribes a Web Messenger session into an array of transcribed messages.
 
 #### Defined in
 
-node_modules/@types/node/ts4.8/events.d.ts:38
+node_modules/@types/node/events.d.ts:38
 
 ___
 
@@ -84,7 +84,7 @@ Sets or gets the default captureRejection value for all emitters.
 
 #### Defined in
 
-node_modules/@types/node/ts4.8/events.d.ts:44
+node_modules/@types/node/events.d.ts:44
 
 ___
 
@@ -94,7 +94,7 @@ ___
 
 #### Defined in
 
-node_modules/@types/node/ts4.8/events.d.ts:45
+node_modules/@types/node/events.d.ts:45
 
 ___
 
@@ -112,7 +112,7 @@ regular `'error'` listener is installed.
 
 #### Defined in
 
-node_modules/@types/node/ts4.8/events.d.ts:37
+node_modules/@types/node/events.d.ts:37
 
 ## Methods
 
@@ -133,13 +133,13 @@ node_modules/@types/node/ts4.8/events.d.ts:37
 
 #### Defined in
 
-node_modules/@types/node/ts4.8/events.d.ts:57
+node_modules/@types/node/events.d.ts:57
 
 ___
 
 ### emit
 
-▸ **emit**(`event`, ...`args`): `boolean`
+▸ **emit**(`event`, `...args`): `boolean`
 
 #### Parameters
 
@@ -154,7 +154,7 @@ ___
 
 #### Defined in
 
-node_modules/@types/node/ts4.8/events.d.ts:67
+node_modules/@types/node/events.d.ts:67
 
 ___
 
@@ -168,7 +168,7 @@ ___
 
 #### Defined in
 
-node_modules/@types/node/ts4.8/events.d.ts:72
+node_modules/@types/node/events.d.ts:72
 
 ___
 
@@ -182,7 +182,7 @@ ___
 
 #### Defined in
 
-node_modules/@types/node/ts4.8/events.d.ts:64
+node_modules/@types/node/events.d.ts:64
 
 ___
 
@@ -196,7 +196,7 @@ ___
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:65](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L65)
+[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:68](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L68)
 
 ___
 
@@ -216,7 +216,7 @@ ___
 
 #### Defined in
 
-node_modules/@types/node/ts4.8/events.d.ts:68
+node_modules/@types/node/events.d.ts:68
 
 ___
 
@@ -236,7 +236,7 @@ ___
 
 #### Defined in
 
-node_modules/@types/node/ts4.8/events.d.ts:65
+node_modules/@types/node/events.d.ts:65
 
 ___
 
@@ -257,7 +257,7 @@ ___
 
 #### Defined in
 
-node_modules/@types/node/ts4.8/events.d.ts:61
+node_modules/@types/node/events.d.ts:61
 
 ___
 
@@ -287,7 +287,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `event` | `string` |
-| `listener` | `Function` |
+| `listener` | (...`args`: `unknown`[]) => `void` |
 
 #### Returns
 
@@ -295,7 +295,7 @@ ___
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:16](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L16)
+[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:15](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L15)
 
 ___
 
@@ -316,7 +316,7 @@ ___
 
 #### Defined in
 
-node_modules/@types/node/ts4.8/events.d.ts:59
+node_modules/@types/node/events.d.ts:59
 
 ___
 
@@ -337,7 +337,7 @@ ___
 
 #### Defined in
 
-node_modules/@types/node/ts4.8/events.d.ts:70
+node_modules/@types/node/events.d.ts:70
 
 ___
 
@@ -358,7 +358,7 @@ ___
 
 #### Defined in
 
-node_modules/@types/node/ts4.8/events.d.ts:71
+node_modules/@types/node/events.d.ts:71
 
 ___
 
@@ -378,7 +378,7 @@ ___
 
 #### Defined in
 
-node_modules/@types/node/ts4.8/events.d.ts:66
+node_modules/@types/node/events.d.ts:66
 
 ___
 
@@ -398,7 +398,7 @@ ___
 
 #### Defined in
 
-node_modules/@types/node/ts4.8/events.d.ts:62
+node_modules/@types/node/events.d.ts:62
 
 ___
 
@@ -419,7 +419,7 @@ ___
 
 #### Defined in
 
-node_modules/@types/node/ts4.8/events.d.ts:60
+node_modules/@types/node/events.d.ts:60
 
 ___
 
@@ -439,7 +439,7 @@ ___
 
 #### Defined in
 
-node_modules/@types/node/ts4.8/events.d.ts:63
+node_modules/@types/node/events.d.ts:63
 
 ___
 
@@ -464,7 +464,7 @@ since v4.0.0
 
 #### Defined in
 
-node_modules/@types/node/ts4.8/events.d.ts:26
+node_modules/@types/node/events.d.ts:26
 
 ___
 
@@ -485,7 +485,7 @@ ___
 
 #### Defined in
 
-node_modules/@types/node/ts4.8/events.d.ts:23
+node_modules/@types/node/events.d.ts:23
 
 ___
 
@@ -506,7 +506,7 @@ ___
 
 #### Defined in
 
-node_modules/@types/node/ts4.8/events.d.ts:21
+node_modules/@types/node/events.d.ts:21
 
 ▸ `Static` **once**(`emitter`, `event`): `Promise`<`any`[]\>
 
@@ -523,4 +523,4 @@ node_modules/@types/node/ts4.8/events.d.ts:21
 
 #### Defined in
 
-node_modules/@types/node/ts4.8/events.d.ts:22
+node_modules/@types/node/events.d.ts:22

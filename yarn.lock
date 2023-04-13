@@ -907,7 +907,7 @@ __metadata:
   resolution: "@ovotech/genesys-web-messaging-tester-cli@workspace:packages/genesys-web-messaging-tester-cli"
   dependencies:
     "@ikerin/build-readme": ^1.1.1
-    "@ovotech/genesys-web-messaging-tester": ^2.0.0
+    "@ovotech/genesys-web-messaging-tester": ^2.0.1
     "@types/humanize-duration": ^3.27.1
     "@types/jest": ^29.0.3
     "@types/jest-when": ^2.7.4
@@ -950,11 +950,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ovotech/genesys-web-messaging-tester@*, @ovotech/genesys-web-messaging-tester@^2.0.0, @ovotech/genesys-web-messaging-tester@workspace:packages/genesys-web-messaging-tester":
+"@ovotech/genesys-web-messaging-tester@*, @ovotech/genesys-web-messaging-tester@^2.0.1, @ovotech/genesys-web-messaging-tester@workspace:packages/genesys-web-messaging-tester":
   version: 0.0.0-use.local
   resolution: "@ovotech/genesys-web-messaging-tester@workspace:packages/genesys-web-messaging-tester"
   dependencies:
     "@ikerin/build-readme": ^1.1.1
+    "@sinonjs/fake-timers": ^10.0.2
     "@types/debug": ^4.1.7
     "@types/jest": ^29.0.3
     "@types/node": ^14.14.2

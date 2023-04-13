@@ -1,48 +1,46 @@
-[Genesys Web Messaging Tester](../README.md) / TimeoutWaitingForResponseError
+[Genesys Web Messaging Tester](../README.md) / BotDisconnectedWaitingForResponseError
 
-# Class: TimeoutWaitingForResponseError
+# Class: BotDisconnectedWaitingForResponseError
 
 ## Hierarchy
 
 - `Error`
 
-  ↳ **`TimeoutWaitingForResponseError`**
+  ↳ **`BotDisconnectedWaitingForResponseError`**
 
 ## Table of contents
 
 ### Constructors
 
-- [constructor](TimeoutWaitingForResponseError.md#constructor)
+- [constructor](BotDisconnectedWaitingForResponseError.md#constructor)
 
 ### Properties
 
-- [message](TimeoutWaitingForResponseError.md#message)
-- [name](TimeoutWaitingForResponseError.md#name)
-- [stack](TimeoutWaitingForResponseError.md#stack)
-- [prepareStackTrace](TimeoutWaitingForResponseError.md#preparestacktrace)
-- [stackTraceLimit](TimeoutWaitingForResponseError.md#stacktracelimit)
+- [message](BotDisconnectedWaitingForResponseError.md#message)
+- [name](BotDisconnectedWaitingForResponseError.md#name)
+- [stack](BotDisconnectedWaitingForResponseError.md#stack)
+- [prepareStackTrace](BotDisconnectedWaitingForResponseError.md#preparestacktrace)
+- [stackTraceLimit](BotDisconnectedWaitingForResponseError.md#stacktracelimit)
 
 ### Accessors
 
-- [expectedResponse](TimeoutWaitingForResponseError.md#expectedresponse)
-- [responsesReceived](TimeoutWaitingForResponseError.md#responsesreceived)
-- [timeoutInMs](TimeoutWaitingForResponseError.md#timeoutinms)
+- [expectedResponse](BotDisconnectedWaitingForResponseError.md#expectedresponse)
+- [responsesReceived](BotDisconnectedWaitingForResponseError.md#responsesreceived)
 
 ### Methods
 
-- [captureStackTrace](TimeoutWaitingForResponseError.md#capturestacktrace)
+- [captureStackTrace](BotDisconnectedWaitingForResponseError.md#capturestacktrace)
 
 ## Constructors
 
 ### constructor
 
-• **new TimeoutWaitingForResponseError**(`_timeoutInMs`, `_expectedResponse`, `_responsesReceived?`)
+• **new BotDisconnectedWaitingForResponseError**(`_expectedResponse`, `_responsesReceived?`)
 
 #### Parameters
 
 | Name | Type | Default value |
 | :------ | :------ | :------ |
-| `_timeoutInMs` | `number` | `undefined` |
 | `_expectedResponse` | `string` | `undefined` |
 | `_responsesReceived` | readonly (`StructuredMessageTextBody` \| `StructuredMessageStructuredBody`)[] | `[]` |
 
@@ -52,7 +50,7 @@ Error.constructor
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:10](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L10)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:59](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L59)
 
 ## Properties
 
@@ -157,7 +155,7 @@ node_modules/@types/node/globals.d.ts:13
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:43](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L43)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:89](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L89)
 
 ___
 
@@ -171,21 +169,7 @@ readonly (`StructuredMessageTextBody` \| `StructuredMessageStructuredBody`)[]
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:47](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L47)
-
-___
-
-### timeoutInMs
-
-• `get` **timeoutInMs**(): `number`
-
-#### Returns
-
-`number`
-
-#### Defined in
-
-[packages/genesys-web-messaging-tester/src/Conversation.ts:53](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L53)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:93](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L93)
 
 ## Methods
 

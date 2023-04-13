@@ -1,6 +1,6 @@
 {
   "name": "@ovotech/genesys-web-messaging-tester",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "license": "Apache-2.0",
@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@ikerin/build-readme": "^1.1.1",
+    "@sinonjs/fake-timers": "^10.0.2",
     "@types/debug": "^4.1.7",
     "@types/jest": "^29.0.3",
     "@types/node": "^14.14.2",

@@ -34,24 +34,27 @@ console.log(reply);
 
 - [sendText](Conversation.md#sendtext)
 - [waitForConversationToStart](Conversation.md#waitforconversationtostart)
-- [waitForResponse](Conversation.md#waitforresponse)
-- [waitForResponseContaining](Conversation.md#waitforresponsecontaining)
+- [waitForResponseText](Conversation.md#waitforresponsetext)
+- [waitForResponseWithTextContaining](Conversation.md#waitforresponsewithtextcontaining)
+- [waitForResponses](Conversation.md#waitforresponses)
 
 ## Constructors
 
 ### constructor
 
-• **new Conversation**(`messengerSession`)
+• **new Conversation**(`messengerSession`, `timeoutSet?`, `timeoutClear?`)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `messengerSession` | [`WebMessengerSession`](../interfaces/WebMessengerSession.md) |
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `messengerSession` | [`WebMessengerSession`](../interfaces/WebMessengerSession.md) | `undefined` |
+| `timeoutSet` | typeof `setTimeout` | `setTimeout` |
+| `timeoutClear` | (`timeoutId`: `undefined` \| `string` \| `number` \| `Timeout`) => `void` | `clearTimeout` |
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:75](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L75)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:126](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L126)
 
 ## Methods
 
@@ -73,7 +76,7 @@ Sends text to the conversation
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:103](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L103)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:162](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L162)
 
 ___
 
@@ -92,17 +95,17 @@ background. This method allows you to wait for this process to finish.
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:86](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L86)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:145](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L145)
 
 ___
 
-### waitForResponse
+### waitForResponseText
 
-▸ **waitForResponse**(): `Promise`<`string`\>
+▸ **waitForResponseText**(): `Promise`<`string`\>
 
-Resolves on the next response from the other participant in the conversation.
+Resolves on the next response from the other participant in the conversation that contains text.
 
-If you want to wait for a specific message use [waitForResponseContaining](Conversation.md#waitforresponsecontaining).
+If you want to wait for a specific message use [waitForResponseWithTextContaining](Conversation.md#waitforresponsewithtextcontaining).
 
 #### Returns
 
@@ -110,13 +113,13 @@ If you want to wait for a specific message use [waitForResponseContaining](Conve
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:116](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L116)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:175](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L175)
 
 ___
 
-### waitForResponseContaining
+### waitForResponseWithTextContaining
 
-▸ **waitForResponseContaining**(`text`, `__namedParameters?`): `Promise`<`string`\>
+▸ **waitForResponseWithTextContaining**(`text`, `«destructured»?`): `Promise`<`string`\>
 
 Resolves when a response is received that contains a specific piece of text.
 If a response that contains the text isn't received within the timeout period then
@@ -125,16 +128,16 @@ an exception is thrown.
 Case-insensitive by default.
 
 If you want to wait for the next response, regardless of what it contains
-use [waitForResponse](Conversation.md#waitforresponse).
+use [waitForResponseText](Conversation.md#waitforresponsetext).
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `text` | `string` |
-| `__namedParameters` | `Object` |
-| `__namedParameters.caseInsensitive?` | `boolean` |
-| `__namedParameters.timeoutInSeconds?` | `number` |
+| `«destructured»` | `Object` |
+| › `caseInsensitive?` | `boolean` |
+| › `timeoutInSeconds?` | `number` |
 
 #### Returns
 
@@ -142,4 +145,26 @@ use [waitForResponse](Conversation.md#waitforresponse).
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:136](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L136)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:233](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L233)
+
+___
+
+### waitForResponses
+
+▸ **waitForResponses**(`timeToWaitAfterLastMessageInMs?`): `Promise`<`string`[]\>
+
+Wait for all responses until there is a predefined amount of 'silence'.
+
+#### Parameters
+
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `timeToWaitAfterLastMessageInMs` | `number` | `2000` |
+
+#### Returns
+
+`Promise`<`string`[]\>
+
+#### Defined in
+
+[packages/genesys-web-messaging-tester/src/Conversation.ts:191](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L191)
