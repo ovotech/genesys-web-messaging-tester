@@ -170,7 +170,7 @@ export class Conversation {
    */
   public async waitForResponseText(): Promise<string> {
     return new Promise((resolve) => {
-      this.messengerSession.once('structuredMessage', (event: StructuredMessage) => {
+      this.messengerSession.on('structuredMessage', (event: StructuredMessage) => {
         if (
           (event.body.type === 'Text' || event.body.type === 'Structured') &&
           event.body.direction === 'Outbound'
