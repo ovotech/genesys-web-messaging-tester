@@ -241,7 +241,7 @@ export class Conversation {
     const messagesWithTextReceived: (
       | StructuredMessageTextBody
       | StructuredMessageStructuredBody
-      )[] = [];
+    )[] = [];
 
     return new Promise<string>((resolve, reject) => {
       let timeout: NodeJS.Timeout | undefined = undefined;
