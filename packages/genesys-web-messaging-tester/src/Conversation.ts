@@ -170,7 +170,7 @@ export class Conversation {
    */
   public async waitForResponseText(): Promise<string> {
     return new Promise((resolve) => {
-      this.messengerSession.on('structuredMessage', (event: StructuredMessage) => {
+      this.messengerSession.once('structuredMessage', (event: StructuredMessage) => {
         if (
           (event.body.type === 'Text' || event.body.type === 'Structured') &&
           event.body.direction === 'Outbound'
@@ -178,6 +178,41 @@ export class Conversation {
           resolve(event.body.text);
         }
       });
+    });
+  }
+
+  /**
+   * Wait for all responses until there is a predefined amount of 'silence'.
+   */
+  public async waitForResponses(timeToWaitAfterLastMessageInMs = 2000): Promise<string[]> {
+    return new Promise((resolve) => {
+      const messages: string[] = [];
+      let waitingTimeout: NodeJS.Timeout;
+
+      const func = (event: StructuredMessage) => {
+        if (
+          (event.body.type === 'Text' || event.body.type === 'Structured') &&
+          event.body.direction === 'Outbound'
+        ) {
+          messages.push(event.body.text);
+
+          if (waitingTimeout) {
+            clearTimeout(waitingTimeout);
+          }
+          waitingTimeout = setTimeout(() => {
+            this.messengerSession.off('structuredMessage', func);
+            resolve(messages);
+          }, timeToWaitAfterLastMessageInMs);
+        }
+      };
+
+      // Set Initial wait
+      waitingTimeout = setTimeout(() => {
+        this.messengerSession.off('structuredMessage', func);
+        resolve(messages);
+      }, timeToWaitAfterLastMessageInMs);
+
+      this.messengerSession.on('structuredMessage', func);
     });
   }
 
