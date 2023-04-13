@@ -4,7 +4,7 @@
 
 ## Hierarchy
 
-- `SuccessResponse`<`StructuredMessageBody`\>
+- `SuccessResponse`<`StructuredMessageTextBody` \| `StructuredMessageStructuredBody` \| `StructuredMessageEventBody`\>
 
   ↳ **`StructuredMessage`**
 
@@ -21,7 +21,7 @@
 
 ### body
 
-• **body**: `StructuredMessageBody`
+• **body**: `StructuredMessageTextBody` \| `StructuredMessageStructuredBody` \| `StructuredMessageEventBody`
 
 #### Inherited from
 
@@ -43,7 +43,7 @@ SuccessResponse.class
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/genesys/StructuredMessage.ts:24](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/StructuredMessage.ts#L24)
+[packages/genesys-web-messaging-tester/src/genesys/StructuredMessage.ts:65](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/StructuredMessage.ts#L65)
 
 ___
 
@@ -71,4 +71,4 @@ SuccessResponse.type
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/genesys/StructuredMessage.ts:23](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/StructuredMessage.ts#L23)
+[packages/genesys-web-messaging-tester/src/genesys/StructuredMessage.ts:64](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/StructuredMessage.ts#L64)
