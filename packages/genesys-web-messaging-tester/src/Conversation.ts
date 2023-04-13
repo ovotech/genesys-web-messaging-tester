@@ -123,7 +123,11 @@ Received before disconnection:
 export class Conversation {
   private sessionStarted: boolean;
 
-  constructor(private readonly messengerSession: WebMessengerSession) {
+  constructor(
+    private readonly messengerSession: WebMessengerSession,
+    private readonly timeoutSet: typeof setTimeout = setTimeout,
+    private readonly timeoutClear: typeof clearTimeout = clearTimeout,
+  ) {
     this.sessionStarted = false;
     this.messengerSession.once('sessionStarted', () => (this.sessionStarted = true));
   }
@@ -197,9 +201,9 @@ export class Conversation {
           messages.push(event.body.text);
 
           if (waitingTimeout) {
-            clearTimeout(waitingTimeout);
+            this.timeoutClear(waitingTimeout);
           }
-          waitingTimeout = setTimeout(() => {
+          waitingTimeout = this.timeoutSet(() => {
             this.messengerSession.off('structuredMessage', func);
             resolve(messages);
           }, timeToWaitAfterLastMessageInMs);
@@ -207,7 +211,7 @@ export class Conversation {
       };
 
       // Set Initial wait
-      waitingTimeout = setTimeout(() => {
+      waitingTimeout = this.timeoutSet(() => {
         this.messengerSession.off('structuredMessage', func);
         resolve(messages);
       }, timeToWaitAfterLastMessageInMs);
@@ -237,7 +241,7 @@ export class Conversation {
     const messagesWithTextReceived: (
       | StructuredMessageTextBody
       | StructuredMessageStructuredBody
-    )[] = [];
+      )[] = [];
 
     return new Promise<string>((resolve, reject) => {
       let timeout: NodeJS.Timeout | undefined = undefined;
@@ -249,7 +253,7 @@ export class Conversation {
           Conversation.containsDisconnectEvent(event.body)
         ) {
           if (timeout) {
-            clearTimeout(timeout);
+            this.timeoutClear(timeout);
           }
           reject(new BotDisconnectedWaitingForResponseError(text, messagesWithTextReceived));
         }
@@ -265,7 +269,7 @@ export class Conversation {
               this.messengerSession.off('structuredMessage', checkMessage);
 
               if (timeout) {
-                clearTimeout(timeout);
+                this.timeoutClear(timeout);
               }
               resolve(event.body.text);
             }
@@ -275,7 +279,7 @@ export class Conversation {
 
       this.messengerSession.on('structuredMessage', checkMessage);
 
-      timeout = setTimeout(() => {
+      timeout = this.timeoutSet(() => {
         this.messengerSession.off('structuredMessage', checkMessage);
 
         reject(new TimeoutWaitingForResponseError(timeoutInMs, text, messagesWithTextReceived));

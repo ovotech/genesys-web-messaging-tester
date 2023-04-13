@@ -1,6 +1,8 @@
 import { Conversation, WebMessengerGuestSession } from '../src';
 import WebSocket from 'ws';
 import getPort from 'get-port';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const FakeTimers = require('@sinonjs/fake-timers');
 
 import {
   WebMessageServerFixture,
@@ -106,5 +108,41 @@ Received before disconnection:
    - This is an example question`,
       ),
     );
+  });
+
+  test('Waits for responses until X ms of silence after last message', async () => {
+    const waitForWebSocketMessagePropagation = async (
+      session: WebMessengerGuestSession,
+    ): Promise<void> =>
+      await new Promise<void>((resolve) => session.on('structuredMessage', resolve));
+
+    const clock = FakeTimers.createClock();
+    const conversation = new Conversation(session, clock.setTimeout, clock.clearTimeout);
+
+    serverConnection.simulateSessionResponseMessage();
+    await conversation.waitForConversationToStart();
+
+    let response: string[] | undefined;
+    const waitForResponses = conversation.waitForResponses(100).then((r) => (response = r));
+
+    serverConnection.simulateOutboundTextStructuredMessage('Test message 1');
+    await waitForWebSocketMessagePropagation(session);
+    clock.tick(90);
+    expect(response).toBeUndefined();
+
+    serverConnection.simulateOutboundTextStructuredMessage('Test message 2');
+    await waitForWebSocketMessagePropagation(session);
+    clock.tick(90);
+    expect(response).toBeUndefined();
+
+    serverConnection.simulateOutboundTextStructuredMessage('Test message 3');
+    await waitForWebSocketMessagePropagation(session);
+    clock.tick(100);
+
+    await expect(waitForResponses).resolves.toStrictEqual([
+      'Test message 1',
+      'Test message 2',
+      'Test message 3',
+    ]);
   });
 });
