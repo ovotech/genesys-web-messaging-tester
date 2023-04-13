@@ -1,5 +1,5 @@
 {
-  "name": "@examples/api",
+  "name": "@ovotech/example-api",
   "description": "Example of interacting with Web Messenger deployment using Jest, TS and JS",
   "private": true,
   "packageManager": "yarn@3.1.1",
