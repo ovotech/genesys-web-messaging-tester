@@ -64,9 +64,7 @@ config:
   deploymentId: xx
   region: xx
 `);
-    await expect(
-      cli([...['node', '/path/to/cli'], ...['test-path']]),
-    ).rejects.toBeDefined();
+    await expect(cli([...['node', '/path/to/cli'], ...['test-path']])).rejects.toBeDefined();
 
     expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual(['"scenarios" is required\n']);
   });
@@ -81,16 +79,14 @@ scenarios:
     - say: hi from scenario
       waitForReplyContaining: hello
 `);
-    await expect(
-      cli([...['node', '/path/to/cli'], ...['test-path']]),
-    ).rejects.toBeDefined();
+    await expect(cli([...['node', '/path/to/cli'], ...['test-path']])).rejects.toBeDefined();
 
     expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual([
       '"scenarios.scenario-name[0]" must have 1 key\n',
     ]);
   });
 
-  test("scenario step can only contain 'say' or 'waitForReplyContaining'", async () => {
+  test("scenario step can only contain 'say', 'waitForReplyContaining' and 'waitForParticipantData'", async () => {
     fsReadFileSync.mockReturnValue(`
 config:
   deploymentId: xx
@@ -99,12 +95,26 @@ scenarios:
   scenario-name:
     - testing: 123
 `);
-    await expect(
-      cli([...['node', '/path/to/cli'], ...['test-path']]),
-    ).rejects.toBeDefined();
+    await expect(cli([...['node', '/path/to/cli'], ...['test-path']])).rejects.toBeDefined();
 
     expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual([
       '"scenarios.scenario-name[0].testing" is not allowed\n',
     ]);
+  });
+
+  test("scenario step 'waitForParticipantData' takes string key-value pairs", async () => {
+    fsReadFileSync.mockReturnValue(`
+config:
+  deploymentId: xx
+  region: xx
+scenarios:
+  scenario-name:
+    - waitForParticipantData:
+        queueName: "outOfHoursQueries"
+        example: "exampleValue"
+`);
+    await expect(cli([...['node', '/path/to/cli'], ...['test-path']])).rejects.toBeDefined();
+
+    expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual([]);
   });
 });
