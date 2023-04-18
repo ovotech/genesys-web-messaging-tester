@@ -110,11 +110,11 @@ Received before disconnection:
  * );
  *
  * await convo.waitForConversationToStart();
- * convo.sendText('hi');
+ * await convo.sendText('hi');
  *
  * await convo.waitForResponseContaining('Is this an example?');
  *
- * convo.sendText('yes');
+ * await convo.sendText('yes');
  *
  * const reply = await convo.waitForResponse();
  * console.log(reply);
@@ -158,13 +158,26 @@ export class Conversation {
   /**
    * Sends text to the conversation
    * @param text Text containing at least one character
+   * @param delayInMs Delay in milliseconds between calling this method and the text being sent.
+   *                  Without a delay some messages are sent so quickly after the original message
+   *                  that Genesys Cloud doesn't acknowledge them.
+   *                  A delay of 0 will result in the text being sent immediately.
    */
-  public sendText(text: string): void {
+  public async sendText(text: string, delayInMs = 2000): Promise<void> {
     if (text.length === 0) {
       throw new Error('Text cannot be empty');
     }
 
-    this.messengerSession.sendText(text);
+    if (delayInMs > 0) {
+      return new Promise<void>((resolve) => {
+        setTimeout(() => {
+          this.messengerSession.sendText(text);
+          resolve();
+        }, delayInMs);
+      });
+    } else {
+      this.messengerSession.sendText(text);
+    }
   }
 
   /**

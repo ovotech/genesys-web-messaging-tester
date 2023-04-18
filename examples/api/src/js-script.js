@@ -12,13 +12,13 @@ const WebMsgTester = require('@ovotech/genesys-web-messaging-tester');
   const convo = new WebMsgTester.Conversation(session);
   await convo.waitForConversationToStart();
 
-  convo.sendText('hi');
+  await convo.sendText('hi');
 
   await convo.waitForResponseWithTextContaining(
     'Can we ask you some questions about your experience today?',
   );
 
-  convo.sendText('Yes');
+  await convo.sendText('Yes');
 
   await convo.waitForResponseWithTextContaining('Thank you! Now for the next question...');
 

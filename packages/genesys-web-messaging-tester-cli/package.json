@@ -27,7 +27,7 @@
     "web-messaging-tester": "lib/index.js"
   },
   "dependencies": {
-    "@ovotech/genesys-web-messaging-tester": "^2.0.1",
+    "@ovotech/genesys-web-messaging-tester": "^2.0.2",
     "chalk": "^4.1.2",
     "ci-info": "^3.5.0",
     "commander": "^8.3.0",

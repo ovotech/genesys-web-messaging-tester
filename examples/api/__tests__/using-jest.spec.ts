@@ -24,7 +24,7 @@ describe('Using jest to perform the test', () => {
     const convo = new Conversation(session);
     await convo.waitForConversationToStart();
 
-    convo.sendText('hi');
+    await convo.sendText('hi');
 
     await expect(
       convo.waitForResponseWithTextContaining(
@@ -35,7 +35,7 @@ describe('Using jest to perform the test', () => {
       ),
     ).resolves.toBeDefined();
 
-    convo.sendText('Yes');
+    await convo.sendText('Yes');
 
     await expect(convo.waitForResponseText()).resolves.toContain(
       'Thank you! Now for the next question...',
@@ -58,7 +58,7 @@ describe('Using jest to perform the test', () => {
     // Log interactions as they occur
     transcriber.on('messageTranscribed', (t) => console.log(t.toString()));
 
-    convo.sendText('hi');
+    await convo.sendText('hi');
 
     await expect(convo.waitForResponseText()).resolves.toContain(
       'Can we ask you some questions about your experience today?',

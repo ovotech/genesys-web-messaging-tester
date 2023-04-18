@@ -21,7 +21,7 @@ require('dotenv').config({ path: '../../.env' });
   // Wait for the conversation to start before sending the message
   await convo.waitForConversationToStart();
 
-  convo.sendText('hi');
+  await convo.sendText('hi');
 
   // Waits for response containing text. Error thrown if exceeds timeout
   await convo.waitForResponseWithTextContaining(
@@ -32,7 +32,7 @@ require('dotenv').config({ path: '../../.env' });
     },
   );
 
-  convo.sendText('Yes');
+  await convo.sendText('Yes');
   // test-section
 
   await convo.waitForResponseWithTextContaining('Thank you! Now for the next question...', {

@@ -19,11 +19,11 @@ const session = new WebMessengerGuestSession({
 const convo = new Conversation(session);
 await convo.waitForConversationToStart();
 
-convo.sendText('hi');
+await convo.sendText('hi');
 
 await convo.waitForResponseContaining('Please enter your account number');
 
-convo.sendText('123');
+await convo.sendText('123');
 
 await convo.waitForResponseContaining('Your account number is too short. It is the 6 digit number on your bills');
 ```
@@ -52,13 +52,13 @@ const WebMsgTester = require('@ovotech/genesys-web-messaging-tester');
   const convo = new WebMsgTester.Conversation(session);
   await convo.waitForConversationToStart();
 
-  convo.sendText('hi');
+  await convo.sendText('hi');
 
   await convo.waitForResponseWithTextContaining(
     'Can we ask you some questions about your experience today?',
   );
 
-  convo.sendText('Yes');
+  await convo.sendText('Yes');
 
   await convo.waitForResponseWithTextContaining('Thank you! Now for the next question...');
 
