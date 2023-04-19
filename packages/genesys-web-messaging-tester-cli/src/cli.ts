@@ -109,6 +109,16 @@ GENESYSCLOUD_OAUTHCLIENT_ID
 GENESYSCLOUD_OAUTHCLIENT_SECRET`,
     false,
   );
+  program?.option(
+    '-d, --disconnect',
+    `Disconnect conversations.
+This requires the following environment variables to be set for an OAuth client
+with the role conversation:communication:disconnect:
+GENESYS_REGION
+GENESYSCLOUD_OAUTHCLIENT_ID
+GENESYSCLOUD_OAUTHCLIENT_SECRET`,
+    false,
+  );
   program?.option('-fo, --failures-only', 'Only output failures', false);
 
   const yamlFileReader = createYamlFileReader(fsReadFileSync);
