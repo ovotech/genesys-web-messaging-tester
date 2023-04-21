@@ -14,11 +14,11 @@ const convo = new Conversation(
 );
 
 await convo.waitForConversationToStart();
-convo.sendText('hi');
+await convo.sendText('hi');
 
 await convo.waitForResponseContaining('Is this an example?');
 
-convo.sendText('yes');
+await convo.sendText('yes');
 
 const reply = await convo.waitForResponse();
 console.log(reply);
@@ -60,23 +60,24 @@ console.log(reply);
 
 ### sendText
 
-▸ **sendText**(`text`): `void`
+▸ **sendText**(`text`, `delayInMs?`): `Promise`<`void`\>
 
 Sends text to the conversation
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `text` | `string` | Text containing at least one character |
+| Name | Type | Default value | Description |
+| :------ | :------ | :------ | :------ |
+| `text` | `string` | `undefined` | Text containing at least one character |
+| `delayInMs` | `number` | `2000` | Delay in milliseconds between calling this method and the text being sent. Without a delay some messages are sent so quickly after the original message that Genesys Cloud doesn't acknowledge them. A delay of 0 will result in the text being sent immediately. |
 
 #### Returns
 
-`void`
+`Promise`<`void`\>
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:162](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L162)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:166](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L166)
 
 ___
 
@@ -113,7 +114,7 @@ If you want to wait for a specific message use [waitForResponseWithTextContainin
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:175](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L175)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:188](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L188)
 
 ___
 
@@ -145,7 +146,7 @@ use [waitForResponseText](Conversation.md#waitforresponsetext).
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:233](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L233)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:246](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L246)
 
 ___
 
@@ -167,4 +168,4 @@ Wait for all responses until there is a predefined amount of 'silence'.
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:191](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L191)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:204](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L204)

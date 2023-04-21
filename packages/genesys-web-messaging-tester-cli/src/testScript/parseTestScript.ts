@@ -31,11 +31,12 @@ export function parseScenarioStep(
   step: TestScriptFileScenarioStep,
 ): (convo: Conversation, context: StepContext) => Promise<unknown | void> {
   if ('say' in step) {
-    return async (convo) => convo.sendText(step.say);
+    return async (convo) => await convo.sendText(step.say);
   }
 
   if ('waitForReplyContaining' in step) {
-    return async (convo) => convo.waitForResponseWithTextContaining(step.waitForReplyContaining);
+    return async (convo) =>
+      await convo.waitForResponseWithTextContaining(step.waitForReplyContaining);
   }
 
   throw new Error(`Unsupported step ${step}`);
