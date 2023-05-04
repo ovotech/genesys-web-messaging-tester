@@ -1,5 +1,5 @@
 {
-  "name": "@examples/cli",
+  "name": "@ovotech/example-cli",
   "description": "Example of using the CLI to test a Web Messenger deployment",
   "private": true,
   "packageManager": "yarn@3.1.1",
