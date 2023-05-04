@@ -110,7 +110,6 @@ config:
 scenarios:
   scenario-name:
     - waitForParticipantData:
-        queueName: "outOfHoursQueries"
         example: "exampleValue"
 `);
     await expect(cli([...['node', '/path/to/cli'], ...['test-path']])).rejects.toBeDefined();
