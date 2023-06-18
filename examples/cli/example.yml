@@ -1,6 +1,16 @@
 config:
   deploymentId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
   region: xxxx.pure.cloud
+prompts:
+  "Customer confused by meters":
+    prompt: |-
+      I am going to ask you a question about a pretend experience you had with me today. I want to to refuse my question.
+      Now start our conversation by only saying 'hello' to me
+    terminatingResponses:
+      passing:
+        - Thank you for your order
+      failing:
+        - Sorry I don't understand
 scenarios:
   "Accept Survey":
     - say: hi

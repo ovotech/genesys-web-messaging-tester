@@ -1,6 +1,6 @@
 {
   "name": "@ovotech/genesys-web-messaging-tester-cli",
-  "version": "1.0.9",
+  "version": "1.1.0-beta",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "license": "Apache-2.0",
@@ -31,10 +31,12 @@
     "chalk": "^4.1.2",
     "ci-info": "^3.5.0",
     "commander": "^8.3.0",
+    "exponential-backoff": "^3.1.1",
     "humanize-duration": "^3.27.3",
     "joi": "^17.5.0",
     "js-yaml": "^4.1.0",
     "listr2": "^5.0.5",
+    "openai": "^3.3.0",
     "purecloud-platform-client-v2": "^153.0.0"
   },
   "devDependencies": {
