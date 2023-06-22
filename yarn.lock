@@ -904,7 +904,7 @@ __metadata:
 
 "@ovotech/genesys-web-messaging-tester-cli@file:../../packages/genesys-web-messaging-tester-cli::locator=%40examples%2Fcli-scenario%40workspace%3Aexamples%2Fcli-scenario":
   version: 1.1.0-beta
-  resolution: "@ovotech/genesys-web-messaging-tester-cli@file:../../packages/genesys-web-messaging-tester-cli#../../packages/genesys-web-messaging-tester-cli::hash=438d9f&locator=%40examples%2Fcli-scenario%40workspace%3Aexamples%2Fcli-scenario"
+  resolution: "@ovotech/genesys-web-messaging-tester-cli@file:../../packages/genesys-web-messaging-tester-cli#../../packages/genesys-web-messaging-tester-cli::hash=d7689e&locator=%40examples%2Fcli-scenario%40workspace%3Aexamples%2Fcli-scenario"
   dependencies:
     "@ovotech/genesys-web-messaging-tester": ^2.0.2
     chalk: ^4.1.2
@@ -919,7 +919,7 @@ __metadata:
     purecloud-platform-client-v2: ^153.0.0
   bin:
     web-messaging-tester: lib/index.js
-  checksum: 07a4eb141b7eae139fe6d2ad60e8c5a5aa20523cdcc82065ee1c64863e9250ebc066f1ed72084711e50ece02941cdf14a864e1019906221fbef118b013a21b4c
+  checksum: 7fc8cceac8e92ac331ef9f0be23a57e8b094e42fffd8ae454ae20dd105328e837acc1e869336a79bfc1fe75375995708e33f0d130d0809c4877d3e1d182128b0
   languageName: node
   linkType: hard
 
