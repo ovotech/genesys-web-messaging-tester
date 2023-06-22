@@ -20,7 +20,7 @@ against scenarios in a YAML file. This makes testing:
 
 The above test is using the test-script:
 
-> [examples/cli/example.yml](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli/example.yml)
+> [examples/scenario/cli/example.yml](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli/example.yml)
 
 ```yaml
 config:
@@ -36,13 +36,7 @@ scenarios:
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
     - say: No
-    - waitForReplyContaining: Maybe next time. Goodbye
-  "Provide Incorrect Answer to Survey Question":
-    - say: hi
-    - waitForReplyContaining: Can we ask you some questions about your experience today?
-    - say: Not sure
-    - waitForReplyContaining: Sorry I didn't understand you. Please answer with either 'yes' or 'no'
-    - waitForReplyContaining: Can we ask you some questions about your experience today?
+    - waitForReplyContaining: Goodbye
 ```
 
 ## How it works
@@ -83,13 +77,7 @@ scenarios:
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
     - say: No
-    - waitForReplyContaining: Maybe next time. Goodbye
-  "Provide Incorrect Answer to Survey Question":
-    - say: hi
-    - waitForReplyContaining: Can we ask you some questions about your experience today?
-    - say: Not sure
-    - waitForReplyContaining: Sorry I didn't understand you. Please answer with either 'yes' or 'no'
-    - waitForReplyContaining: Can we ask you some questions about your experience today?
+    - waitForReplyContaining: Goodbye
 ```
 
 Then run the test by pointing to the test-script in the terminal:
