@@ -28,11 +28,14 @@ export class Ui {
     return Ui.trailingNewline(chalk.red(error.message));
   }
 
-  public titleOfTask(scenario: TestScriptScenario): string {
+  public titleOfTask(scenario: Pick<TestScriptScenario, 'name'>): string {
     return scenario.name;
   }
 
-  public titleOfFinishedTask(scenario: TestScriptScenario, hasPassed: boolean): string {
+  public titleOfFinishedTask(
+    scenario: Pick<TestScriptScenario, 'name'>,
+    hasPassed: boolean,
+  ): string {
     if (hasPassed) {
       return `${scenario.name} (${chalk.bold.green('PASS')})`;
     } else {

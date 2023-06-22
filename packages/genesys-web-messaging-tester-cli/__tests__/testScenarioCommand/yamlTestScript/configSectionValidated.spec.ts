@@ -1,17 +1,16 @@
-import { Cli, createCli } from '../../src/cli';
 import { readFileSync } from 'fs';
 import { Command } from 'commander';
 import stripAnsi from 'strip-ansi';
+import { createCli } from '../../../src/createCli';
 
 describe('Session Config Validated', () => {
   let capturedOutput: {
     errOut: string[];
   };
 
-  let program: Command;
   let fsReadFileSync: jest.MockedFunction<typeof readFileSync>;
 
-  let cli: Cli;
+  let cli: Command;
 
   beforeEach(() => {
     fsReadFileSync = jest.fn();
@@ -23,20 +22,28 @@ describe('Session Config Validated', () => {
       errOut: [],
     };
 
-    program = new Command();
-    program.configureOutput({
-      writeErr: (str) => capturedOutput.errOut.push(str),
-    });
+    const cliCommand = new Command()
+      .exitOverride(() => {
+        throw new Error('CLI Command errored');
+      })
+      .configureOutput({
+        writeErr: (str) => capturedOutput.errOut.push(str),
+      });
 
-    cli = createCli({
-      program,
+    const scenarioTestCommand = new Command()
+      .exitOverride(() => {
+        throw new Error('Scenario Test Command errored');
+      })
+      .configureOutput({
+        writeErr: (str) => capturedOutput.errOut.push(str),
+      });
+
+    cli = createCli(cliCommand, {
+      command: scenarioTestCommand,
       fsReadFileSync,
       fsAccessSync: jest.fn(),
       webMessengerSessionFactory: jest.fn().mockReturnValue(webMessengerSession),
       conversationFactory: jest.fn().mockReturnValue(conversation),
-      processExitOverride: () => {
-        throw new Error('force app to exit');
-      },
     });
   });
 
@@ -75,7 +82,7 @@ scenarios:
     - say: hi from scenario
 `);
     await expect(
-      cli([...['node', '/path/to/cli'], ...['test-path']]),
+      cli.parseAsync([...['node', '/path/to/cli'], ...['test-scenario', 'test-path']]),
     ).rejects.toBeDefined();
 
     expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual([expectedError]);
@@ -101,7 +108,7 @@ scenarios:
     - say: hi from scenario
 `);
     await expect(
-      cli([...['node', '/path/to/cli'], ...args, ...['test-path']]),
+      cli.parseAsync([...['node', '/path/to/cli'], 'test-scenario', ...args, 'test-path']),
     ).rejects.toBeDefined();
 
     expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual([expectedError]);

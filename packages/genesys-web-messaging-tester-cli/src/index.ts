@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
-import { createCli } from './cli';
+import { createCli } from './createCli';
 
-createCli()(process.argv)
+createCli()
+  .parseAsync(process.argv)
   .then(() => process.exit(0))
   .catch((error) => {
     if (error) {

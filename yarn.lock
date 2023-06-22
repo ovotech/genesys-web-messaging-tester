@@ -902,7 +902,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ovotech/genesys-web-messaging-tester-cli@*, @ovotech/genesys-web-messaging-tester-cli@workspace:packages/genesys-web-messaging-tester-cli":
+"@ovotech/genesys-web-messaging-tester-cli@npm:*":
+  version: 1.0.9
+  resolution: "@ovotech/genesys-web-messaging-tester-cli@npm:1.0.9"
+  dependencies:
+    "@ovotech/genesys-web-messaging-tester": ^2.0.2
+    chalk: ^4.1.2
+    ci-info: ^3.5.0
+    commander: ^8.3.0
+    humanize-duration: ^3.27.3
+    joi: ^17.5.0
+    js-yaml: ^4.1.0
+    listr2: ^5.0.5
+    purecloud-platform-client-v2: ^153.0.0
+  bin:
+    web-messaging-tester: lib/index.js
+  checksum: e8492f900bdde544acf77c2bfeda354cc2b2550344670d61eb9a7a8a5244dfc98da1e73043ab7e99e0ab9e69c564717d1cbef6fd39bf398928420b0f5bcd969e
+  languageName: node
+  linkType: hard
+
+"@ovotech/genesys-web-messaging-tester-cli@workspace:packages/genesys-web-messaging-tester-cli":
   version: 0.0.0-use.local
   resolution: "@ovotech/genesys-web-messaging-tester-cli@workspace:packages/genesys-web-messaging-tester-cli"
   dependencies:

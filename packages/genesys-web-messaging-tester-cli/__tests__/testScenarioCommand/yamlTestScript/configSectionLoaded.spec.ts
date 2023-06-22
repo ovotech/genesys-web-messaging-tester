@@ -1,15 +1,17 @@
-import { Cli, createCli, Dependencies } from '../../src/cli';
+import { ScenarioTestCommandDependencies } from '../../../src/createScenarioTestCommand';
 import { readFileSync } from 'fs';
 import { Command } from 'commander';
+import { createCli } from '../../../src/createCli';
 
 describe('Session Config', () => {
-  let program: Command;
   let fsReadFileSync: jest.MockedFunction<typeof readFileSync>;
 
-  let webMessengerSessionFactory: jest.Mocked<Dependencies['webMessengerSessionFactory']>;
-  let conversationFactory: jest.Mocked<Dependencies['conversationFactory']>;
+  let webMessengerSessionFactory: jest.Mocked<
+    ScenarioTestCommandDependencies['webMessengerSessionFactory']
+  >;
+  let conversationFactory: jest.Mocked<ScenarioTestCommandDependencies['conversationFactory']>;
 
-  let cli: Cli;
+  let cli: Command;
 
   beforeEach(() => {
     fsReadFileSync = jest.fn();
@@ -20,17 +22,20 @@ describe('Session Config', () => {
     const conversation = { waitForConversationToStart: jest.fn(), sendText: jest.fn() };
     conversationFactory = jest.fn().mockReturnValue(conversation);
 
-    program = new Command();
+    const cliCommand = new Command().exitOverride(() => {
+      throw new Error('CLI Command errored');
+    });
 
-    cli = createCli({
-      program,
+    const scenarioTestCommand = new Command().exitOverride(() => {
+      throw new Error('Scenario Test Command errored');
+    });
+
+    cli = createCli(cliCommand, {
+      command: scenarioTestCommand,
       fsReadFileSync,
       fsAccessSync: jest.fn(),
       webMessengerSessionFactory,
       conversationFactory,
-      processExitOverride: () => {
-        throw new Error('force app to exit');
-      },
     });
   });
 
@@ -44,8 +49,9 @@ scenarios:
     - say: "hi"
 `);
 
-    await cli([
+    await cli.parseAsync([
       ...['node', '/path/to/cli'],
+      'test-scenario',
       ...['--deployment-id', 'test-deployment-id'],
       ...['--region', 'test-region'],
       ...['--origin', 'test-origin'],
@@ -66,8 +72,9 @@ scenarios:
     - say: "hi"
 `);
 
-    await cli([
+    await cli.parseAsync([
       ...['node', '/path/to/cli'],
+      'test-scenario',
       ...['--deployment-id', 'test-deployment-id-2'],
       ...['--region', 'test-region-2'],
       ...['--origin', 'test-origin-2'],
@@ -92,7 +99,7 @@ scenarios:
     - say: "hi"
 `);
 
-    await cli([...['node', '/path/to/cli'], ...['/test/path']]);
+    await cli.parseAsync([...['node', '/path/to/cli'], ...['test-scenario', '/test/path']]);
 
     expect(webMessengerSessionFactory).toHaveBeenCalledWith({
       deploymentId: 'test-deployment-id-3',
