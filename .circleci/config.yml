@@ -51,12 +51,11 @@ jobs:
       - yarn-install
       - yarn-save-cache
       - run: yarn build
-      - run: |
-          npm install ./packages/genesys-web-messaging-tester-cli
-          cd examples/cli-scenario && yarn execute
       - run: cd examples/api && yarn test:js
       - run: cd examples/api && yarn test:ts
-
+      - run: |
+         cd examples/cli-scenario && chmod +x ./run.sh
+         ./run.sh
   test-building-docs:
     <<: *working_directory
     docker:
