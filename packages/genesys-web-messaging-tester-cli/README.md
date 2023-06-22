@@ -20,7 +20,7 @@ against scenarios in a YAML file. This makes testing:
 
 The above test is using the test-script:
 
-> [examples/scenario/cli/example.yml](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli/example.yml)
+> [examples/cli/scenario/example.yml](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli/scenario/example.yml)
 
 ```yaml
 config:
@@ -36,7 +36,13 @@ scenarios:
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
     - say: No
-    - waitForReplyContaining: Goodbye
+    - waitForReplyContaining: Maybe next time. Goodbye
+  "Provide Incorrect Answer to Survey Question":
+    - say: hi
+    - waitForReplyContaining: Can we ask you some questions about your experience today?
+    - say: Not sure
+    - waitForReplyContaining: Sorry I didn't understand you. Please answer with either 'yes' or 'no'
+    - waitForReplyContaining: Can we ask you some questions about your experience today?
 ```
 
 ## How it works
@@ -61,7 +67,7 @@ npm install -g @ovotech/genesys-web-messaging-tester-cli
 Write a test-script containing all the scenarios you wish to run along with
 the [ID and region of your Web Messenger Deployment](https://help.mypurecloud.com/articles/deploy-messenger/).
 
-> [examples/cli/example.yml](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli/example.yml)
+> [examples/cli/scenario/example.yml](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli/scenario/example.yml)
 
 ```yaml
 config:
@@ -77,7 +83,13 @@ scenarios:
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
     - say: No
-    - waitForReplyContaining: Goodbye
+    - waitForReplyContaining: Maybe next time. Goodbye
+  "Provide Incorrect Answer to Survey Question":
+    - say: hi
+    - waitForReplyContaining: Can we ask you some questions about your experience today?
+    - say: Not sure
+    - waitForReplyContaining: Sorry I didn't understand you. Please answer with either 'yes' or 'no'
+    - waitForReplyContaining: Can we ask you some questions about your experience today?
 ```
 
 Then run the test by pointing to the test-script in the terminal:
@@ -89,7 +101,7 @@ web-messaging-tester tests/example.yml
 ## Examples
 
 ```
-$ web-messaging-tester --help
+$ web-messaging-tester test-scenario --help
 Usage: index [options] <filePath>
 
 Arguments:
@@ -113,11 +125,11 @@ Options:
 Override Deployment ID and Region in test-script file:
 
 ```shell
-web-messaging-tester -id 00000000-0000-0000-0000-000000000000 -r xxxx.pure.cloud test-script.yaml
+web-messaging-tester test-scenario -id 00000000-0000-0000-0000-000000000000 -r xxxx.pure.cloud test-script.yaml
 ```
 
 Run 10 scenarios in parallel:
 
 ```shell
-web-messaging-tester --parallel 10 test-script.yaml
+web-messaging-tester test-scenario --parallel 10 test-script.yaml
 ```
