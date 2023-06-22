@@ -485,6 +485,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@examples/cli-scenario@workspace:examples/cli-scenario":
+  version: 0.0.0-use.local
+  resolution: "@examples/cli-scenario@workspace:examples/cli-scenario"
+  dependencies:
+    "@ovotech/genesys-web-messaging-tester-cli": ../../packages/genesys-web-messaging-tester-cli
+  languageName: unknown
+  linkType: soft
+
 "@gar/promisify@npm:^1.1.3":
   version: 1.1.3
   resolution: "@gar/promisify@npm:1.1.3"
@@ -891,6 +899,27 @@ __metadata:
     mkdirp: ^1.0.4
     rimraf: ^3.0.2
   checksum: 52dc02259d98da517fae4cb3a0a3850227bdae4939dda1980b788a7670636ca2b4a01b58df03dd5f65c1e3cb70c50fa8ce5762b582b3f499ec30ee5ce1fd9380
+  languageName: node
+  linkType: hard
+
+"@ovotech/genesys-web-messaging-tester-cli@file:../../packages/genesys-web-messaging-tester-cli::locator=%40examples%2Fcli-scenario%40workspace%3Aexamples%2Fcli-scenario":
+  version: 1.1.0-beta
+  resolution: "@ovotech/genesys-web-messaging-tester-cli@file:../../packages/genesys-web-messaging-tester-cli#../../packages/genesys-web-messaging-tester-cli::hash=438d9f&locator=%40examples%2Fcli-scenario%40workspace%3Aexamples%2Fcli-scenario"
+  dependencies:
+    "@ovotech/genesys-web-messaging-tester": ^2.0.2
+    chalk: ^4.1.2
+    ci-info: ^3.5.0
+    commander: ^8.3.0
+    exponential-backoff: ^3.1.1
+    humanize-duration: ^3.27.3
+    joi: ^17.5.0
+    js-yaml: ^4.1.0
+    listr2: ^5.0.5
+    openai: ^3.3.0
+    purecloud-platform-client-v2: ^153.0.0
+  bin:
+    web-messaging-tester: lib/index.js
+  checksum: 07a4eb141b7eae139fe6d2ad60e8c5a5aa20523cdcc82065ee1c64863e9250ebc066f1ed72084711e50ece02941cdf14a864e1019906221fbef118b013a21b4c
   languageName: node
   linkType: hard
 

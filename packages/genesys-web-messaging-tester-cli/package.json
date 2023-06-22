@@ -20,7 +20,7 @@
     "build": "rm -rf ./lib && tsc -p tsconfig.json",
     "build:readme": "cd ../.. && yarn build-readme ./packages/genesys-web-messaging-tester-cli/README.md https://github.com/ovotech/genesys-web-messaging-tester/tree/main",
     "test": "jest __tests__/",
-    "test:execute:test-scenario": "ts-node src/index.ts test-scenario ../../examples/cli/scenario/example.yml -id $DEPLOYMENT_ID -r $REGION -p 10",
+    "test:execute:test-scenario": "ts-node src/index.ts test-scenario ../../examples/cli-scenario/example.yml -id $DEPLOYMENT_ID -r $REGION -p 10",
     "test:execute:test-scenario:help": "ts-node src/index.ts --help",
     "test:execute:help": "ts-node src/index.ts --help"
   },
