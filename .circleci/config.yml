@@ -51,7 +51,9 @@ jobs:
       - yarn-install
       - yarn-save-cache
       - run: yarn build
-      - run: cd examples/cli-scenario && yarn execute
+      - run: |
+          npm install ./packages/genesys-web-messaging-tester-cli
+          cd examples/cli-scenario && yarn execute
       - run: cd examples/api && yarn test:js
       - run: cd examples/api && yarn test:ts
 
