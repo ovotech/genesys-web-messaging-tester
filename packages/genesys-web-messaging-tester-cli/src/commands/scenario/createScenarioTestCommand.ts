@@ -3,8 +3,8 @@ import { Listr } from 'listr2';
 import * as commander from 'commander';
 import { Command } from 'commander';
 import { accessSync, readFileSync } from 'fs';
-import { readableFileValidator } from '../fileSystem/readableFileValidator';
-import { createYamlFileReader } from '../fileSystem/yamlFileReader';
+import { readableFileValidator } from '../../fileSystem/readableFileValidator';
+import { createYamlFileReader } from '../../fileSystem/yamlFileReader';
 import { extractScenarios } from './testScript/parseTestScript';
 import {
   Conversation,
@@ -18,13 +18,13 @@ import { Ui } from './ui';
 import { validateSessionConfig } from './testScript/validateSessionConfig';
 import { validateTestScript } from './testScript/validateTestScript';
 import { ScenarioError, ScenarioSuccess } from './ScenarioResult';
-import { validateGenesysEnvVariables } from '../genesysPlatform/validateGenesysEnvVariables';
-import { configurePlatformClients } from '../genesysPlatform/configurePlatformClients';
+import { validateGenesysEnvVariables } from '../../genesysPlatform/validateGenesysEnvVariables';
+import { configurePlatformClients } from '../../genesysPlatform/configurePlatformClients';
 import {
   createConversationIdGetter,
   messageIdToConversationIdFactory,
   MessageIdToConvoIdClient,
-} from '../genesysPlatform/messageIdToConversationIdFactory';
+} from '../../genesysPlatform/messageIdToConversationIdFactory';
 
 function parsePositiveInt(value: string) {
   const parsedValue = parseInt(value, 10);
