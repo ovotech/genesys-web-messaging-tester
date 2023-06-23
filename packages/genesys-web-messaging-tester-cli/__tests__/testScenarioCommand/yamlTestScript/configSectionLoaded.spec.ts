@@ -1,4 +1,4 @@
-import { ScenarioTestCommandDependencies } from '../../../src/createScenarioTestCommand';
+import { ScenarioTestCommandDependencies } from '../../../src/scenarioCommand/createScenarioTestCommand';
 import { readFileSync } from 'fs';
 import { Command } from 'commander';
 import { createCli } from '../../../src/createCli';

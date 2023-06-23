@@ -2,7 +2,7 @@ import { Command } from 'commander';
 import {
   createScenarioTestCommand,
   ScenarioTestCommandDependencies,
-} from './createScenarioTestCommand';
+} from './scenarioCommand/createScenarioTestCommand';
 
 export function createCli(
   command: Command = new Command(),

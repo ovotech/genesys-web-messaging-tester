@@ -3,7 +3,7 @@ import {
   TimeoutWaitingForResponseError,
   TranscribedMessage,
 } from '@ovotech/genesys-web-messaging-tester';
-import { createConversationIdGetter } from './genesysPlatform/messageIdToConversationIdFactory';
+import { createConversationIdGetter } from '../genesysPlatform/messageIdToConversationIdFactory';
 
 export interface ScenarioResult {
   scenario: TestScriptScenario;

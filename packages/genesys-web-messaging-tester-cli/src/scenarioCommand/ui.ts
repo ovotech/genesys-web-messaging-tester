@@ -11,7 +11,7 @@ import humanizeDuration from 'humanize-duration';
 import {
   ConversationIdGetterFailure,
   PreflightError,
-} from './genesysPlatform/messageIdToConversationIdFactory';
+} from '../genesysPlatform/messageIdToConversationIdFactory';
 
 export class Ui {
   /**
