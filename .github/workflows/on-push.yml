@@ -6,7 +6,7 @@ jobs:
 #  lint:
 #    runs-on: ubuntu-latest
 #    steps:
-#      - uses: actions/checkout@v2
+#      - uses: actions/checkout@v3
 #      - name: Setup Node
 #        uses: actions/setup-node@v1
 #        with:
@@ -19,9 +19,9 @@ jobs:
   test-and-build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: 16.x
       - run: yarn
@@ -31,9 +31,9 @@ jobs:
   test-building-docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: 16.x
       - run: yarn
@@ -43,9 +43,9 @@ jobs:
   test-examples:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: 16.x
       - run: yarn
