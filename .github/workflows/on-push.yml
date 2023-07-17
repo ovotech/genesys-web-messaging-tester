@@ -28,5 +28,14 @@ jobs:
       - run: yarn
       - run: yarn build
       - run: cd examples/cli && yarn execute
+        env:
+          DEPLOYMENT: ${{ secrets.DEPLOYMENT }}
+          REGION: ${{ secrets.REGION }}
       - run: cd examples/api && yarn test:js
+        env:
+          DEPLOYMENT: ${{ secrets.DEPLOYMENT }}
+          REGION: ${{ secrets.REGION }}
       - run: cd examples/api && yarn test:ts
+        env:
+          DEPLOYMENT: ${{ secrets.DEPLOYMENT }}
+          REGION: ${{ secrets.REGION }}
