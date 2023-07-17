@@ -11,7 +11,6 @@ export async function configurePlatformClients(
 ): Promise<{ convoApi: platformClient.ConversationsApi }> {
   const apiClient = platformClient.ApiClient.instance;
 
-  apiClient.config.live_reload_config = false;
   apiClient.setEnvironment(auth.region);
   await apiClient.loginClientCredentialsGrant(auth.oAuthClientId, auth.oAuthClientSecret);
 
