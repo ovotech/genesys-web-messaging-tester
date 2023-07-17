@@ -6,6 +6,9 @@ export type TestScriptFileScenarioStep =
     }
   | {
       readonly waitForReplyContaining: string;
+    }
+  | {
+      readonly waitForReplyMatching: RegExp;
     };
 
 export interface TestScriptFile {
@@ -37,6 +40,11 @@ export function parseScenarioStep(
   if ('waitForReplyContaining' in step) {
     return async (convo) =>
       await convo.waitForResponseWithTextContaining(step.waitForReplyContaining);
+  }
+
+  if ('waitForReplyMatching' in step) {
+    return async (convo) =>
+      await convo.waitForResponseWithTextContaining(new RegExp(step.waitForReplyMatching, 'im'));
   }
 
   // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
