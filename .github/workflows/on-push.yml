@@ -18,42 +18,36 @@ jobs:
 
   test-and-build:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v2
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
-          cache: 'yarn'
       - run: yarn
       - run: yarn build
       - run: yarn test
 
   test-building-docs:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v2
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
-          cache: 'yarn'
       - run: yarn
       - run: yarn build
       - run: yarn build:docs
 
   test-examples:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v2
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
-          cache: 'yarn'
       - run: yarn
       - run: yarn build
       - run: cd examples/cli && yarn execute
