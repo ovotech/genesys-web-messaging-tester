@@ -19,7 +19,8 @@
   "scripts": {
     "build": "rm -rf ./lib && tsc -p tsconfig.json",
     "build:readme": "cd ../.. && yarn build-readme ./packages/genesys-web-messaging-tester/README.md https://github.com/ovotech/genesys-web-messaging-tester/tree/main",
-    "test": "jest __tests__/"
+    "test": "jest __tests__/",
+    "lint": "eslint 'src/**/*.ts'"
   },
   "dependencies": {
     "debug": "^4.3.3",
