@@ -135,7 +135,7 @@ use [waitForResponseText](Conversation.md#waitforresponsetext).
 
 | Name | Type |
 | :------ | :------ |
-| `text` | `string` |
+| `text` | `string` \| `RegExp` |
 | `«destructured»` | `Object` |
 | › `caseInsensitive?` | `boolean` |
 | › `timeoutInSeconds?` | `number` |

@@ -41,7 +41,7 @@
 
 | Name | Type | Default value |
 | :------ | :------ | :------ |
-| `_expectedResponse` | `string` | `undefined` |
+| `_expectedResponse` | `string` \| `RegExp` | `undefined` |
 | `_responsesReceived` | readonly (`StructuredMessageTextBody` \| `StructuredMessageStructuredBody`)[] | `[]` |
 
 #### Overrides
@@ -147,11 +147,11 @@ node_modules/@types/node/globals.d.ts:13
 
 ### expectedResponse
 
-• `get` **expectedResponse**(): `string`
+• `get` **expectedResponse**(): `string` \| `RegExp`
 
 #### Returns
 
-`string`
+`string` \| `RegExp`
 
 #### Defined in
 
