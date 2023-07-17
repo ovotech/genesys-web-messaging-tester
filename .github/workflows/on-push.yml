@@ -25,6 +25,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
+          cache: 'yarn'
       - run: yarn
       - run: yarn build
       - run: yarn test
@@ -38,6 +39,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
+          cache: 'yarn'
       - run: yarn
       - run: yarn build
       - run: yarn build:docs
@@ -51,6 +53,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
+          cache: 'yarn'
       - run: yarn
       - run: yarn build
       - run: cd examples/cli && yarn execute
