@@ -39,6 +39,7 @@ export function parseScenarioStep(
       await convo.waitForResponseWithTextContaining(step.waitForReplyContaining);
   }
 
+  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
   throw new Error(`Unsupported step ${step}`);
 }
 

@@ -9,7 +9,7 @@ import {
 export class TimeoutWaitingForResponseError extends Error {
   constructor(
     private readonly _timeoutInMs: number,
-    private readonly _expectedResponse: string,
+    private readonly _expectedResponse: string | RegExp,
     private readonly _responsesReceived: ReadonlyArray<
       StructuredMessageTextBody | StructuredMessageStructuredBody
     > = [],
@@ -27,20 +27,20 @@ export class TimeoutWaitingForResponseError extends Error {
 
   private static createFailureMessage(
     timeoutInMs: number,
-    expectedResponse: string,
+    expectedResponse: string | RegExp,
     responsesReceived: ReadonlyArray<StructuredMessageTextBody | StructuredMessageStructuredBody>,
   ): string {
     if (responsesReceived.length === 0) {
-      return `Timed-out after ${timeoutInMs}ms waiting for a message that contained '${expectedResponse}'.
+      return `Timed-out after ${timeoutInMs}ms waiting for a message that contained '${expectedResponse.toString()}'.
 No messages were received.`;
     } else {
-      return `Timed-out after ${timeoutInMs}ms waiting for a message that contained '${expectedResponse}'
+      return `Timed-out after ${timeoutInMs}ms waiting for a message that contained '${expectedResponse.toString()}'
 Received:
   ${responsesReceived.map((m) => ` - ${m.text}`).join('\n')}`;
     }
   }
 
-  public get expectedResponse(): string {
+  public get expectedResponse(): string | RegExp {
     return this._expectedResponse;
   }
 
@@ -57,7 +57,7 @@ Received:
 
 export class BotDisconnectedWaitingForResponseError extends Error {
   constructor(
-    private readonly _expectedResponse: string,
+    private readonly _expectedResponse: string | RegExp,
     private readonly _responsesReceived: ReadonlyArray<
       StructuredMessageTextBody | StructuredMessageStructuredBody
     > = [],
@@ -73,20 +73,20 @@ export class BotDisconnectedWaitingForResponseError extends Error {
   }
 
   private static createFailureMessage(
-    expectedResponse: string,
+    expectedResponse: string | RegExp,
     responsesReceived: ReadonlyArray<StructuredMessageTextBody | StructuredMessageStructuredBody>,
   ): string {
     if (responsesReceived.length === 0) {
-      return `Bot disconnected from the conversation whilst waiting a message that contained '${expectedResponse}'.
+      return `Bot disconnected from the conversation whilst waiting a message that contained '${expectedResponse.toString()}'.
 No messages were received before disconnection.`;
     } else {
-      return `Bot disconnected from the conversation whilst waiting a message that contained '${expectedResponse}'
+      return `Bot disconnected from the conversation whilst waiting a message that contained '${expectedResponse.toString()}'
 Received before disconnection:
   ${responsesReceived.map((m) => ` - ${m.text}`).join('\n')}`;
     }
   }
 
-  public get expectedResponse(): string {
+  public get expectedResponse(): string | RegExp {
     return this._expectedResponse;
   }
 
@@ -244,7 +244,7 @@ export class Conversation {
    * use {@link waitForResponseText}.
    */
   public async waitForResponseWithTextContaining(
-    text: string,
+    text: string | RegExp,
     {
       timeoutInSeconds = 10,
       caseInsensitive = true,
@@ -276,9 +276,16 @@ export class Conversation {
             messagesWithTextReceived.push(event.body);
 
             const message = caseInsensitive ? event.body.text.toLocaleLowerCase() : event.body.text;
-            const expectedText = caseInsensitive ? text.toLocaleLowerCase() : text;
 
-            if (message.includes(expectedText)) {
+            let match;
+            if (text instanceof RegExp) {
+              match = text.test(message);
+            } else {
+              const expectedText = caseInsensitive ? text.toLocaleLowerCase() : text;
+              match = message.includes(expectedText);
+            }
+
+            if (match) {
               this.messengerSession.off('structuredMessage', checkMessage);
 
               if (timeout) {
