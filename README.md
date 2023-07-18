@@ -31,12 +31,18 @@ scenarios:
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
     - say: Yes
-    - waitForReplyContaining: Thank you! Now for the next question...
+    - waitForReplyMatching: Thank you! Now for the next question[\.]+
   "Decline Survey":
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
     - say: No
-    - waitForReplyContaining: Goodbye
+    - waitForReplyContaining: Maybe next time. Goodbye
+  "Provide Incorrect Answer to Survey Question":
+    - say: hi
+    - waitForReplyContaining: Can we ask you some questions about your experience today?
+    - say: Not sure
+    - waitForReplyContaining: Sorry I didn't understand you. Please answer with either 'yes' or 'no'
+    - waitForReplyContaining: Can we ask you some questions about your experience today?
 ```
 
 ## How it works
@@ -72,12 +78,18 @@ scenarios:
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
     - say: Yes
-    - waitForReplyContaining: Thank you! Now for the next question...
+    - waitForReplyMatching: Thank you! Now for the next question[\.]+
   "Decline Survey":
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
     - say: No
-    - waitForReplyContaining: Goodbye
+    - waitForReplyContaining: Maybe next time. Goodbye
+  "Provide Incorrect Answer to Survey Question":
+    - say: hi
+    - waitForReplyContaining: Can we ask you some questions about your experience today?
+    - say: Not sure
+    - waitForReplyContaining: Sorry I didn't understand you. Please answer with either 'yes' or 'no'
+    - waitForReplyContaining: Can we ask you some questions about your experience today?
 ```
 
 Then run the test by pointing to the test-script in the terminal:
@@ -121,3 +133,7 @@ Run 10 scenarios in parallel:
 ```shell
 web-messaging-tester --parallel 10 test-script.yaml
 ```
+
+## Development
+
+* [Release Strategy](./docs/release-strategy.md)

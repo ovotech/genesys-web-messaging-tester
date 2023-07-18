@@ -18,7 +18,6 @@
   "author": "Lucas Woodward",
   "scripts": {
     "build": "rm -rf ./lib && tsc -p tsconfig.json",
-    "build:readme": "cd ../.. && yarn build-readme ./packages/genesys-web-messaging-tester-cli/README.md https://github.com/ovotech/genesys-web-messaging-tester/tree/main",
     "test": "jest __tests__/",
     "test:execute": "ts-node src/index.ts ../../examples/cli/example.yml -id $DEPLOYMENT_ID -r $REGION -p 10",
     "test:execute:help": "ts-node src/index.ts --help",
@@ -39,7 +38,6 @@
     "purecloud-platform-client-v2": "^153.0.0"
   },
   "devDependencies": {
-    "@ikerin/build-readme": "^1.1.1",
     "@types/humanize-duration": "^3.27.1",
     "@types/jest": "^29.0.3",
     "@types/jest-when": "^2.7.4",

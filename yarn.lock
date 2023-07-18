@@ -898,7 +898,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ovotech/genesys-web-messaging-tester-cli@workspace:packages/genesys-web-messaging-tester-cli"
   dependencies:
-    "@ikerin/build-readme": ^1.1.1
     "@ovotech/genesys-web-messaging-tester": ^2.0.3
     "@types/humanize-duration": ^3.27.1
     "@types/jest": ^29.0.3
