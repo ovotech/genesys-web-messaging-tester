@@ -86,7 +86,7 @@ scenarios:
     ]);
   });
 
-  test("scenario step can only contain 'say' or 'waitForReplyContaining'", async () => {
+  test("scenario step can only contain 'say', 'waitForReplyContaining' & 'waitForReplyMatching'", async () => {
     fsReadFileSync.mockReturnValue(`
 config:
   deploymentId: xx

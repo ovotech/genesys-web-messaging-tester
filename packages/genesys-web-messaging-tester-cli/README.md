@@ -31,7 +31,7 @@ scenarios:
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
     - say: Yes
-    - waitForReplyContaining: Thank you! Now for the next question...
+    - waitForReplyMatching: Thank you! Now for the next question[\.]+
   "Decline Survey":
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
@@ -78,7 +78,7 @@ scenarios:
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
     - say: Yes
-    - waitForReplyContaining: Thank you! Now for the next question...
+    - waitForReplyMatching: Thank you! Now for the next question[\.]+
   "Decline Survey":
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?

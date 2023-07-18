@@ -1,19 +1,10 @@
 import { Conversation, WebMessengerGuestSession } from '../src';
 import WebSocket from 'ws';
 import getPort from 'get-port';
+import { WebMessageServerFixture } from './fixtures/WebMessageServerFixture';
+import { WebMessageServerConnectionFixture } from './fixtures/WebMessageServerConnectionFixture';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const FakeTimers = require('@sinonjs/fake-timers');
-
-import {
-  WebMessageServerFixture,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore
-} from './fixtures/WebMessageServerFixture';
-import {
-  WebMessageServerConnectionFixture,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore
-} from './fixtures/WebMessageServerConnectionFixture';
 
 describe('Conversation', () => {
   let genesysServerFixture: WebMessageServerFixture;
@@ -144,5 +135,37 @@ Received before disconnection:
       'Test message 2',
       'Test message 3',
     ]);
+  });
+
+  test('Waits for outbound message matching regex before continuing', async () => {
+    const conversation = new Conversation(session);
+
+    serverConnection.simulateSessionResponseMessage();
+    await conversation.waitForConversationToStart();
+
+    serverConnection.simulateOutboundTextStructuredMessage('This is an example question');
+    await expect(
+      conversation.waitForResponseWithTextMatchingPattern(/question/i),
+    ).resolves.toStrictEqual('This is an example question');
+  });
+
+  test('Throws error when waiting for outbound message matching regex if bot disconnects', async () => {
+    const conversation = new Conversation(session);
+
+    serverConnection.simulateSessionResponseMessage();
+    await conversation.waitForConversationToStart();
+
+    serverConnection.simulateOutboundTextStructuredMessage('This is an example question');
+    serverConnection.simulateOutboundDisconnectEventStructuredMessage();
+
+    await expect(
+      conversation.waitForResponseWithTextMatchingPattern(/hello/i, { timeoutInSeconds: 1 }),
+    ).rejects.toEqual(
+      new Error(
+        `Bot disconnected from the conversation whilst waiting a message that contained '/hello/i'
+Received before disconnection:
+   - This is an example question`,
+      ),
+    );
   });
 });

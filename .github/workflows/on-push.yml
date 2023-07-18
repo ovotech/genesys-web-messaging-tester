@@ -50,15 +50,15 @@ jobs:
           node-version: 16.x
       - run: yarn
       - run: yarn build
-      - run: cd examples/cli && yarn execute
-        env:
-          DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
-          REGION: ${{ secrets.REGION }}
       - run: cd examples/api && yarn test:js
         env:
           DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
           REGION: ${{ secrets.REGION }}
       - run: cd examples/api && yarn test:ts
+        env:
+          DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
+          REGION: ${{ secrets.REGION }}
+      - run: cd examples/cli && chmod +x ./run.sh && ./run.sh
         env:
           DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
           REGION: ${{ secrets.REGION }}
