@@ -10,4 +10,4 @@ function cleanup {
 }
 trap cleanup EXIT
 
-web-messaging-tester test-scenario example.yml -id $DEPLOYMENT_ID -r $REGION -p 10
+web-messaging-tester example.yml -id $DEPLOYMENT_ID -r $REGION -p 10
