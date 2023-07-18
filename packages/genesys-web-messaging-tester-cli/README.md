@@ -136,4 +136,4 @@ web-messaging-tester test-script.yaml --parallel 10
 
 ## Development
 
-* [Release Strategy](./docs/release-strategy.md)
+* [Release Strategy](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/docs/release-strategy.md)
