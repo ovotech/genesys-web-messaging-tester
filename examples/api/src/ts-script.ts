@@ -35,10 +35,12 @@ require('dotenv').config({ path: '../../.env' });
   await convo.sendText('Yes');
   // test-section
 
-  await convo.waitForResponseWithTextContaining('Thank you! Now for the next question...', {
-    timeoutInSeconds: 10,
-    caseInsensitive: true,
-  });
+  await convo.waitForResponseWithTextMatchingPattern(
+    new RegExp(/Thank you! Now for the next question[.]+/, 'im'),
+    {
+      timeoutInSeconds: 10,
+    },
+  );
 
   session.close();
 })().catch((e) => {
