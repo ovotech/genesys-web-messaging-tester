@@ -20,7 +20,9 @@ const WebMsgTester = require('@ovotech/genesys-web-messaging-tester');
 
   await convo.sendText('Yes');
 
-  await convo.waitForResponseWithTextContaining('Thank you! Now for the next question...');
+  await convo.waitForResponseWithTextMatchingPattern(/Thank you! Now for the next question[.]+/im, {
+    timeoutInSeconds: 10,
+  });
 
   session.close();
 })().catch((e) => {

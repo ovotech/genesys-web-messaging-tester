@@ -102,7 +102,7 @@ web-messaging-tester tests/example.yml
 
 ```
 $ web-messaging-tester --help
-Usage: index [options] <filePath>
+Usage: web-messaging-tester [options] <filePath>
 
 Arguments:
   filePath                             Path of the YAML test-script file
@@ -125,11 +125,15 @@ Options:
 Override Deployment ID and Region in test-script file:
 
 ```shell
-web-messaging-tester -id 00000000-0000-0000-0000-000000000000 -r xxxx.pure.cloud test-script.yaml
+web-messaging-tester test-script.yaml -id 00000000-0000-0000-0000-000000000000 -r xxxx.pure.cloud
 ```
 
 Run 10 scenarios in parallel:
 
 ```shell
-web-messaging-tester --parallel 10 test-script.yaml
+web-messaging-tester test-script.yaml --parallel 10
 ```
+
+## Development
+
+* [Release Strategy](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/docs/release-strategy.md)
