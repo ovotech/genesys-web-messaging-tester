@@ -36,6 +36,7 @@ console.log(reply);
 - [waitForConversationToStart](Conversation.md#waitforconversationtostart)
 - [waitForResponseText](Conversation.md#waitforresponsetext)
 - [waitForResponseWithTextContaining](Conversation.md#waitforresponsewithtextcontaining)
+- [waitForResponseWithTextMatchingPattern](Conversation.md#waitforresponsewithtextmatchingpattern)
 - [waitForResponses](Conversation.md#waitforresponses)
 
 ## Constructors
@@ -123,8 +124,8 @@ ___
 ▸ **waitForResponseWithTextContaining**(`text`, `«destructured»?`): `Promise`<`string`\>
 
 Resolves when a response is received that contains a specific piece of text.
-If a response that contains the text isn't received within the timeout period then
-an exception is thrown.
+If no response is received that contains the text within the timeout period
+then an exception is thrown.
 
 Case-insensitive by default.
 
@@ -135,7 +136,7 @@ use [waitForResponseText](Conversation.md#waitforresponsetext).
 
 | Name | Type |
 | :------ | :------ |
-| `text` | `string` \| `RegExp` |
+| `text` | `string` |
 | `«destructured»` | `Object` |
 | › `caseInsensitive?` | `boolean` |
 | › `timeoutInSeconds?` | `number` |
@@ -147,6 +148,35 @@ use [waitForResponseText](Conversation.md#waitforresponsetext).
 #### Defined in
 
 [packages/genesys-web-messaging-tester/src/Conversation.ts:246](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L246)
+
+___
+
+### waitForResponseWithTextMatchingPattern
+
+▸ **waitForResponseWithTextMatchingPattern**(`pattern`, `«destructured»?`): `Promise`<`string`\>
+
+Resolves when a response is received that matches a regular expression.
+If no response is received that matches the pattern within the timeout period
+then an exception is thrown.
+
+If you want to wait for the next response, regardless of what it contains
+use [waitForResponseText](Conversation.md#waitforresponsetext).
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `pattern` | `string` \| `RegExp` |
+| `«destructured»` | `Object` |
+| › `timeoutInSeconds?` | `number` |
+
+#### Returns
+
+`Promise`<`string`\>
+
+#### Defined in
+
+[packages/genesys-web-messaging-tester/src/Conversation.ts:277](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L277)
 
 ___
 
