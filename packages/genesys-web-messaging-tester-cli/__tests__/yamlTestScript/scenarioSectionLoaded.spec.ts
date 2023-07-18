@@ -55,12 +55,10 @@ describe('Test script YAML loaded', () => {
       throw new Error('force app to exit');
     });
 
-    await expect(
-      cli([...['node', '/path/to/cli'], ...['test-file.yml']]),
-    ).rejects.toBeDefined();
+    await expect(cli([...['node', '/path/to/cli'], ...['test-file.yml']])).rejects.toBeDefined();
 
     expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual([
-      "error: command-argument value 'test-file.yml' is invalid for argument 'filePath'. File 'test-file.yml' is not readable\n"
+      "error: command-argument value 'test-file.yml' is invalid for argument 'filePath'. File 'test-file.yml' is not readable\n",
     ]);
   });
 

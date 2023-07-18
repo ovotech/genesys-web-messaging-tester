@@ -1,0 +1,64 @@
+name: On Push
+
+on: [push]
+
+jobs:
+#  lint:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#      - name: Setup Node
+#        uses: actions/setup-node@v1
+#        with:
+#          node-version: 16.x
+#      - run: yarn
+#      - run: yarn lint
+#        env:
+#          CI: true
+
+  test-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - run: yarn
+      - run: yarn build
+      - run: yarn test
+
+  test-building-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - run: yarn
+      - run: yarn build
+      - run: yarn build:docs
+
+  test-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - run: yarn
+      - run: yarn build
+      - run: cd examples/cli && yarn execute
+        env:
+          DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
+          REGION: ${{ secrets.REGION }}
+      - run: cd examples/api && yarn test:js
+        env:
+          DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
+          REGION: ${{ secrets.REGION }}
+      - run: cd examples/api && yarn test:ts
+        env:
+          DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
+          REGION: ${{ secrets.REGION }}
