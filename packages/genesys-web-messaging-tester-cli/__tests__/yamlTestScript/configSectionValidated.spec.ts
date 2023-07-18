@@ -74,9 +74,7 @@ scenarios:
   scenario:
     - say: hi from scenario
 `);
-    await expect(
-      cli([...['node', '/path/to/cli'], ...['test-path']]),
-    ).rejects.toBeDefined();
+    await expect(cli([...['node', '/path/to/cli'], ...['test-path']])).rejects.toBeDefined();
 
     expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual([expectedError]);
   });
