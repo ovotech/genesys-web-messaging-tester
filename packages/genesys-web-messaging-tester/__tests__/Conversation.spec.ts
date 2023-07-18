@@ -145,7 +145,7 @@ Received before disconnection:
 
     serverConnection.simulateOutboundTextStructuredMessage('This is an example question');
     await expect(
-      conversation.waitForResponseWithTextContaining(/question/i),
+      conversation.waitForResponseWithTextMatchingPattern(/question/i),
     ).resolves.toStrictEqual('This is an example question');
   });
 
@@ -159,7 +159,7 @@ Received before disconnection:
     serverConnection.simulateOutboundDisconnectEventStructuredMessage();
 
     await expect(
-      conversation.waitForResponseWithTextContaining(/hello/i, { timeoutInSeconds: 1 }),
+      conversation.waitForResponseWithTextMatchingPattern(/hello/i, { timeoutInSeconds: 1 }),
     ).rejects.toEqual(
       new Error(
         `Bot disconnected from the conversation whilst waiting a message that contained '/hello/i'

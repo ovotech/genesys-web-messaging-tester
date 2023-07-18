@@ -44,7 +44,9 @@ export function parseScenarioStep(
 
   if ('waitForReplyMatching' in step) {
     return async (convo) =>
-      await convo.waitForResponseWithTextContaining(new RegExp(step.waitForReplyMatching, 'im'));
+      await convo.waitForResponseWithTextMatchingPattern(
+        new RegExp(step.waitForReplyMatching, 'im'),
+      );
   }
 
   // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
