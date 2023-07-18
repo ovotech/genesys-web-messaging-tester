@@ -50,7 +50,7 @@ jobs:
           node-version: 16.x
       - run: yarn
       - run: yarn build
-      - run: cd examples/cli && yarn execute
+      - run: chmod +x examples/cli/run.sh && examples/cli/run.sh
         env:
           DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
           REGION: ${{ secrets.REGION }}
