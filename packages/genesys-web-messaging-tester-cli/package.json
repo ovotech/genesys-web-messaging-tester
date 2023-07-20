@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@ovotech/genesys-web-messaging-tester": "^2.0.3",
-    "chalk": "^4.1.2",
+    "chalk": "^5.3.0",
     "ci-info": "^3.5.0",
     "commander": "^8.3.0",
     "humanize-duration": "^3.29.0",
