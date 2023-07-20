@@ -16,4 +16,8 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      typedoc-deps:
+        patterns:
+          - "typedoc*"
 
