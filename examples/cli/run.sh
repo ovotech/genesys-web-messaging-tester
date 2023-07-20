@@ -26,3 +26,5 @@ then
   echo "${RED}Failing test did not result in Exit Code of 1. Exit code was $?${NO_COLOUR}"
   exit 1
 fi
+
+exit 0
