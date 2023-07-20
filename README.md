@@ -95,7 +95,7 @@ scenarios:
 Then run the test by pointing to the test-script in the terminal:
 
 ```shell
-web-messaging-tester tests/example-pass.yml
+web-messaging-tester tests/example.yml
 ```
 
 ## Examples
