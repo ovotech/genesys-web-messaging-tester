@@ -11,6 +11,7 @@ trap cleanup EXIT
 web-messaging-tester example-pass.yml -id $DEPLOYMENT_ID -r $REGION -p 10
 if [ $? -ne 0 ]
 then
+  echo ""
   echo "========="
   echo "UNEXPECTED EXIT CODE $? - Passing example did not result in Exit Code of 0"
   exit 1
@@ -20,6 +21,7 @@ fi
 web-messaging-tester example-fail.yml -id $DEPLOYMENT_ID -r $REGION -p 10
 if [ $? -ne 1 ]
 then
+  echo ""
   echo "========="
   echo "UNEXPECTED EXIT CODE $? - Intentionally failing example did not result in Exit Code of 1"
   exit 1
