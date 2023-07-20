@@ -19,7 +19,7 @@
   "scripts": {
     "build": "rm -rf ./lib && tsc -p tsconfig.json",
     "test": "jest __tests__/",
-    "test:execute": "ts-node src/index.ts ../../examples/cli/example.yml -id $DEPLOYMENT_ID -r $REGION -p 10",
+    "test:execute": "ts-node src/index.ts ../../examples/cli/example-pass.yml -id $DEPLOYMENT_ID -r $REGION -p 10",
     "test:execute:help": "ts-node src/index.ts --help",
     "lint": "eslint 'src/**/*.ts'"
   },

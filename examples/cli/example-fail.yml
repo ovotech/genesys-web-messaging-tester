@@ -1,0 +1,10 @@
+config:
+  deploymentId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+  region: xxxx.pure.cloud
+scenarios:
+  "Failing test using Containing":
+    - say: hi
+    - waitForReplyContaining: This is deliberately wrong
+  "Failing test using Matching":
+    - say: hi
+    - waitForReplyMatching: This is [0-9]+ wrong
