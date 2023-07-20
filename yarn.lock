@@ -901,7 +901,7 @@ __metadata:
     "@ovotech/genesys-web-messaging-tester": ^2.0.3
     "@types/humanize-duration": ^3.27.1
     "@types/jest": ^29.0.3
-    "@types/jest-when": ^2.7.4
+    "@types/jest-when": ^3.5.2
     "@types/js-yaml": ^4.0.5
     "@types/node": ^14.14.2
     "@typescript-eslint/eslint-plugin": ^4.31.1
@@ -1143,12 +1143,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest-when@npm:^2.7.4":
-  version: 2.7.4
-  resolution: "@types/jest-when@npm:2.7.4"
+"@types/jest-when@npm:^3.5.2":
+  version: 3.5.2
+  resolution: "@types/jest-when@npm:3.5.2"
   dependencies:
     "@types/jest": "*"
-  checksum: fea5f5c9b882ee5191ef47dfbbe71ce7935d4ede7ac12c2bf7dbceead3da066930aa492fc534f8b53ef6694f30313b5669b87cb45e36ddbece42c6ff27b01364
+  checksum: 106230dd71ee266bbd7620ab339a7305054e56ba7638f0eff9f222e67a959df0ad68a7f0108156c50f7005881bae59cd5c38b3760c101d060cdb3dac9cd77ee2
   languageName: node
   linkType: hard
 
