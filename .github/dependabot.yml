@@ -11,15 +11,15 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-  - package-ecosystem: "yarn"
+  - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
-  - package-ecosystem: "yarn"
+  - package-ecosystem: "npm"
     directory: "/packages/genesys-web-messaging-tester-cli"
     schedule:
       interval: "weekly"
-  - package-ecosystem: "yarn"
+  - package-ecosystem: "npm"
     directory: "/packages/genesys-web-messaging-tester"
     schedule:
       interval: "weekly"
