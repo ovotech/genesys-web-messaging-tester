@@ -32,7 +32,7 @@
     "ci-info": "^3.5.0",
     "commander": "^8.3.0",
     "humanize-duration": "^3.29.0",
-    "joi": "^17.5.0",
+    "joi": "^17.9.2",
     "js-yaml": "^4.1.0",
     "listr2": "^5.0.5",
     "purecloud-platform-client-v2": "^153.0.0"
