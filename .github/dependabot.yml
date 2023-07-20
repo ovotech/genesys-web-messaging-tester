@@ -12,15 +12,8 @@ updates:
     schedule:
       interval: "weekly"
   - package-ecosystem: "npm"
+    # For mono-repos only include root https://github.com/dependabot/dependabot-core/issues/4993#issuecomment-1289133027
     directory: "/"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "npm"
-    directory: "/packages/genesys-web-messaging-tester-cli"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "npm"
-    directory: "/packages/genesys-web-messaging-tester"
     schedule:
       interval: "weekly"
 
