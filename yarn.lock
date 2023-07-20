@@ -913,7 +913,7 @@ __metadata:
     eslint-config-prettier: ^8.3.0
     eslint-plugin-jest: ^24.1.0
     eslint-plugin-prettier: ^3.1.4
-    humanize-duration: ^3.27.3
+    humanize-duration: ^3.29.0
     jest: ^29.0.3
     jest-when: ^3.5.0
     joi: ^17.5.0
@@ -2900,10 +2900,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"humanize-duration@npm:^3.27.3":
-  version: 3.28.0
-  resolution: "humanize-duration@npm:3.28.0"
-  checksum: dde595ab4729d82147db41d8ca0afa86bf3f20d74cd1323ea52f299091a4f1dcb2a45b2d27ce78ab9bb0d9e66d8eb8f2628a67be36a535af645eb282a963ff7f
+"humanize-duration@npm:^3.29.0":
+  version: 3.29.0
+  resolution: "humanize-duration@npm:3.29.0"
+  checksum: 205e959586e774a36561072cd0f2994d727b9e2156a19ff68ee20c9c29544d9eeb3e853cdb7011a32498859043442069ef82c0bd18f1175ed27a733303ab480f
   languageName: node
   linkType: hard
 
