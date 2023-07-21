@@ -34,7 +34,7 @@
     "humanize-duration": "^3.29.0",
     "joi": "^17.9.2",
     "js-yaml": "^4.1.0",
-    "listr2": "^5.0.5",
+    "listr2": "^6.6.0",
     "purecloud-platform-client-v2": "^153.0.0"
   },
   "devDependencies": {

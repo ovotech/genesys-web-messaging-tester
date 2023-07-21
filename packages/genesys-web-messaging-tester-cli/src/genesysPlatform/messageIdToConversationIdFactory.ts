@@ -20,18 +20,18 @@ export interface MessageIdToConvoIdClient {
 
 interface GenesysError {
   message: string;
-  code: 'missing.any.permissions' | string;
+  code: string; // missing.any.permissions
   status: number;
 }
 
 function isGenesysError(obj: unknown): obj is GenesysError {
   return (
     (obj as GenesysError).message !== undefined &&
-    typeof (obj as GenesysError).message === 'string' &&
+    typeof (obj as GenesysError)?.message === 'string' &&
     (obj as GenesysError).code !== undefined &&
-    typeof (obj as GenesysError).code === 'string' &&
+    typeof (obj as GenesysError)?.code === 'string' &&
     (obj as GenesysError).status !== undefined &&
-    typeof (obj as GenesysError).status === 'number'
+    typeof (obj as GenesysError)?.status === 'number'
   );
 }
 

@@ -1,7 +1,7 @@
 import {
   Conversation,
   WebMessengerGuestSession,
-  Transcriber,
+  SessionTranscriber,
 } from '@ovotech/genesys-web-messaging-tester';
 
 // Set realistic timeout value for a Web Messenger conversation
@@ -19,7 +19,7 @@ describe('Using jest to perform the test', () => {
       deploymentId: process.env.DEPLOYMENT_ID!,
       region: process.env.REGION!,
     });
-    const transcriber = new Transcriber(session);
+    const transcriber = new SessionTranscriber(session);
 
     const convo = new Conversation(session);
     await convo.waitForConversationToStart();
@@ -53,7 +53,7 @@ describe('Using jest to perform the test', () => {
     const convo = new Conversation(session);
     await convo.waitForConversationToStart();
 
-    const transcriber = new Transcriber(session);
+    const transcriber = new SessionTranscriber(session);
 
     // Log interactions as they occur
     transcriber.on('messageTranscribed', (t) => console.log(t.toString()));

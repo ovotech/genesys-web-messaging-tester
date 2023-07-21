@@ -1,4 +1,4 @@
-import { WebMessengerGuestSession, TranscribedMessage, Transcriber } from '../src';
+import { WebMessengerGuestSession, TranscribedMessage, SessionTranscriber } from '../src';
 import WebSocket from 'ws';
 import getPort from 'get-port';
 
@@ -41,7 +41,7 @@ describe('Transcriber', () => {
 
   test("Outbound message transcribed as being from 'them'", async () => {
     return new Promise<void>((done) => {
-      new Transcriber(session).on('messageTranscribed', (event: TranscribedMessage) => {
+      new SessionTranscriber(session).on('messageTranscribed', (event: TranscribedMessage) => {
         expect(event).toStrictEqual({
           message: 'Example outbound',
           who: 'Them',
@@ -57,7 +57,7 @@ describe('Transcriber', () => {
 
   test("Inbound message transcribed as being from 'you'", async () => {
     return new Promise<void>((done) => {
-      new Transcriber(session).on('messageTranscribed', (event: TranscribedMessage) => {
+      new SessionTranscriber(session).on('messageTranscribed', (event: TranscribedMessage) => {
         expect(event).toStrictEqual({
           message: 'Example inbound',
           who: 'You',
@@ -72,7 +72,7 @@ describe('Transcriber', () => {
   });
 
   test("Inbound/Outbound messages transcribed as being from 'you'/'them'", async () => {
-    const transcriber = new Transcriber(session);
+    const transcriber = new SessionTranscriber(session);
 
     serverConnection.simulateInboundTextStructuredMessage('Example inbound');
     serverConnection.simulateOutboundTextStructuredMessage('Example outbound');
