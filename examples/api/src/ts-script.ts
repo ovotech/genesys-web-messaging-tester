@@ -1,20 +1,24 @@
 import {
   Conversation,
   WebMessengerGuestSession,
-  Transcriber,
+  SessionTranscriber,
 } from '@ovotech/genesys-web-messaging-tester';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '../../.env' });
 
 (async () => {
+  if (!process.env.DEPLOYMENT_ID || !process.env.REGION) {
+    throw new Error('Environment vars DEPLOYMENT_ID and REGION missing. They must be defined');
+  }
+
   // << test-section
   const session = new WebMessengerGuestSession({
-    deploymentId: process.env.DEPLOYMENT_ID!,
-    region: process.env.REGION!,
+    deploymentId: process.env.DEPLOYMENT_ID,
+    region: process.env.REGION,
   });
 
-  new Transcriber(session).on('messageTranscribed', (i) => console.log(i.toString()));
+  new SessionTranscriber(session).on('messageTranscribed', (i) => console.log(i.toString()));
 
   const convo = new Conversation(session);
 

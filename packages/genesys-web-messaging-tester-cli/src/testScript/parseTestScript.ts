@@ -32,7 +32,7 @@ export interface TestScriptScenario {
 
 export function parseScenarioStep(
   step: TestScriptFileScenarioStep,
-): (convo: Conversation, context: StepContext) => Promise<unknown | void> {
+): (convo: Conversation, context: StepContext) => Promise<unknown> {
   if ('say' in step) {
     return async (convo) => await convo.sendText(step.say);
   }

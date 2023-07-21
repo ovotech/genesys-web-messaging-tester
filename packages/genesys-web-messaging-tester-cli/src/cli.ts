@@ -10,7 +10,7 @@ import {
   Conversation,
   SessionConfig,
   TranscribedMessage,
-  Transcriber,
+  SessionTranscriber,
   WebMessengerGuestSession,
   WebMessengerSession,
 } from '@ovotech/genesys-web-messaging-tester';
@@ -210,22 +210,25 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
           }
 
           try {
-            new Transcriber(session).on('messageTranscribed', (event: TranscribedMessage) => {
-              transcription.push(event);
+            new SessionTranscriber(session).on(
+              'messageTranscribed',
+              (event: TranscribedMessage) => {
+                transcription.push(event);
 
-              if (!quietMode) {
-                if (hasMultipleTests) {
-                  task.output = ui?.firstLineOfMessageTranscribed(event);
-                } else {
-                  const message = ui?.messageTranscribed(event);
-                  if (task.output) {
-                    task.output += message;
+                if (!quietMode) {
+                  if (hasMultipleTests) {
+                    task.output = ui?.firstLineOfMessageTranscribed(event);
                   } else {
-                    task.output = message;
+                    const message = ui?.messageTranscribed(event);
+                    if (task.output) {
+                      task.output += message;
+                    } else {
+                      task.output = message;
+                    }
                   }
                 }
-              }
-            });
+              },
+            );
 
             const convo = conversationFactory(session);
             await convo.waitForConversationToStart();
