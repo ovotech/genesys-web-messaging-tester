@@ -9,16 +9,14 @@ export function createYamlFileReader(fsReadFileSync: typeof readFileSync): YamlF
     try {
       content = fsReadFileSync(path, 'utf8');
     } catch (error) {
-      // @ts-ignore
-      throw new Error(`Failed to read file '${path}'. Reason: ${error.message}`);
+      throw new Error(`Failed to read file '${path}'. Reason: ${String(error)}`);
     }
 
     let yamlContent: unknown;
     try {
       yamlContent = yaml.load(content);
     } catch (error) {
-      // @ts-ignore
-      throw new Error(`File '${path}' not valid YAML. Reason: ${error.message}`);
+      throw new Error(`File '${path}' not valid YAML. Reason: ${String(error)}`);
     }
 
     if (
