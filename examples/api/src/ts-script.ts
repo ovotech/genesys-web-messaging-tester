@@ -1,7 +1,7 @@
 import {
   Conversation,
   WebMessengerGuestSession,
-  Transcriber,
+  SessionTranscriber,
 } from '@ovotech/genesys-web-messaging-tester';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -14,7 +14,7 @@ require('dotenv').config({ path: '../../.env' });
     region: process.env.REGION!,
   });
 
-  new Transcriber(session).on('messageTranscribed', (i) => console.log(i.toString()));
+  new SessionTranscriber(session).on('messageTranscribed', (i) => console.log(i.toString()));
 
   const convo = new Conversation(session);
 

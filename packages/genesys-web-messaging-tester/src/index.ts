@@ -10,4 +10,4 @@ export {
   TimeoutWaitingForResponseError,
   BotDisconnectedWaitingForResponseError,
 } from './Conversation';
-export { Transcriber, TranscribedMessage } from './transcribe/Transcriber';
+export { SessionTranscriber, TranscribedMessage } from './transcribe/Transcriber';
