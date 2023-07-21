@@ -12,6 +12,7 @@ jobs:
         with:
           node-version: 16.x
       - run: yarn
+      - run: tsc -v
       - run: yarn lint
         env:
           CI: true
