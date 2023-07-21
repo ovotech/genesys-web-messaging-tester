@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@ikerin/build-readme": "^1.1.1",
-    "@sinonjs/fake-timers": "^10.0.2",
+    "@sinonjs/fake-timers": "^10.3.0",
     "@types/debug": "^4.1.8",
     "@types/jest": "^29.0.3",
     "@types/node": "^14.14.2",
