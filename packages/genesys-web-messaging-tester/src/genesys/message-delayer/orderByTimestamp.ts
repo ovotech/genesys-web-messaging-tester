@@ -2,7 +2,12 @@ import { Response } from '../Response';
 import { StructuredMessage } from '../StructuredMessage';
 import { isStructuredMessage } from '../WebMessengerGuestSession';
 
-export function orderByTimestamp(array: Response<unknown>[]): Response<unknown>[] {
+export interface orderByTimestampResult {
+  wasRearranged: boolean;
+  responses: Response<unknown>[];
+}
+
+export function orderByTimestamp(array: Response<unknown>[]): orderByTimestampResult {
   const withTimestamps: StructuredMessage[] = [];
   const withoutTimestamps: Response<unknown>[] = [];
 
@@ -32,5 +37,13 @@ export function orderByTimestamp(array: Response<unknown>[]): Response<unknown>[
     }
   }
 
-  return result;
+  let wasRearranged = false;
+  for (let i = 0; i < array.length; i++) {
+    if (!Object.is(result[i], array[i])) {
+      wasRearranged = true;
+      break;
+    }
+  }
+
+  return { wasRearranged, responses: result };
 }

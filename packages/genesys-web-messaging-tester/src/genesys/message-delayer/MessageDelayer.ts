@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events';
 import { Response } from '../Response';
 import { orderByTimestamp } from './orderByTimestamp';
+import debug from 'debug';
 
 /**
  * Provides the ability to delay messages for the purpose of re-ordering them.
@@ -16,6 +17,8 @@ export interface MessageDelayer extends EventEmitter {
  * timestamps.
  */
 export class ReorderedMessageDelayer extends EventEmitter implements MessageDelayer {
+  private static readonly debugger = debug('ReorderedMessageDelayer');
+
   private static readonly DELAY_IN_MS = 2000;
   private messages: Response<unknown>[] = [];
 
@@ -58,7 +61,13 @@ export class ReorderedMessageDelayer extends EventEmitter implements MessageDela
 
   private releaseOldestMessage(): void {
     if (this.messages.length > 0) {
-      this.messages = orderByTimestamp(this.messages);
+      const result = orderByTimestamp(this.messages);
+      if (result.wasRearranged) {
+        ReorderedMessageDelayer.debugger('Messages out of order: %O', this.messages);
+      }
+
+      this.messages = result.responses;
+
       this.emit('message', this.messages.shift());
     }
   }
