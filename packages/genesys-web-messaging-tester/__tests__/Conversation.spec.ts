@@ -3,6 +3,7 @@ import WebSocket from 'ws';
 import getPort from 'get-port';
 import { WebMessageServerFixture } from './fixtures/WebMessageServerFixture';
 import { WebMessageServerConnectionFixture } from './fixtures/WebMessageServerConnectionFixture';
+import { NoDelay } from './fixtures/NoDelay';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const FakeTimers = require('@sinonjs/fake-timers');
 
@@ -22,6 +23,7 @@ describe('Conversation', () => {
       },
       {},
       () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
+      new NoDelay(),
     );
 
     serverConnection = await genesysServerFixture.waitForConnection();

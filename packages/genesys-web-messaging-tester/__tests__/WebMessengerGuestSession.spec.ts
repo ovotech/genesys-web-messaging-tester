@@ -7,6 +7,7 @@ import {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
 } from './fixtures/WebMessageServerFixture';
+import { NoDelay } from './fixtures/NoDelay';
 
 describe('WebMessengerGuestSession', () => {
   let genesysServerFixture: WebMessageServerFixture;
@@ -50,6 +51,7 @@ describe('WebMessengerGuestSession', () => {
       },
       {},
       () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
+      new NoDelay(),
     );
 
     const connectionToServer = await genesysServerFixture.waitForConnection();
@@ -69,6 +71,7 @@ describe('WebMessengerGuestSession', () => {
       },
       {},
       () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
+      new NoDelay(),
     );
 
     const serverConnection = await genesysServerFixture.waitForConnection();
@@ -94,6 +97,7 @@ describe('WebMessengerGuestSession', () => {
       },
       {},
       () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
+      new NoDelay(),
     );
 
     (await genesysServerFixture.waitForConnection()).simulateOutboundTextStructuredMessage(
@@ -131,6 +135,7 @@ describe('WebMessengerGuestSession', () => {
       },
       { test: 'test-value' },
       () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
+      new NoDelay(),
     );
 
     const serverConnection = await genesysServerFixture.waitForConnection();

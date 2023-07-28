@@ -12,6 +12,7 @@ import {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
 } from './fixtures/WebMessageServerConnectionFixture';
+import { NoDelay } from './fixtures/NoDelay';
 
 describe('Transcriber', () => {
   let genesysServerFixture: WebMessageServerFixture;
@@ -29,6 +30,7 @@ describe('Transcriber', () => {
       },
       {},
       () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
+      new NoDelay(),
     );
 
     serverConnection = await genesysServerFixture.waitForConnection();
