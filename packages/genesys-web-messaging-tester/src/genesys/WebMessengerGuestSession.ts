@@ -1,4 +1,4 @@
-import { RawData, WebSocket, ClientOptions } from 'ws';
+import { ClientOptions, RawData, WebSocket } from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import { Response } from './Response';
 import { SessionResponse } from './SessionResponse';
@@ -6,6 +6,7 @@ import { StructuredMessage } from './StructuredMessage';
 import { EventEmitter } from 'events';
 import debug from 'debug';
 import { ClientRequestArgs } from 'http';
+import { MessageDelayer, ReorderedMessageDelayer } from './message-delayer/MessageDelayer';
 
 export interface WebMessengerSession extends EventEmitter {
   sendText(message: string): void;
@@ -17,6 +18,14 @@ export interface SessionConfig {
   readonly deploymentId: string;
   readonly region: string;
   readonly origin?: string | undefined;
+}
+
+function isSessionResponse(message: Response<unknown>): message is SessionResponse {
+  return message.type === 'response' && message.class === 'SessionResponse';
+}
+
+export function isStructuredMessage(message: Response<unknown>): message is StructuredMessage {
+  return message.type === 'message' && message.class === 'StructuredMessage';
 }
 
 /**
@@ -33,6 +42,7 @@ export class WebMessengerGuestSession extends EventEmitter {
     private readonly participantData: Record<string, string> = {},
     readonly wsFactory = (url: string, options?: ClientOptions | ClientRequestArgs) =>
       new WebSocket(url, options),
+    private readonly messageDelayer: MessageDelayer = new ReorderedMessageDelayer(),
   ) {
     super();
     this.sessionToken = uuidv4();
@@ -43,6 +53,8 @@ export class WebMessengerGuestSession extends EventEmitter {
     this.ws = wsFactory(url, { origin: this.config.origin });
     this.ws.on('open', () => this.connected());
     this.ws.on('message', (data) => this.messageReceived(data));
+
+    messageDelayer.on('message', (message) => this.processMessage(message));
   }
 
   private connected(): void {
@@ -55,6 +67,20 @@ export class WebMessengerGuestSession extends EventEmitter {
 
     WebMessengerGuestSession.debugger('Sending: %O', payload);
     this.ws.send(JSON.stringify(payload));
+  }
+
+  private processMessage(message: Response<unknown>): void {
+    if (isSessionResponse(message)) {
+      this.emit('sessionStarted', message);
+      return;
+    }
+
+    if (isStructuredMessage(message)) {
+      this.emit('structuredMessage', message);
+      return;
+    }
+
+    console.log('Unknown message', message);
   }
 
   private messageReceived(data: RawData): void {
@@ -77,22 +103,7 @@ export class WebMessengerGuestSession extends EventEmitter {
       throw Error(`Session Response was ${message.code} instead of 200 due to '${message.body}'`);
     }
 
-    switch (message.type) {
-      case 'response':
-        if (message.class === 'SessionResponse') {
-          const sessionResponse = message as SessionResponse;
-          this.emit('sessionStarted', sessionResponse);
-        }
-        break;
-      case 'message':
-        if (message.class === 'StructuredMessage') {
-          const structuredMessage = message as StructuredMessage;
-          this.emit('structuredMessage', structuredMessage);
-        }
-        break;
-      default:
-        console.log('Unknown message', message);
-    }
+    this.messageDelayer.add(message);
   }
 
   public sendText(message: string): void {
