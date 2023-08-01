@@ -26,10 +26,8 @@ import { AxiosError } from './AxiosError';
  * @see https://platform.openai.com/docs/quickstart/adjust-your-settings
  */
 const temperature = 0.6;
-const chatGptPrompt = `
-I want you to act as a customer looking to rent a car for a holiday, and I will act as the company's chatbot that will
-try and serve you. You want to rent a car in London for next Saturday and will drop it off in Liverpool 3 days later.
-If I make a mistake you must include the word "WRONG" in your response. Now start our conversation by saying hello to me`;
+const chatGptPrompt = `I want you to play the role of a customer who has just bought a product but have no interest in
+providing feedback. Now start the conversation with the company by saying 'bye bye!'.`;
 
 export interface AiCommandDependencies {
   command?: Command;
