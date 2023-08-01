@@ -1,12 +1,12 @@
-import { Conversation, SessionConfig } from '@ovotech/genesys-web-messaging-tester';
+import { SessionConfig } from '@ovotech/genesys-web-messaging-tester';
+import { SayStepDefinition } from './steps/SayStepParser';
+import { WaitForReplyContainingStepDefinition } from './steps/WaitForReplyContainingStepParser';
+import { WaitForParticipantDataStepDefinition } from './steps/WaitForParticipantDataStepParser';
 
 export type TestScriptFileScenarioStep =
-  | {
-      readonly say: string;
-    }
-  | {
-      readonly waitForReplyContaining: string;
-    };
+  | SayStepDefinition
+  | WaitForReplyContainingStepDefinition
+  | WaitForParticipantDataStepDefinition;
 
 export interface TestScriptFile {
   readonly config?: {
@@ -19,36 +19,51 @@ export interface TestScriptFile {
   };
 }
 
-export type StepContext = Record<string, string>;
+// export type StepContext = {
+//   conversationId: ReturnType<typeof createConversationIdGetter> | undefined;
+// };
 
-export interface TestScriptScenario {
+// export type Context = ScenarioStepRunnerParserContext &
+//   WaitForReplyContainingStepRunnerContext &
+//   WaitForParticipantDataStepRunnerContext;
+
+export interface TestScriptScenario<T> {
   sessionConfig: SessionConfig;
   name: string;
-  steps: ((convo: Conversation, context: StepContext) => Promise<unknown>)[];
+  steps: ScenarioStepRunner<T>[];
 }
 
-export function parseScenarioStep(
-  step: TestScriptFileScenarioStep,
-): (convo: Conversation, context: StepContext) => Promise<unknown | void> {
-  if ('say' in step) {
-    return async (convo) => await convo.sendText(step.say);
+export function parseScenarioStep<T>(
+  stepDef: TestScriptFileScenarioStep,
+  parsers: ScenarioStepRunnerParser<T>[],
+): ScenarioStepRunner<T> {
+  for (const parser of parsers) {
+    if (parser.canParse(stepDef)) {
+      return parser.parse(stepDef);
+    }
   }
 
-  if ('waitForReplyContaining' in step) {
-    return async (convo) =>
-      await convo.waitForResponseWithTextContaining(step.waitForReplyContaining);
-  }
-
-  throw new Error(`Unsupported step ${step}`);
+  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+  throw new Error(`Unsupported step ${stepDef}`);
 }
 
-export function extractScenarios(
+export interface ScenarioStepRunnerParser<TContext> {
+  canParse(step: TestScriptFileScenarioStep): boolean;
+  parse(step: TestScriptFileScenarioStep): ScenarioStepRunner<TContext>;
+}
+
+export interface ScenarioStepRunner<TContext> {
+  run(context: TContext): Promise<unknown>;
+}
+
+export function extractScenarios<T>(
   testScript: Exclude<TestScriptFile, 'config'>,
   sessionConfig: SessionConfig,
-): TestScriptScenario[] {
+  parsers: ScenarioStepRunnerParser<T>[],
+): TestScriptScenario<T>[] {
   return Object.entries(testScript.scenarios ?? []).map(([scenarioName, actions]) => ({
     sessionConfig,
     name: scenarioName,
-    steps: actions.map(parseScenarioStep),
+    steps: actions.map((step) => parseScenarioStep(step, parsers)),
   }));
 }

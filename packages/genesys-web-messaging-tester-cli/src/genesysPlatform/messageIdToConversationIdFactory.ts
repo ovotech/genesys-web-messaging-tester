@@ -85,10 +85,12 @@ export type ConversationIdGetterResponse =
   | ConversationIdGetterSuccess
   | ConversationIdGetterFailure;
 
+export type ConversationIdGetter = () => Promise<ConversationIdGetterResponse>;
+
 export function createConversationIdGetter(
   session: WebMessengerSession,
   client: MessageIdToConvoIdClient,
-): () => Promise<ConversationIdGetterResponse> {
+): ConversationIdGetter {
   let messageId: string | undefined;
 
   session.once('structuredMessage', (msg: StructuredMessage) => {

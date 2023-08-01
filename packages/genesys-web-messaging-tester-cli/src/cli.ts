@@ -21,10 +21,20 @@ import { ScenarioError, ScenarioSuccess } from './ScenarioResult';
 import { validateGenesysEnvVariables } from './genesysPlatform/validateGenesysEnvVariables';
 import { configurePlatformClients } from './genesysPlatform/configurePlatformClients';
 import {
+  ConversationIdGetter,
   createConversationIdGetter,
   messageIdToConversationIdFactory,
   MessageIdToConvoIdClient,
 } from './genesysPlatform/messageIdToConversationIdFactory';
+import { SayStepParser, SayStepRunnerContext } from './testScript/steps/SayStepParser';
+import {
+  WaitForReplyContainingStepParser,
+  WaitForReplyContainingStepRunnerContext,
+} from './testScript/steps/WaitForReplyContainingStepParser';
+import {
+  WaitForParticipantDataStepParser,
+  WaitForParticipantDataStepRunnerContext,
+} from './testScript/steps/WaitForParticipantDataStepParser';
 
 function parsePositiveInt(value: string) {
   const parsedValue = parseInt(value, 10);
@@ -183,11 +193,24 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
       return;
     }
 
+    const participantParser = new WaitForParticipantDataStepParser();
     // 5. Extract Scenarios from Test Script
-    const testScriptScenarios = extractScenarios(
+    const testScriptScenarios = extractScenarios<
+      SayStepRunnerContext &
+        WaitForReplyContainingStepRunnerContext &
+        WaitForParticipantDataStepRunnerContext
+    >(
       testScriptValidationResults.validTestScript,
       sessionConfigValidationResults.validSessionConfig,
+      [new SayStepParser(), new WaitForReplyContainingStepParser(), participantParser],
     );
+
+    if (participantParser.hasParsed) {
+      WaitForParticipantDataStepParser.preflightCheck(options.associateId);
+    }
+
+    // testScriptScenarios[0].steps[0].
+    //WaitForParticipantDataStepParser
 
     const hasMultipleTests = testScriptScenarios.length > 1;
 
@@ -198,8 +221,7 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
           const transcription: TranscribedMessage[] = [];
           const session = webMessengerSessionFactory(scenario.sessionConfig);
 
-          let conversationIdGetter: ReturnType<typeof createConversationIdGetter> | undefined =
-            undefined;
+          let conversationIdGetter: ConversationIdGetter | undefined = undefined;
           if (associateId.enabled) {
             conversationIdGetter = createConversationIdGetter(session, associateId.client);
           }
@@ -226,7 +248,7 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
             await convo.waitForConversationToStart();
 
             for (const step of scenario.steps) {
-              await step(convo, {});
+              await step.run({ convo, conversationId: conversationIdGetter });
             }
           } catch (error) {
             context.scenarioResults.push({
