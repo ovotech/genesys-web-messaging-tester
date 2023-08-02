@@ -123,6 +123,13 @@ Received before disconnection:
 export class Conversation {
   private sessionStarted: boolean;
 
+  /**
+   * When defining timeout durations we need to take into consideration the delay that occurs in the
+   * WebMessengerSession to correct for out of order messages;
+   * @private
+   */
+  private readonly timeoutCompensation: number;
+
   constructor(
     private readonly messengerSession: WebMessengerSession,
     private readonly timeoutSet: typeof setTimeout = setTimeout,
@@ -130,6 +137,8 @@ export class Conversation {
   ) {
     this.sessionStarted = false;
     this.messengerSession.once('sessionStarted', () => (this.sessionStarted = true));
+
+    this.timeoutCompensation = messengerSession.messageDelayInMs;
   }
 
   private static containsDisconnectEvent(event: StructuredMessageEventBody): boolean {
@@ -173,7 +182,7 @@ export class Conversation {
         setTimeout(() => {
           this.messengerSession.sendText(text);
           resolve();
-        }, delayInMs);
+        }, delayInMs + this.timeoutCompensation);
       });
     } else {
       this.messengerSession.sendText(text);
@@ -219,7 +228,7 @@ export class Conversation {
           waitingTimeout = this.timeoutSet(() => {
             this.messengerSession.off('structuredMessage', func);
             resolve(messages);
-          }, timeToWaitAfterLastMessageInMs);
+          }, timeToWaitAfterLastMessageInMs + this.timeoutCompensation);
         }
       };
 
@@ -227,7 +236,7 @@ export class Conversation {
       waitingTimeout = this.timeoutSet(() => {
         this.messengerSession.off('structuredMessage', func);
         resolve(messages);
-      }, timeToWaitAfterLastMessageInMs);
+      }, timeToWaitAfterLastMessageInMs + this.timeoutCompensation);
 
       this.messengerSession.on('structuredMessage', func);
     });
@@ -262,7 +271,7 @@ export class Conversation {
           return text;
         },
       },
-      timeoutInSeconds,
+      timeoutInSeconds + this.timeoutCompensation,
     );
   }
 
@@ -287,7 +296,7 @@ export class Conversation {
           return pattern.toString();
         },
       },
-      timeoutInSeconds,
+      timeoutInSeconds + this.timeoutCompensation,
     );
   }
 
@@ -354,7 +363,7 @@ export class Conversation {
             messagesWithTextReceived,
           ),
         );
-      }, timeoutInMs);
+      }, timeoutInMs + this.timeoutCompensation);
     });
   }
 }

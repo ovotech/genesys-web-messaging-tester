@@ -6,9 +6,20 @@ import { StructuredMessage } from './StructuredMessage';
 import { EventEmitter } from 'events';
 import debug from 'debug';
 import { ClientRequestArgs } from 'http';
-import { MessageDelayer, ReorderedMessageDelayer } from './message-delayer/MessageDelayer';
+import { MessageDelayer } from './message-delayer/MessageDelayer';
+import { ReorderedMessageDelayer } from './message-delayer/ReorderedMessageDelayer';
 
 export interface WebMessengerSession extends EventEmitter {
+  /**
+   * The Web Messenger server can sometimes return responses out of order. To cater for this
+   * we have to have a delay after every message is received before passing it to any listeners
+   * of the implementation. This delay hopefully provides enough time for any messages that should
+   * have preceded the other to be received and ordered.
+   *
+   * This delay should be taken into account for any timeout values of downstream functionality.
+   */
+  get messageDelayInMs(): number;
+
   sendText(message: string): void;
 
   close(): void;
@@ -55,6 +66,10 @@ export class WebMessengerGuestSession extends EventEmitter {
     this.ws.on('message', (data) => this.messageReceived(data));
 
     messageDelayer.on('message', (message) => this.processMessage(message));
+  }
+
+  public get messageDelayInMs(): number {
+    return this.messageDelayer.delay;
   }
 
   private connected(): void {

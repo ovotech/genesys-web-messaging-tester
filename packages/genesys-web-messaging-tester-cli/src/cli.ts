@@ -9,8 +9,8 @@ import { extractScenarios } from './testScript/parseTestScript';
 import {
   Conversation,
   SessionConfig,
-  TranscribedMessage,
   SessionTranscriber,
+  TranscribedMessage,
   WebMessengerGuestSession,
   WebMessengerSession,
 } from '@ovotech/genesys-web-messaging-tester';
