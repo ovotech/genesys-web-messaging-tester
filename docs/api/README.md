@@ -8,8 +8,8 @@ Genesys Web Messaging Tester
 
 - [BotDisconnectedWaitingForResponseError](classes/BotDisconnectedWaitingForResponseError.md)
 - [Conversation](classes/Conversation.md)
+- [SessionTranscriber](classes/SessionTranscriber.md)
 - [TimeoutWaitingForResponseError](classes/TimeoutWaitingForResponseError.md)
-- [Transcriber](classes/Transcriber.md)
 - [WebMessengerGuestSession](classes/WebMessengerGuestSession.md)
 
 ### Interfaces
