@@ -271,7 +271,7 @@ export class Conversation {
           return text;
         },
       },
-      timeoutInSeconds + this.timeoutCompensation,
+      timeoutInSeconds,
     );
   }
 
@@ -296,7 +296,7 @@ export class Conversation {
           return pattern.toString();
         },
       },
-      timeoutInSeconds + this.timeoutCompensation,
+      timeoutInSeconds,
     );
   }
 

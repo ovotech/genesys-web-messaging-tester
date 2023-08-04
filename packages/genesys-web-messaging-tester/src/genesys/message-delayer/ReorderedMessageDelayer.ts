@@ -67,6 +67,7 @@ export class ReorderedMessageDelayer extends EventEmitter implements MessageDela
         () => this.emitMessagesAfterSilence(),
         ReorderedMessageDelayer.INTERVAL,
       );
+      ReorderedMessageDelayer.debugger('Interval started');
     }
   }
 
@@ -74,15 +75,11 @@ export class ReorderedMessageDelayer extends EventEmitter implements MessageDela
     if (this.intervalReference) {
       this.intervalClear(this.intervalReference);
       this.intervalReference = undefined;
+      ReorderedMessageDelayer.debugger('Interval stopped');
     }
   }
 
   private emitMessagesAfterSilence(): void {
-    if (this.messages.length === 0) {
-      this.stopInterval();
-      return;
-    }
-
     const result = orderByTimestamp(this.messages);
     if (result.wasRearranged) {
       ReorderedMessageDelayer.debugger(
@@ -101,19 +98,27 @@ export class ReorderedMessageDelayer extends EventEmitter implements MessageDela
       if (isStructuredMessage(this.messages[0].response)) {
         const ageOfMessageInMs = now - this.messages[0].received.getTime();
         if (ageOfMessageInMs >= ReorderedMessageDelayer.SILENCE_TO_WAIT_IN_MS) {
-          this.emit('message', this.messages.shift()?.response);
+          const message = this.messages.shift()?.response;
+          this.emit('message', message);
           ReorderedMessageDelayer.debugger('Emitted message with timestamp: %O', {
             msDelayed: ageOfMessageInMs,
+            message,
           });
         } else {
           finished = true;
         }
       } else {
+        const message = this.messages.shift()?.response;
         // No timestamp so just emit
-        this.emit('message', this.messages.shift()?.response);
-        ReorderedMessageDelayer.debugger('Emitted message without timestamp');
+        this.emit('message', message);
+        ReorderedMessageDelayer.debugger('Emitted message without timestamp %O', message);
       }
     } while (!finished && this.messages.length > 0);
+
+    if (this.messages.length === 0) {
+      this.stopInterval();
+      return;
+    }
   }
 
   public get delay(): number {
