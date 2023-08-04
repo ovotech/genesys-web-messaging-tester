@@ -2,6 +2,7 @@ import { orderByTimestamp, orderByTimestampResult } from './orderByTimestamp';
 import { Response } from '../Response';
 import { StructuredMessage } from '../StructuredMessage';
 import { SessionResponse, SessionResponseSuccessBody } from '../SessionResponse';
+import { ReceivedMsg } from './MessageDelayer';
 
 function createStructuredMessage(text: string, time: string): StructuredMessage {
   return {
@@ -34,61 +35,120 @@ function createSessionResponse(body: SessionResponseSuccessBody): SessionRespons
 }
 
 describe('orderWithTimestamps', () => {
+  const received = new Date();
+
   test('Correctly sorts an array with timestamped and non-timestamped elements', () => {
-    const unordered: Response<unknown>[] = [
-      createStructuredMessage('1', '2023-07-22T21:19:41.256Z'),
-      createSessionResponse({ connected: true, newSession: false, readOnly: false }),
-      createStructuredMessage('3', '2023-07-22T21:19:55.256Z'),
-      createStructuredMessage('7', '2023-07-22T20:13:55.256Z'),
-      createSessionResponse({ connected: false, newSession: true, readOnly: false }),
-      createSessionResponse({ connected: false, newSession: false, readOnly: true }),
-      createStructuredMessage('6', '2023-07-22T21:19:25.256Z'),
+    const unordered: ReceivedMsg<StructuredMessage | Response<unknown>>[] = [
+      { received, response: createStructuredMessage('1', '2023-07-22T21:19:41.256Z') },
+      {
+        received,
+        response: createSessionResponse({ connected: true, newSession: false, readOnly: false }),
+      },
+      { received, response: createStructuredMessage('3', '2023-07-22T21:19:55.256Z') },
+      { received, response: createStructuredMessage('7', '2023-07-22T20:13:55.256Z') },
+      {
+        received,
+        response: createSessionResponse({ connected: false, newSession: true, readOnly: false }),
+      },
+      {
+        received,
+        response: createSessionResponse({ connected: false, newSession: false, readOnly: true }),
+      },
+      { received, response: createStructuredMessage('6', '2023-07-22T21:19:25.256Z') },
     ];
 
     expect(orderByTimestamp(unordered)).toStrictEqual<orderByTimestampResult>({
       wasRearranged: true,
       responses: [
-        createStructuredMessage('7', '2023-07-22T20:13:55.256Z'),
-        createSessionResponse({ connected: true, newSession: false, readOnly: false }),
-        createStructuredMessage('6', '2023-07-22T21:19:25.256Z'),
-        createStructuredMessage('1', '2023-07-22T21:19:41.256Z'),
-        createSessionResponse({ connected: false, newSession: true, readOnly: false }),
-        createSessionResponse({ connected: false, newSession: false, readOnly: true }),
-        createStructuredMessage('3', '2023-07-22T21:19:55.256Z'),
+        {
+          received,
+          response: createStructuredMessage('7', '2023-07-22T20:13:55.256Z'),
+        },
+        {
+          received,
+          response: createSessionResponse({ connected: true, newSession: false, readOnly: false }),
+        },
+        {
+          received,
+          response: createStructuredMessage('6', '2023-07-22T21:19:25.256Z'),
+        },
+        {
+          received,
+          response: createStructuredMessage('1', '2023-07-22T21:19:41.256Z'),
+        },
+        {
+          received,
+          response: createSessionResponse({ connected: false, newSession: true, readOnly: false }),
+        },
+        {
+          received,
+          response: createSessionResponse({ connected: false, newSession: false, readOnly: true }),
+        },
+        {
+          received,
+          response: createStructuredMessage('3', '2023-07-22T21:19:55.256Z'),
+        },
       ],
     });
   });
 
   test('Does not change the order of non-timestamped elements', () => {
-    const input: Response<unknown>[] = [
-      createSessionResponse({ connected: true, newSession: false, readOnly: false }),
-      createSessionResponse({ connected: true, newSession: true, readOnly: false }),
-      createSessionResponse({ connected: true, newSession: true, readOnly: true }),
+    const input: ReceivedMsg<StructuredMessage | Response<unknown>>[] = [
+      {
+        received,
+        response: createSessionResponse({ connected: true, newSession: false, readOnly: false }),
+      },
+      {
+        received,
+        response: createSessionResponse({ connected: true, newSession: true, readOnly: false }),
+      },
+      {
+        received,
+        response: createSessionResponse({ connected: true, newSession: true, readOnly: true }),
+      },
     ];
 
     expect(orderByTimestamp(input)).toStrictEqual<orderByTimestampResult>({
       wasRearranged: false,
       responses: [
-        createSessionResponse({ connected: true, newSession: false, readOnly: false }),
-        createSessionResponse({ connected: true, newSession: true, readOnly: false }),
-        createSessionResponse({ connected: true, newSession: true, readOnly: true }),
+        {
+          received,
+          response: createSessionResponse({ connected: true, newSession: false, readOnly: false }),
+        },
+        {
+          received,
+          response: createSessionResponse({ connected: true, newSession: true, readOnly: false }),
+        },
+        {
+          received,
+          response: createSessionResponse({ connected: true, newSession: true, readOnly: true }),
+        },
       ],
     });
   });
 
   test('Correctly sorts an array with only timestamped elements', () => {
-    const unordered: Response<unknown>[] = [
-      createStructuredMessage('1', '2023-07-22T21:19:41.256Z'),
-      createStructuredMessage('2', '2023-07-22T21:19:55.256Z'),
-      createStructuredMessage('3', '2023-07-22T21:19:25.256Z'),
+    const unordered: ReceivedMsg<StructuredMessage | Response<unknown>>[] = [
+      { received, response: createStructuredMessage('1', '2023-07-22T21:19:41.256Z') },
+      { received, response: createStructuredMessage('2', '2023-07-22T21:19:55.256Z') },
+      { received, response: createStructuredMessage('3', '2023-07-22T21:19:25.256Z') },
     ];
 
     expect(orderByTimestamp(unordered)).toStrictEqual<orderByTimestampResult>({
       wasRearranged: true,
       responses: [
-        createStructuredMessage('3', '2023-07-22T21:19:25.256Z'),
-        createStructuredMessage('1', '2023-07-22T21:19:41.256Z'),
-        createStructuredMessage('2', '2023-07-22T21:19:55.256Z'),
+        {
+          received,
+          response: createStructuredMessage('3', '2023-07-22T21:19:25.256Z'),
+        },
+        {
+          received,
+          response: createStructuredMessage('1', '2023-07-22T21:19:41.256Z'),
+        },
+        {
+          received,
+          response: createStructuredMessage('2', '2023-07-22T21:19:55.256Z'),
+        },
       ],
     });
   });

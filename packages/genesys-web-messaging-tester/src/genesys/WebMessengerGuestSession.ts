@@ -118,7 +118,7 @@ export class WebMessengerGuestSession extends EventEmitter {
       throw Error(`Session Response was ${message.code} instead of 200 due to '${message.body}'`);
     }
 
-    this.messageDelayer.add(message);
+    this.messageDelayer.add(message, new Date());
   }
 
   public sendText(message: string): void {

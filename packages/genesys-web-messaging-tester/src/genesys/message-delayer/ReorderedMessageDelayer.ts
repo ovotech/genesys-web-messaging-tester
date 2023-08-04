@@ -3,7 +3,7 @@ import debug from 'debug';
 import { Response } from '../Response';
 import { setInterval } from 'timers';
 import { orderByTimestamp } from './orderByTimestamp';
-import { MessageDelayer } from './MessageDelayer';
+import { MessageDelayer, ReceivedMsg } from './MessageDelayer';
 import { isStructuredMessage } from '../WebMessengerGuestSession';
 import { StructuredMessage } from '../StructuredMessage';
 
@@ -16,7 +16,7 @@ export class ReorderedMessageDelayer extends EventEmitter implements MessageDela
 
   private static readonly SILENCE_TO_WAIT_IN_MS = 5000;
   private static readonly INTERVAL = 1000;
-  private messages: Response<unknown>[] = [];
+  private messages: ReceivedMsg<Response<unknown>>[] = [];
 
   private lastMessageWithTimestamp: StructuredMessage | undefined = undefined;
 
@@ -33,7 +33,7 @@ export class ReorderedMessageDelayer extends EventEmitter implements MessageDela
    * Add a message to the pool. Each message added reset a timer to wait for any other messages
    * before releasing the oldest message.
    */
-  public add(message: Response<unknown>): void {
+  public add(message: Response<unknown>, received: Date): void {
     if (isStructuredMessage(message)) {
       if (this.lastMessageWithTimestamp) {
         const timeDifference =
@@ -54,7 +54,7 @@ export class ReorderedMessageDelayer extends EventEmitter implements MessageDela
       }
     }
 
-    this.messages.push(message);
+    this.messages.push({ received, response: message });
 
     if (!this.intervalReference) {
       this.startInterval();
@@ -98,10 +98,10 @@ export class ReorderedMessageDelayer extends EventEmitter implements MessageDela
     let finished = false;
     const now = new Date().getTime();
     do {
-      if (isStructuredMessage(this.messages[0])) {
-        const ageOfMessageInMs = now - new Date(this.messages[0].body.channel.time).getTime();
+      if (isStructuredMessage(this.messages[0].response)) {
+        const ageOfMessageInMs = now - this.messages[0].received.getTime();
         if (ageOfMessageInMs >= ReorderedMessageDelayer.SILENCE_TO_WAIT_IN_MS) {
-          this.emit('message', this.messages.shift());
+          this.emit('message', this.messages.shift()?.response);
           ReorderedMessageDelayer.debugger('Emitted message with timestamp: %O', {
             msDelayed: ageOfMessageInMs,
           });
@@ -110,7 +110,7 @@ export class ReorderedMessageDelayer extends EventEmitter implements MessageDela
         }
       } else {
         // No timestamp so just emit
-        this.emit('message', this.messages.shift());
+        this.emit('message', this.messages.shift()?.response);
         ReorderedMessageDelayer.debugger('Emitted message without timestamp');
       }
     } while (!finished && this.messages.length > 0);
