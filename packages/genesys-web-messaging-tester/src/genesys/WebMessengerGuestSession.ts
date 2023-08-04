@@ -65,7 +65,7 @@ export class WebMessengerGuestSession extends EventEmitter {
     this.ws.on('open', () => this.connected());
     this.ws.on('message', (data) => this.messageReceived(data));
 
-    messageDelayer.on('message', (message) => this.processMessage(message));
+    messageDelayer.on('message', (message: Response<unknown>) => this.processMessage(message));
   }
 
   public get messageDelayInMs(): number {

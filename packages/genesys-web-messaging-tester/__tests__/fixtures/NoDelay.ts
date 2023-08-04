@@ -10,4 +10,8 @@ export class NoDelay extends EventEmitter implements MessageDelayer {
   public add(message: Response<unknown>): void {
     this.emit('message', message);
   }
+
+  get delay(): number {
+    return 0;
+  }
 }

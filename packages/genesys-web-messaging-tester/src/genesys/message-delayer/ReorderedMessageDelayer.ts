@@ -1,29 +1,30 @@
 import { EventEmitter } from 'events';
 import debug from 'debug';
 import { Response } from '../Response';
-import { clearTimeout, setTimeout } from 'timers';
+import { setInterval } from 'timers';
 import { orderByTimestamp } from './orderByTimestamp';
 import { MessageDelayer } from './MessageDelayer';
 import { isStructuredMessage } from '../WebMessengerGuestSession';
 import { StructuredMessage } from '../StructuredMessage';
 
 /**
- * Reorders messages with a timestamp. This maintains the overall order of messages with/without
+ * Reorders messages with a timestamp, being sure to maintain the overall order of messages with/without
  * timestamps.
  */
 export class ReorderedMessageDelayer extends EventEmitter implements MessageDelayer {
   private static readonly debugger = debug('ReorderedMessageDelayer');
 
-  private static readonly DELAY_IN_MS = 2000;
+  private static readonly SILENCE_TO_WAIT_IN_MS = 5000;
+  private static readonly INTERVAL = 1000;
   private messages: Response<unknown>[] = [];
-
-  private timerReference: NodeJS.Timeout | undefined;
 
   private lastMessageWithTimestamp: StructuredMessage | undefined = undefined;
 
+  private intervalReference: NodeJS.Timeout | undefined;
+
   constructor(
-    private readonly timeoutSet: typeof setTimeout = setTimeout,
-    private readonly timeoutClear: typeof clearTimeout = clearTimeout,
+    private readonly intervalSet: typeof setInterval = setInterval,
+    private readonly intervalClear: typeof clearInterval = clearInterval,
   ) {
     super();
   }
@@ -53,43 +54,69 @@ export class ReorderedMessageDelayer extends EventEmitter implements MessageDela
       }
     }
 
-    this.clearDelay();
-
     this.messages.push(message);
 
-    this.startLoop();
-  }
-
-  private clearDelay(): void {
-    if (this.timerReference) {
-      this.timeoutClear(this.timerReference);
-      this.timerReference = undefined;
+    if (!this.intervalReference) {
+      this.startInterval();
     }
   }
 
-  private startLoop(): void {
-    this.timerReference = this.timeoutSet(() => {
-      this.releaseOldestMessage();
-      if (this.messages.length > 0) {
-        this.startLoop();
-      }
-    }, ReorderedMessageDelayer.DELAY_IN_MS);
+  private startInterval(): void {
+    if (!this.intervalReference) {
+      this.intervalReference = this.intervalSet(
+        () => this.emitMessagesAfterSilence(),
+        ReorderedMessageDelayer.INTERVAL,
+      );
+    }
   }
 
-  private releaseOldestMessage(): void {
-    if (this.messages.length > 0) {
-      const result = orderByTimestamp(this.messages);
-      if (result.wasRearranged) {
-        ReorderedMessageDelayer.debugger('Messages out of order: %O', this.messages);
-      }
-
-      this.messages = result.responses;
-
-      this.emit('message', this.messages.shift());
+  private stopInterval(): void {
+    if (this.intervalReference) {
+      this.intervalClear(this.intervalReference);
+      this.intervalReference = undefined;
     }
+  }
+
+  private emitMessagesAfterSilence(): void {
+    if (this.messages.length === 0) {
+      this.stopInterval();
+      return;
+    }
+
+    const result = orderByTimestamp(this.messages);
+    if (result.wasRearranged) {
+      ReorderedMessageDelayer.debugger(
+        'Flushing messages. Out of order message detected: %O',
+        this.messages,
+      );
+    } else {
+      ReorderedMessageDelayer.debugger('Flushing messages. No out of order messages');
+    }
+
+    this.messages = result.responses;
+
+    let finished = false;
+    const now = new Date().getTime();
+    do {
+      if (isStructuredMessage(this.messages[0])) {
+        const ageOfMessageInMs = now - new Date(this.messages[0].body.channel.time).getTime();
+        if (ageOfMessageInMs >= ReorderedMessageDelayer.SILENCE_TO_WAIT_IN_MS) {
+          this.emit('message', this.messages.shift());
+          ReorderedMessageDelayer.debugger('Emitted message with timestamp: %O', {
+            msDelayed: ageOfMessageInMs,
+          });
+        } else {
+          finished = true;
+        }
+      } else {
+        // No timestamp so just emit
+        this.emit('message', this.messages.shift());
+        ReorderedMessageDelayer.debugger('Emitted message without timestamp');
+      }
+    } while (!finished && this.messages.length > 0);
   }
 
   public get delay(): number {
-    return ReorderedMessageDelayer.DELAY_IN_MS;
+    return ReorderedMessageDelayer.SILENCE_TO_WAIT_IN_MS;
   }
 }
