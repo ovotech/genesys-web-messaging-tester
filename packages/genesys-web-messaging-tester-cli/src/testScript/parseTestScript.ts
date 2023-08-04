@@ -22,7 +22,9 @@ export interface TestScriptFile {
   };
 }
 
-export type StepContext = Record<string, string>;
+export interface StepContext {
+  timeoutInSeconds: number;
+}
 
 export interface TestScriptScenario {
   sessionConfig: SessionConfig;
@@ -38,14 +40,17 @@ export function parseScenarioStep(
   }
 
   if ('waitForReplyContaining' in step) {
-    return async (convo) =>
-      await convo.waitForResponseWithTextContaining(step.waitForReplyContaining);
+    return async (convo, context) =>
+      await convo.waitForResponseWithTextContaining(step.waitForReplyContaining, {
+        timeoutInSeconds: context.timeoutInSeconds,
+      });
   }
 
   if ('waitForReplyMatching' in step) {
-    return async (convo) =>
+    return async (convo, context) =>
       await convo.waitForResponseWithTextMatchingPattern(
         new RegExp(step.waitForReplyMatching, 'im'),
+        { timeoutInSeconds: context.timeoutInSeconds },
       );
   }
 

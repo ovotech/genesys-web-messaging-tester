@@ -119,6 +119,8 @@ Options:
                                        GENESYSCLOUD_OAUTHCLIENT_ID
                                        GENESYSCLOUD_OAUTHCLIENT_SECRET (default: false)
   -fo, --failures-only                 Only output failures (default: false)
+  -t, --timeout <number>               Seconds to wait for a response before
+                                       failing the test (default: 10)
   -h, --help                           display help for command
 ```
 

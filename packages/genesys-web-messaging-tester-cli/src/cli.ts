@@ -109,6 +109,12 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
     false,
   );
   program?.option('-fo, --failures-only', 'Only output failures', false);
+  program?.option(
+    '-t, --timeout <number>',
+    'Seconds to wait for a response before failing the test',
+    parsePositiveInt,
+    10,
+  );
 
   const yamlFileReader = createYamlFileReader(fsReadFileSync);
 
@@ -234,7 +240,7 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
             await convo.waitForConversationToStart();
 
             for (const step of scenario.steps) {
-              await step(convo, {});
+              await step(convo, { timeoutInSeconds: options.timeout });
             }
           } catch (error) {
             context.scenarioResults.push({
