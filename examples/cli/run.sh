@@ -7,6 +7,9 @@ function cleanup {
 }
 trap cleanup EXIT
 
+## Help message for updating the docs
+web-messaging-tester --help
+
 ## Passing example exits with exit code 0
 web-messaging-tester example-pass.yml -id $DEPLOYMENT_ID -r $REGION -p 10
 if [ $? -ne 0 ]

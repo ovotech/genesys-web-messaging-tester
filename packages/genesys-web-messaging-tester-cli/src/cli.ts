@@ -111,7 +111,7 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
   program?.option('-fo, --failures-only', 'Only output failures', false);
   program?.option(
     '-t, --timeout <number>',
-    'Total seconds to wait for a response before failing the test',
+    'Seconds to wait for a response before failing the test',
     parsePositiveInt,
     10,
   );
