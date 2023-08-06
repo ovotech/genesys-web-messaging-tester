@@ -14,8 +14,6 @@ import { StructuredMessage } from '../StructuredMessage';
 export class ReorderedMessageDelayer extends EventEmitter implements MessageDelayer {
   private static readonly debugger = debug('ReorderedMessageDelayer');
 
-  private static readonly SILENCE_TO_WAIT_IN_MS = 5000;
-  private static readonly INTERVAL = 1000;
   private messages: ReceivedMsg<Response<unknown>>[] = [];
 
   private lastMessageWithTimestamp: StructuredMessage | undefined = undefined;
@@ -23,17 +21,15 @@ export class ReorderedMessageDelayer extends EventEmitter implements MessageDela
   private intervalReference: NodeJS.Timeout | undefined;
 
   constructor(
+    private readonly delayBeforeEmittingInMs: number = 5000,
+    private readonly intervalInMs: number = 1000,
     private readonly intervalSet: typeof setInterval = setInterval,
     private readonly intervalClear: typeof clearInterval = clearInterval,
   ) {
     super();
   }
 
-  /**
-   * Add a message to the pool. Each message added reset a timer to wait for any other messages
-   * before releasing the oldest message.
-   */
-  public add(message: Response<unknown>, received: Date): void {
+  private logUnorderedMessageTimeDiff(message: Response<unknown>): void {
     if (isStructuredMessage(message)) {
       if (this.lastMessageWithTimestamp) {
         const timeDifference =
@@ -53,6 +49,14 @@ export class ReorderedMessageDelayer extends EventEmitter implements MessageDela
         this.lastMessageWithTimestamp = message;
       }
     }
+  }
+
+  /**
+   * Add a message to the pool. Each message added reset a timer to wait for any other messages
+   * before releasing the oldest message.
+   */
+  public add(message: Response<unknown>, received: Date): void {
+    this.logUnorderedMessageTimeDiff(message);
 
     this.messages.push({ received, response: message });
 
@@ -65,7 +69,7 @@ export class ReorderedMessageDelayer extends EventEmitter implements MessageDela
     if (!this.intervalReference) {
       this.intervalReference = this.intervalSet(
         () => this.emitMessagesAfterSilence(),
-        ReorderedMessageDelayer.INTERVAL,
+        this.intervalInMs,
       );
       ReorderedMessageDelayer.debugger('Interval started');
     }
@@ -97,7 +101,7 @@ export class ReorderedMessageDelayer extends EventEmitter implements MessageDela
     do {
       if (isStructuredMessage(this.messages[0].response)) {
         const ageOfMessageInMs = now - this.messages[0].received.getTime();
-        if (ageOfMessageInMs >= ReorderedMessageDelayer.SILENCE_TO_WAIT_IN_MS) {
+        if (ageOfMessageInMs >= this.delayBeforeEmittingInMs) {
           const message = this.messages.shift()?.response;
           this.emit('message', message);
           ReorderedMessageDelayer.debugger('Emitted message with timestamp: %O', {
@@ -122,6 +126,6 @@ export class ReorderedMessageDelayer extends EventEmitter implements MessageDela
   }
 
   public get delay(): number {
-    return ReorderedMessageDelayer.SILENCE_TO_WAIT_IN_MS;
+    return this.delayBeforeEmittingInMs;
   }
 }
