@@ -1,11 +1,5 @@
 import { EventEmitter } from 'events';
 import { Response } from '../Response';
-import { StructuredMessage } from '../StructuredMessage';
-
-export interface ReceivedMsg<T extends StructuredMessage | Response<unknown>> {
-  received: Date;
-  response: T;
-}
 
 /**
  * Provides the ability to delay messages for the purpose of re-ordering them.

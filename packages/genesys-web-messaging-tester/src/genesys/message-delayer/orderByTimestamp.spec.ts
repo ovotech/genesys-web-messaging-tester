@@ -2,7 +2,7 @@ import { orderByTimestamp, orderByTimestampResult } from './orderByTimestamp';
 import { Response } from '../Response';
 import { StructuredMessage } from '../StructuredMessage';
 import { SessionResponse, SessionResponseSuccessBody } from '../SessionResponse';
-import { ReceivedMsg } from './MessageDelayer';
+import { ReceivedMsg } from './ReorderedMessageDelayer';
 
 function createStructuredMessage(text: string, time: string): StructuredMessage {
   return {

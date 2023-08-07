@@ -1,7 +1,7 @@
 import { StructuredMessage } from '../StructuredMessage';
 import { isStructuredMessage } from '../WebMessengerGuestSession';
-import { ReceivedMsg } from './MessageDelayer';
 import { Response } from '../Response';
+import { ReceivedMsg } from './ReorderedMessageDelayer';
 
 export interface orderByTimestampResult {
   wasRearranged: boolean;

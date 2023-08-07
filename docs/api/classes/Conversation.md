@@ -55,7 +55,7 @@ console.log(reply);
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:126](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L126)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:133](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L133)
 
 ## Methods
 
@@ -78,7 +78,7 @@ Sends text to the conversation
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:166](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L166)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:175](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L175)
 
 ___
 
@@ -97,7 +97,7 @@ background. This method allows you to wait for this process to finish.
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:145](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L145)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:154](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L154)
 
 ___
 
@@ -115,7 +115,7 @@ If you want to wait for a specific message use [waitForResponseWithTextContainin
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:188](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L188)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:197](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L197)
 
 ___
 
@@ -147,7 +147,7 @@ use [waitForResponseText](Conversation.md#waitforresponsetext).
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:246](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L246)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:255](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L255)
 
 ___
 
@@ -176,7 +176,7 @@ use [waitForResponseText](Conversation.md#waitforresponsetext).
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:277](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L277)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:286](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L286)
 
 ___
 
@@ -198,4 +198,4 @@ Wait for all responses until there is a predefined amount of 'silence'.
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:204](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L204)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:213](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L213)

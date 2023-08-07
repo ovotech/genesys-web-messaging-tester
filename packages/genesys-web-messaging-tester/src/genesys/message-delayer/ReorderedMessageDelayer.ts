@@ -3,13 +3,22 @@ import debug from 'debug';
 import { Response } from '../Response';
 import { setInterval } from 'timers';
 import { orderByTimestamp } from './orderByTimestamp';
-import { MessageDelayer, ReceivedMsg } from './MessageDelayer';
+import { MessageDelayer } from './MessageDelayer';
 import { isStructuredMessage } from '../WebMessengerGuestSession';
 import { StructuredMessage } from '../StructuredMessage';
+
+export interface ReceivedMsg<T extends StructuredMessage | Response<unknown>> {
+  received: Date;
+  response: T;
+}
 
 /**
  * Reorders messages with a timestamp, being sure to maintain the overall order of messages with/without
  * timestamps.
+ *
+ * > All messaging follows a request/response pattern. However, web messaging is an asynchronous
+ * > channel and therefore no guarantee to ordering is provided.
+ * > Source: https://developer.genesys.cloud/commdigital/digital/webmessaging/websocketapi#messaging
  */
 export class ReorderedMessageDelayer extends EventEmitter implements MessageDelayer {
   private static readonly debugger = debug('ReorderedMessageDelayer');
