@@ -10,6 +10,7 @@ export async function configurePlatformClients(
   auth: GenesysPlatformApiAuth,
 ): Promise<{ convoApi: platformClient.ConversationsApi }> {
   const apiClient = platformClient.ApiClient.instance;
+
   apiClient.setEnvironment(auth.region);
   await apiClient.loginClientCredentialsGrant(auth.oAuthClientId, auth.oAuthClientSecret);
 

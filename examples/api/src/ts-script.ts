@@ -2,7 +2,7 @@
 import {
   Conversation,
   WebMessengerGuestSession,
-  Transcriber,
+  SessionTranscriber,
 } from '@ovotech/genesys-web-messaging-tester';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -15,7 +15,7 @@ require('dotenv').config({ path: '../../.env' });
     region: process.env.REGION!,
   });
 
-  new Transcriber(session).on('messageTranscribed', (i) => console.log(i.toString()));
+  new SessionTranscriber(session).on('messageTranscribed', (i) => console.log(i.toString()));
 
   const convo = new Conversation(session);
 
@@ -36,10 +36,12 @@ require('dotenv').config({ path: '../../.env' });
   await convo.sendText('Yes');
   // test-section
 
-  await convo.waitForResponseWithTextContaining('Thank you! Now for the next question...', {
-    timeoutInSeconds: 10,
-    caseInsensitive: true,
-  });
+  await convo.waitForResponseWithTextMatchingPattern(
+    new RegExp(/Thank you! Now for the next question[.]+/, 'im'),
+    {
+      timeoutInSeconds: 10,
+    },
+  );
 
   session.close();
 })().catch((e) => {

@@ -20,7 +20,7 @@ against scenarios in a YAML file. This makes testing:
 
 The above test is using the test-script:
 
-> [examples/cli-scenario/example.yml](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli-scenario/example.yml)
+> [examples/cli/example-pass.yml](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli/example-pass.yml)
 
 ```yaml
 config:
@@ -31,7 +31,7 @@ scenarios:
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
     - say: Yes
-    - waitForReplyContaining: Thank you! Now for the next question...
+    - waitForReplyMatching: Thank you! Now for the next question[\.]+
   "Decline Survey":
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
@@ -67,7 +67,7 @@ npm install -g @ovotech/genesys-web-messaging-tester-cli
 Write a test-script containing all the scenarios you wish to run along with
 the [ID and region of your Web Messenger Deployment](https://help.mypurecloud.com/articles/deploy-messenger/).
 
-> [examples/cli-scenario/example.yml](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli-scenario/example.yml)
+> [examples/cli/example-pass.yml](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli/example-pass.yml)
 
 ```yaml
 config:
@@ -78,7 +78,7 @@ scenarios:
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
     - say: Yes
-    - waitForReplyContaining: Thank you! Now for the next question...
+    - waitForReplyMatching: Thank you! Now for the next question[\.]+
   "Decline Survey":
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
@@ -101,8 +101,8 @@ web-messaging-tester tests/example.yml
 ## Examples
 
 ```
-$ web-messaging-tester test-scenario --help
-Usage: index [options] <filePath>
+$ web-messaging-tester --help
+Usage: web-messaging-tester [options] <filePath>
 
 Arguments:
   filePath                             Path of the YAML test-script file
@@ -119,17 +119,23 @@ Options:
                                        GENESYSCLOUD_OAUTHCLIENT_ID
                                        GENESYSCLOUD_OAUTHCLIENT_SECRET (default: false)
   -fo, --failures-only                 Only output failures (default: false)
+  -t, --timeout <number>               Seconds to wait for a response before
+                                       failing the test (default: 10)
   -h, --help                           display help for command
 ```
 
 Override Deployment ID and Region in test-script file:
 
 ```shell
-web-messaging-tester test-scenario -id 00000000-0000-0000-0000-000000000000 -r xxxx.pure.cloud test-script.yaml
+web-messaging-tester test-script.yaml -id 00000000-0000-0000-0000-000000000000 -r xxxx.pure.cloud
 ```
 
 Run 10 scenarios in parallel:
 
 ```shell
-web-messaging-tester test-scenario --parallel 10 test-script.yaml
+web-messaging-tester test-script.yaml --parallel 10
 ```
+
+## Development
+
+* [Release Strategy](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/docs/release-strategy.md)

@@ -15,6 +15,7 @@ const schema = Joi.object({
         Joi.object({
           say: Joi.string(),
           waitForReplyContaining: Joi.string(),
+          waitForReplyMatching: Joi.string(),
         }).length(1),
       ),
     )

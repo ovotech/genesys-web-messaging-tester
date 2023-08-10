@@ -12,15 +12,17 @@
   ],
   "scripts": {
     "test": "yarn workspaces foreach --verbose --exclude '@examples/*' run test",
+    "lint": "yarn workspaces foreach --verbose run lint",
     "build": "yarn workspaces foreach --verbose run build",
-    "build:docs": "cp README.md packages/genesys-web-messaging-tester-cli/README.md && typedoc && yarn workspaces foreach --verbose run build:readme",
+    "build:docs": "yarn build:readme && cp README.md packages/genesys-web-messaging-tester-cli/README.md && typedoc && yarn workspaces foreach --verbose run build:readme",
+    "build:readme": "yarn build-readme ./README.md https://github.com/ovotech/genesys-web-messaging-tester/tree/main",
     "publish": "yarn workspaces foreach --no-private --verbose npm publish --tolerate-republish --access public"
   },
   "devDependencies": {
     "@ikerin/build-readme": "^1.1.1",
-    "typedoc": "^0.23.15",
-    "typedoc-plugin-markdown": "^3.13.6",
-    "typescript": "^4.8.3"
+    "typedoc": "^0.24.8",
+    "typedoc-plugin-markdown": "^3.15.3",
+    "typescript": "^5.1.6"
   },
   "engines": {
     "node": "~16.10.0"

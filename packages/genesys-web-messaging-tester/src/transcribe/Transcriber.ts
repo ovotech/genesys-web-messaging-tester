@@ -18,7 +18,7 @@ export declare interface Transcriber {
 /**
  * Transcribes a Web Messenger session into an array of transcribed messages.
  */
-export class Transcriber extends EventEmitter {
+export class SessionTranscriber extends EventEmitter {
   private readonly conversation: TranscribedMessage[];
 
   private readonly _nameForClient: string;
