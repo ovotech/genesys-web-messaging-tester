@@ -1,4 +1,4 @@
-import { validatePromptScript } from './validateTestScript';
+import { validatePromptScript } from './validatePromptScript';
 
 test('Valid', () => {
   const validationResponse = validatePromptScript({
@@ -10,21 +10,21 @@ test('Valid', () => {
       'test-name-of-test-1': {
         prompt: 'test-prompt-1',
         terminatingResponses: {
-          failing: ['test-failing-response-1'],
-          passing: ['test-passing-prompt-1'],
+          fail: ['test-failing-response-1'],
+          pass: ['test-passing-prompt-1'],
         },
       },
       'test-name-of-test-2': {
         prompt: 'test-prompt-2',
         terminatingResponses: {
-          failing: ['test-failing-response-2'],
-          passing: ['test-passing-prompt-2'],
+          fail: ['test-failing-response-2'],
+          pass: ['test-passing-prompt-2'],
         },
       },
     },
   });
   expect(validationResponse).toStrictEqual({
-    validTestScript: {
+    validPromptScript: {
       config: {
         deploymentId: 'test-deployment-id',
         region: 'test-region',
@@ -33,15 +33,15 @@ test('Valid', () => {
         'test-name-of-test-1': {
           prompt: 'test-prompt-1',
           terminatingResponses: {
-            failing: ['test-failing-response-1'],
-            passing: ['test-passing-prompt-1'],
+            fail: ['test-failing-response-1'],
+            pass: ['test-passing-prompt-1'],
           },
         },
         'test-name-of-test-2': {
           prompt: 'test-prompt-2',
           terminatingResponses: {
-            failing: ['test-failing-response-2'],
-            passing: ['test-passing-prompt-2'],
+            fail: ['test-failing-response-2'],
+            pass: ['test-passing-prompt-2'],
           },
         },
       },
@@ -59,7 +59,7 @@ test('Invalid', () => {
       'test-name-of-test-1': {
         prompt: 'test-prompt-1',
         terminatingResponses: {
-          passing: ['test-passing-prompt-1'],
+          pass: ['test-passing-prompt-1'],
         },
       },
     },
@@ -69,11 +69,11 @@ test('Invalid', () => {
       details: [
         {
           context: {
-            key: 'failing',
-            label: 'prompts.test-name-of-test-1.terminatingResponses.failing',
+            key: 'fail',
+            label: 'prompts.test-name-of-test-1.terminatingResponses.fail',
           },
-          message: '"prompts.test-name-of-test-1.terminatingResponses.failing" is required',
-          path: ['prompts', 'test-name-of-test-1', 'terminatingResponses', 'failing'],
+          message: '"prompts.test-name-of-test-1.terminatingResponses.fail" is required',
+          path: ['prompts', 'test-name-of-test-1', 'terminatingResponses', 'fail'],
           type: 'any.required',
         },
       ],

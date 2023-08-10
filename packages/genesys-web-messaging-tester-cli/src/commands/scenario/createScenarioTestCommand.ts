@@ -44,7 +44,6 @@ interface ListrRunContext {
 
 export interface ScenarioTestCommandDependencies {
   command?: Command;
-  outputConsole?: Console;
   ui?: Ui;
   webMessengerSessionFactory?: (sessionConfig: SessionConfig) => WebMessengerSession;
   conversationFactory?: (session: WebMessengerSession) => Conversation;
@@ -67,6 +66,9 @@ export function createScenarioTestCommand({
   quietMode = !process.stdout.isTTY || ci.isCI,
 }: ScenarioTestCommandDependencies = {}): Command {
   const yamlFileReader = createYamlFileReader(fsReadFileSync);
+  if (!ui) {
+    throw new Error('UI must be defined');
+  }
 
   return command
     .command('test-scenario')
@@ -118,7 +120,7 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
           const genesysEnvValidationResult = validateGenesysEnvVariables(process.env);
           if (!genesysEnvValidationResult.genesysVariables) {
             outputConfig.writeErr(
-              ui?.validatingAssociateConvoIdEnvValidationFailed(genesysEnvValidationResult.error),
+              ui.validatingAssociateConvoIdEnvValidationFailed(genesysEnvValidationResult.error),
             );
           } else {
             const clients = await configurePlatformClients(
@@ -130,8 +132,8 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
 
             const checkResult = await messageIdToConversationIdClient.preflightCheck();
             if (!checkResult.ok) {
-              outputConfig.writeErr(ui?.preflightCheckOfAssociateConvoIdFailed(checkResult));
-              throw new Error(); //processExitOverride(1);
+              outputConfig.writeErr(ui.preflightCheckOfAssociateConvoIdFailed(checkResult));
+              throw new Error();
             }
           }
         }
@@ -141,30 +143,30 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
         try {
           testScriptFileContents = yamlFileReader(testScriptPath);
         } catch (error) {
-          outputConfig.writeErr(ui?.errorReadingTestScriptFile(error as Error));
+          outputConfig.writeErr(ui.errorReadingTestScriptFile(error as Error));
           throw new Error();
         }
 
         // 2. Validate Test Script
         const testScriptValidationResults = validateTestScript(testScriptFileContents);
-        if (!testScriptValidationResults.validTestScript) {
-          outputConfig.writeErr(ui?.validatingTestScriptFailed(testScriptValidationResults.error));
+        if (testScriptValidationResults.error) {
+          outputConfig.writeErr(ui.validatingTestScriptFailed(testScriptValidationResults.error));
           throw new Error();
         }
 
         // 3. Merge session config from args and Test Script - args take priority
         const { validTestScript } = testScriptValidationResults;
         const mergedSessionConfig: Partial<SessionConfig> = {
-          deploymentId: options.deploymentId ?? validTestScript?.config?.deploymentId,
-          region: options.region ?? validTestScript?.config?.region,
-          origin: options.origin ?? validTestScript?.config?.origin,
+          deploymentId: options.deploymentId ?? validTestScript.config?.deploymentId,
+          region: options.region ?? validTestScript.config?.region,
+          origin: options.origin ?? validTestScript.config?.origin,
         };
 
         // 4. Validate session config
         const sessionConfigValidationResults = validateSessionConfig(mergedSessionConfig);
         if (!sessionConfigValidationResults.validSessionConfig) {
           outputConfig.writeErr(
-            ui?.validatingSessionConfigFailed(sessionConfigValidationResults.error),
+            ui.validatingSessionConfigFailed(sessionConfigValidationResults.error),
           );
           throw new Error();
         }
@@ -179,7 +181,7 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
 
         const tasks = new Listr<ListrRunContext>(
           testScriptScenarios.map((scenario) => ({
-            title: ui?.titleOfTask(scenario),
+            title: ui.titleOfTask(scenario),
             task: async (context, task) => {
               const transcription: TranscribedMessage[] = [];
               const session = webMessengerSessionFactory(scenario.sessionConfig);
@@ -257,7 +259,7 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
 
         if (!options.failuresOnly) {
           for (const s of scenariosThatPassed) {
-            outputConfig.writeOut(await ui?.scenarioTestResult(s));
+            outputConfig.writeOut(await ui.scenarioTestResult(s));
           }
         }
 
@@ -266,11 +268,11 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
         ) as ScenarioSuccess[];
 
         for (const s of scenariosThatFailed) {
-          outputConfig.writeOut(await ui?.scenarioTestResult(s));
+          outputConfig.writeOut(await ui.scenarioTestResult(s));
         }
 
         outputConfig.writeOut(
-          ui?.testScriptSummary([...scenariosThatPassed, ...scenariosThatFailed]),
+          ui.testScriptSummary([...scenariosThatPassed, ...scenariosThatFailed]),
         );
 
         if (results.scenarioResults.some((r) => !r.hasPassed)) {

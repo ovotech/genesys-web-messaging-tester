@@ -21,11 +21,15 @@ test('conversation ended when ChatGPT says special word', () => {
         content: `${wordToIndicateEnd} - This has gone wrong`,
       },
     ],
-    wordToIndicateEnd,
+    [wordToIndicateEnd],
+    [],
   );
 
   expect(shouldEnd).toStrictEqual({
     hasEnded: true,
-    reason: 'ChatGPT indicated the bot made a mistake: WRONG - This has gone wrong',
+    reason: {
+      type: 'fail',
+      description: 'Terminating phrase found in response: WRONG - This has gone wrong',
+    },
   });
 });

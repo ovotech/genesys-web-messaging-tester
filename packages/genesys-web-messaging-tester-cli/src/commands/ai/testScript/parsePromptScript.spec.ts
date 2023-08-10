@@ -1,20 +1,20 @@
-import { extractPrompts, TestScriptFile } from './parseTestScript';
+import { extractPrompts, TestPromptFile } from './parsePromptScript';
 
 test('prompts converted', () => {
-  const testScriptFile: TestScriptFile = {
+  const testScriptFile: TestPromptFile = {
     prompts: {
       'test-name-of-test-1': {
         prompt: 'test-prompt-1',
         terminatingResponses: {
-          failing: ['test-failing-response-1'],
-          passing: ['test-passing-prompt-1'],
+          fail: ['test-failing-response-1'],
+          pass: ['test-passing-prompt-1'],
         },
       },
       'test-name-of-test-2': {
         prompt: 'test-prompt-2',
         terminatingResponses: {
-          failing: ['test-failing-response-2'],
-          passing: ['test-passing-prompt-2'],
+          fail: ['test-failing-response-2'],
+          pass: ['test-passing-prompt-2'],
         },
       },
     },
@@ -34,8 +34,8 @@ test('prompts converted', () => {
       name: 'test-name-of-test-1',
       prompt: 'test-prompt-1',
       terminatingResponses: {
-        failing: ['test-failing-response-1'],
-        passing: ['test-passing-prompt-1'],
+        fail: ['test-failing-response-1'],
+        pass: ['test-passing-prompt-1'],
       },
     },
     {
@@ -46,8 +46,8 @@ test('prompts converted', () => {
       name: 'test-name-of-test-2',
       prompt: 'test-prompt-2',
       terminatingResponses: {
-        failing: ['test-failing-response-2'],
-        passing: ['test-passing-prompt-2'],
+        fail: ['test-failing-response-2'],
+        pass: ['test-passing-prompt-2'],
       },
     },
   ]);

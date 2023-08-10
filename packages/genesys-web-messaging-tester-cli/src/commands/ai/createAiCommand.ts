@@ -12,9 +12,11 @@ import { validateOpenAiEnvVariables } from './validateOpenAIEnvVariables';
 import { Ui } from './ui';
 import { validateSessionConfig } from './validateSessionConfig';
 import { backOff } from 'exponential-backoff';
-import chalk from 'chalk';
-import { shouldEndConversation } from './shouldEndConversation';
+import { shouldEndConversation, ShouldEndConversationResult } from './shouldEndConversation';
 import { AxiosError } from './AxiosError';
+import { readableFileValidator } from '../../fileSystem/readableFileValidator';
+import { createYamlFileReader } from '../../fileSystem/yamlFileReader';
+import { validatePromptScript } from './testScript/validatePromptScript';
 
 /**
  * This value can be between 0 and 1 and controls the randomness of ChatGPT's completions.
@@ -26,14 +28,11 @@ import { AxiosError } from './AxiosError';
  * @see https://platform.openai.com/docs/quickstart/adjust-your-settings
  */
 const temperature = 0.6;
-const chatGptPrompt = `I want you to play the role of a customer who has just bought a product but have no interest in
-providing feedback. Now start the conversation with the company by saying 'bye bye!'.`;
 
 export interface AiCommandDependencies {
   command?: Command;
   ui?: Ui;
   openAiApiFactory?: (config: Configuration) => OpenAIApi;
-  outputConsole?: Console;
   webMessengerSessionFactory?: (sessionConfig: SessionConfig) => WebMessengerSession;
   conversationFactory?: (session: WebMessengerSession) => Conversation;
   fsReadFileSync?: typeof readFileSync;
@@ -46,109 +45,173 @@ export function createAiCommand({
   openAiApiFactory = (config) => new OpenAIApi(config),
   webMessengerSessionFactory = (config) => new WebMessengerGuestSession(config, { IsTest: 'true' }),
   conversationFactory = (session) => new Conversation(session),
+  fsReadFileSync = readFileSync,
+  fsAccessSync = accessSync,
 }: AiCommandDependencies = {}): Command {
+  const yamlFileReader = createYamlFileReader(fsReadFileSync);
+  if (!ui) {
+    throw new Error('UI must be defined');
+  }
+
   return command
     .command('ai')
     .description('Test a WM Deployment against Generative AI')
+    .argument(
+      '<filePath>',
+      'Path of the YAML test-script file',
+      readableFileValidator(fsAccessSync),
+    )
     .option('-id, --deployment-id <deploymentId>', "Web Messenger Deployment's ID")
     .option(
       '-r, --region <region>',
       'Region of Genesys instance that hosts the Web Messenger Deployment',
     )
     .option('-o, --origin <origin>', 'Origin domain used for restricting Web Messenger Deployment')
-    .action(async (options: { deploymentId?: string; region?: string; origin?: string }) => {
-      const outputConfig = command.configureOutput();
-      if (!outputConfig.writeOut || !outputConfig.writeErr) {
-        throw new Error('No writeOut');
-      }
-
-      const sessionValidationResult = validateSessionConfig(options);
-      if (!sessionValidationResult.validSessionConfig) {
-        outputConfig.writeErr(
-          ui?.validatingOpenAiEnvValidationFailed(sessionValidationResult.error),
-        );
-        throw new Error();
-      }
-
-      const openAiEnvValidationResult = validateOpenAiEnvVariables(process.env);
-      if (!openAiEnvValidationResult.openAikey) {
-        outputConfig.writeErr(
-          ui?.validatingOpenAiEnvValidationFailed(openAiEnvValidationResult.error),
-        );
-        throw new Error();
-      }
-
-      const session = webMessengerSessionFactory(sessionValidationResult.validSessionConfig);
-
-      const openai = openAiApiFactory(
-        new Configuration({ apiKey: openAiEnvValidationResult.openAikey }),
-      );
-
-      new Transcriber(session).on('messageTranscribed', (i) => {
-        if (i.who === 'You') {
-          console.log(chalk.bold.green(`ChatGPT: ${i.message}`));
-        } else {
-          console.log(`Chatbot: ${i.message}`);
+    .action(
+      async (
+        testScriptPath: string,
+        options: { deploymentId?: string; region?: string; origin?: string },
+      ) => {
+        const outputConfig = command.configureOutput();
+        if (!outputConfig) {
+          throw new Error('Output must be defined');
         }
-      });
 
-      const convo = conversationFactory(session);
+        if (!outputConfig.writeOut || !outputConfig.writeErr) {
+          throw new Error('No writeOut');
+        }
 
-      const messages: ChatCompletionRequestMessage[] = [
-        {
-          role: 'system',
-          content: chatGptPrompt,
-        },
-      ];
+        const sessionValidationResult = validateSessionConfig(options);
+        if (!sessionValidationResult.validSessionConfig) {
+          outputConfig.writeErr(
+            ui.validatingOpenAiEnvValidationFailed(sessionValidationResult.error),
+          );
+          throw new Error();
+        }
 
-      let endConversation: { hasEnded: false } | { hasEnded: true; reason: string } = {
-        hasEnded: false,
-      };
-      do {
-        const { data } = await backOff(
-          () =>
-            openai.createChatCompletion({
-              model: 'gpt-3.5-turbo',
-              n: 1, // Number of choices. This demo only supports 1
-              temperature,
-              messages,
-            }),
+        const openAiEnvValidationResult = validateOpenAiEnvVariables(process.env);
+        if (!openAiEnvValidationResult.openAikey) {
+          outputConfig.writeErr(
+            ui.validatingOpenAiEnvValidationFailed(openAiEnvValidationResult.error),
+          );
+          throw new Error();
+        }
+
+        // 1. Read YAML file
+        let testScriptFileContents: unknown;
+        try {
+          testScriptFileContents = yamlFileReader(testScriptPath);
+        } catch (error) {
+          outputConfig.writeErr(ui.errorReadingTestScriptFile(error as Error));
+          throw new Error();
+        }
+
+        // 2. Validate Test Script
+        const testScriptValidationResults = validatePromptScript(testScriptFileContents);
+        // TODO Update scenario validation object to match
+        if (testScriptValidationResults.error) {
+          outputConfig.writeErr(ui.validatingPromptScriptFailed(testScriptValidationResults.error));
+          throw new Error();
+        }
+
+        // 3. Merge session config from args and Test Script - args take priority
+        const { validPromptScript } = testScriptValidationResults;
+        const mergedSessionConfig: Partial<SessionConfig> = {
+          deploymentId: options.deploymentId ?? validPromptScript?.config?.deploymentId,
+          region: options.region ?? validPromptScript?.config?.region,
+          origin: options.origin ?? validPromptScript?.config?.origin,
+        };
+
+        // 4. Validate session config
+        const sessionConfigValidationResults = validateSessionConfig(mergedSessionConfig);
+        if (!sessionConfigValidationResults.validSessionConfig) {
+          outputConfig.writeErr(
+            ui.validatingSessionConfigFailed(sessionConfigValidationResults.error),
+          );
+          throw new Error();
+        }
+
+        const totalPrompts = Object.keys(validPromptScript?.prompts).length;
+        if (totalPrompts > 1) {
+          outputConfig.writeErr(ui.onlyOnePromptSupported(totalPrompts));
+          throw new Error();
+        }
+
+        const promptConfig = Object.entries(validPromptScript?.prompts)[0][1];
+
+        const session = webMessengerSessionFactory(sessionValidationResult.validSessionConfig);
+
+        const openai = openAiApiFactory(
+          new Configuration({ apiKey: openAiEnvValidationResult.openAikey }),
+        );
+
+        new Transcriber(session).on('messageTranscribed', (msg) => ui.messageTranscribed(msg));
+
+        const convo = conversationFactory(session);
+
+        const messages: ChatCompletionRequestMessage[] = [
           {
-            startingDelay: 2000,
-            retry: (error: AxiosError, attemptNumber) => {
-              const retry = error.response.status === 429 && attemptNumber <= 10;
-              if (retry) {
-                console.log(
-                  `${chalk.yellow.bold(`${error.response.statusText}:`)} ${chalk.yellow(
-                    `Retrying (${attemptNumber} of 10)`,
-                  )}`,
-                );
-              }
-              return retry;
-            },
+            role: 'system',
+            content: promptConfig.prompt,
           },
-        );
+        ];
 
-        if (data.choices[0].message?.content) {
-          messages.push({ role: 'assistant', content: data.choices[0].message.content });
-          await convo.sendText(data.choices[0].message.content);
-        } else {
-          messages.push({ role: 'assistant', content: '' });
+        let endConversation: ShouldEndConversationResult = {
+          hasEnded: false,
+        };
+        do {
+          const { data } = await backOff(
+            () =>
+              openai.createChatCompletion({
+                model: 'gpt-3.5-turbo',
+                n: 1, // Number of choices
+                temperature,
+                messages,
+              }),
+            {
+              startingDelay: 2000,
+              retry: (error: AxiosError, attemptNumber) => {
+                const retry = error.response.status === 429 && attemptNumber <= 10;
+                if (retry && outputConfig.writeOut) {
+                  outputConfig.writeOut(ui.chatGptBackoff(error, attemptNumber));
+                }
+                return retry;
+              },
+            },
+          );
+
+          if (data.choices[0].message?.content) {
+            messages.push({ role: 'assistant', content: data.choices[0].message.content });
+            await convo.sendText(data.choices[0].message.content);
+          } else {
+            messages.push({ role: 'assistant', content: '' });
+          }
+
+          endConversation = shouldEndConversation(
+            messages,
+            promptConfig.terminatingResponses.fail,
+            promptConfig.terminatingResponses.pass,
+          );
+
+          if (!endConversation.hasEnded) {
+            const chatBotResponses = await convo.waitForResponses(3000);
+            messages.push({ role: 'user', content: chatBotResponses.join('\n') });
+          }
+
+          endConversation = shouldEndConversation(
+            messages,
+            promptConfig.terminatingResponses.fail,
+            promptConfig.terminatingResponses.pass,
+          );
+        } while (!endConversation.hasEnded);
+
+        outputConfig.writeOut(ui.testResult(endConversation));
+
+        session.close();
+
+        if (endConversation.reason.type === 'fail') {
+          throw new Error();
         }
-
-        endConversation = shouldEndConversation(messages);
-
-        if (!endConversation.hasEnded) {
-          const chatBotResponses = await convo.waitForResponses(3000);
-          messages.push({ role: 'user', content: chatBotResponses.join('\n') });
-        }
-
-        endConversation = shouldEndConversation(messages);
-      } while (!endConversation.hasEnded);
-
-      console.log(chalk.bold(`\n---------`));
-      console.log(chalk.bold(`${endConversation.reason}`));
-
-      session.close();
-    });
+      },
+    );
 }

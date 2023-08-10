@@ -3,12 +3,12 @@ import { SessionConfig } from '@ovotech/genesys-web-messaging-tester';
 export interface PromptSection {
   readonly prompt: string;
   readonly terminatingResponses: {
-    readonly passing: string[];
-    readonly failing: string[];
+    readonly pass: string[];
+    readonly fail: string[];
   };
 }
 
-export interface TestScriptFile {
+export interface TestPromptFile {
   readonly config?: {
     readonly deploymentId: string;
     readonly region: string;
@@ -25,7 +25,7 @@ export interface TestScriptAi extends PromptSection {
 }
 
 export function extractPrompts(
-  testScript: Exclude<TestScriptFile, 'config'>,
+  testScript: Exclude<TestPromptFile, 'config'>,
   sessionConfig: SessionConfig,
 ): TestScriptAi[] {
   return Object.entries(testScript.prompts ?? []).map(([promptName, prompt]) => ({
@@ -33,8 +33,8 @@ export function extractPrompts(
     name: promptName,
     prompt: prompt.prompt,
     terminatingResponses: {
-      passing: prompt.terminatingResponses.passing ?? [],
-      failing: prompt.terminatingResponses.failing ?? [],
+      pass: prompt.terminatingResponses.pass ?? [],
+      fail: prompt.terminatingResponses.fail ?? [],
     },
   }));
 }
