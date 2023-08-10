@@ -12,13 +12,10 @@ import OpenAI, { ClientOptions } from 'openai';
 import { validateOpenAiEnvVariables } from './validateOpenAIEnvVariables';
 import { Ui } from './ui';
 import { validateSessionConfig } from './validateSessionConfig';
-import { backOff } from 'exponential-backoff';
 import { shouldEndConversation, ShouldEndConversationResult } from './shouldEndConversation';
-import { AxiosError } from './AxiosError';
 import { readableFileValidator } from '../../fileSystem/readableFileValidator';
 import { createYamlFileReader } from '../../fileSystem/yamlFileReader';
 import { validatePromptScript } from './testScript/validatePromptScript';
-import { CreateChatCompletionRequestMessage } from 'openai/resources/chat/completions';
 
 /**
  * This value can be between 0 and 1 and controls the randomness of ChatGPT's completions.
@@ -143,14 +140,17 @@ export function createAiCommand({
 
         const session = webMessengerSessionFactory(sessionValidationResult.validSessionConfig);
 
-        const openai = openAiApiFactory({ apiKey: openAiEnvValidationResult.openAikey });
+        const openai = openAiApiFactory({
+          apiKey: openAiEnvValidationResult.openAikey,
+          maxRetries: 5,
+        });
 
         new SessionTranscriber(session).on('messageTranscribed', (msg: TranscribedMessage) =>
           ui.messageTranscribed(msg),
         );
 
         const convo = conversationFactory(session);
-        const messages: CreateChatCompletionRequestMessage[] = [
+        const messages: OpenAI.Chat.Completions.CreateChatCompletionRequestMessage[] = [
           {
             role: 'system',
             content: promptConfig.prompt,
@@ -161,26 +161,12 @@ export function createAiCommand({
           hasEnded: false,
         };
         do {
-          // TODO Remove exponential backoff Library has build in retries
-          const { choices } = await backOff(
-            () =>
-              openai.chat.completions.create({
-                model: 'gpt-3.5-turbo',
-                n: 1, // Number of choices
-                temperature,
-                messages,
-              }),
-            {
-              startingDelay: 2000,
-              retry: (error: AxiosError, attemptNumber) => {
-                const retry = error.response.status === 429 && attemptNumber <= 10;
-                if (retry && outputConfig.writeOut) {
-                  outputConfig.writeOut(ui.chatGptBackoff(error, attemptNumber));
-                }
-                return retry;
-              },
-            },
-          );
+          const { choices } = await openai.chat.completions.create({
+            model: 'gpt-3.5-turbo',
+            n: 1, // Number of choices
+            temperature,
+            messages,
+          });
 
           if (choices[0].message?.content) {
             messages.push({ role: 'assistant', content: choices[0].message.content });

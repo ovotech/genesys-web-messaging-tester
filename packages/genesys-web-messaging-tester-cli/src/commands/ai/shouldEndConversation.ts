@@ -1,4 +1,4 @@
-import { CreateChatCompletionRequestMessage } from 'openai/resources/chat/completions';
+import OpenAI from 'openai';
 
 interface Reason {
   type: 'fail' | 'pass';
@@ -19,7 +19,7 @@ export type ShouldEndConversationResult =
   | ShouldEndConversationNotEndedResult;
 
 export function shouldEndConversation(
-  messages: CreateChatCompletionRequestMessage[],
+  messages: OpenAI.Chat.Completions.CreateChatCompletionRequestMessage[],
   wordsToIndicateFailure: string[],
   wordsToIndicatePass: string[],
 ): ShouldEndConversationResult {
