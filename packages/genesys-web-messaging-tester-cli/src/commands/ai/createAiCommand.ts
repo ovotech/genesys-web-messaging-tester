@@ -3,11 +3,12 @@ import { accessSync, readFileSync } from 'fs';
 import {
   Conversation,
   SessionConfig,
-  Transcriber,
+  SessionTranscriber,
+  TranscribedMessage,
   WebMessengerGuestSession,
   WebMessengerSession,
 } from '@ovotech/genesys-web-messaging-tester';
-import { ChatCompletionRequestMessage, Configuration, OpenAIApi } from 'openai';
+import OpenAI, { ClientOptions } from 'openai';
 import { validateOpenAiEnvVariables } from './validateOpenAIEnvVariables';
 import { Ui } from './ui';
 import { validateSessionConfig } from './validateSessionConfig';
@@ -17,6 +18,7 @@ import { AxiosError } from './AxiosError';
 import { readableFileValidator } from '../../fileSystem/readableFileValidator';
 import { createYamlFileReader } from '../../fileSystem/yamlFileReader';
 import { validatePromptScript } from './testScript/validatePromptScript';
+import { CreateChatCompletionRequestMessage } from 'openai/resources/chat/completions';
 
 /**
  * This value can be between 0 and 1 and controls the randomness of ChatGPT's completions.
@@ -32,7 +34,7 @@ const temperature = 0.6;
 export interface AiCommandDependencies {
   command?: Command;
   ui?: Ui;
-  openAiApiFactory?: (config: Configuration) => OpenAIApi;
+  openAiApiFactory?: (config: ClientOptions) => OpenAI;
   webMessengerSessionFactory?: (sessionConfig: SessionConfig) => WebMessengerSession;
   conversationFactory?: (session: WebMessengerSession) => Conversation;
   fsReadFileSync?: typeof readFileSync;
@@ -42,7 +44,7 @@ export interface AiCommandDependencies {
 export function createAiCommand({
   command = new Command(),
   ui = new Ui(),
-  openAiApiFactory = (config) => new OpenAIApi(config),
+  openAiApiFactory = (config) => new OpenAI(config),
   webMessengerSessionFactory = (config) => new WebMessengerGuestSession(config, { IsTest: 'true' }),
   conversationFactory = (session) => new Conversation(session),
   fsReadFileSync = readFileSync,
@@ -141,15 +143,14 @@ export function createAiCommand({
 
         const session = webMessengerSessionFactory(sessionValidationResult.validSessionConfig);
 
-        const openai = openAiApiFactory(
-          new Configuration({ apiKey: openAiEnvValidationResult.openAikey }),
+        const openai = openAiApiFactory({ apiKey: openAiEnvValidationResult.openAikey });
+
+        new SessionTranscriber(session).on('messageTranscribed', (msg: TranscribedMessage) =>
+          ui.messageTranscribed(msg),
         );
 
-        new Transcriber(session).on('messageTranscribed', (msg) => ui.messageTranscribed(msg));
-
         const convo = conversationFactory(session);
-
-        const messages: ChatCompletionRequestMessage[] = [
+        const messages: CreateChatCompletionRequestMessage[] = [
           {
             role: 'system',
             content: promptConfig.prompt,
@@ -160,9 +161,10 @@ export function createAiCommand({
           hasEnded: false,
         };
         do {
-          const { data } = await backOff(
+          // TODO Remove exponential backoff Library has build in retries
+          const { choices } = await backOff(
             () =>
-              openai.createChatCompletion({
+              openai.chat.completions.create({
                 model: 'gpt-3.5-turbo',
                 n: 1, // Number of choices
                 temperature,
@@ -180,9 +182,9 @@ export function createAiCommand({
             },
           );
 
-          if (data.choices[0].message?.content) {
-            messages.push({ role: 'assistant', content: data.choices[0].message.content });
-            await convo.sendText(data.choices[0].message.content);
+          if (choices[0].message?.content) {
+            messages.push({ role: 'assistant', content: choices[0].message.content });
+            await convo.sendText(choices[0].message.content);
           } else {
             messages.push({ role: 'assistant', content: '' });
           }

@@ -10,7 +10,7 @@ import {
   Conversation,
   SessionConfig,
   TranscribedMessage,
-  Transcriber,
+  SessionTranscriber,
   WebMessengerGuestSession,
   WebMessengerSession,
 } from '@ovotech/genesys-web-messaging-tester';
@@ -19,7 +19,6 @@ import { validateSessionConfig } from './testScript/validateSessionConfig';
 import { validateTestScript } from './testScript/validateTestScript';
 import { ScenarioError, ScenarioSuccess } from './ScenarioResult';
 import { validateGenesysEnvVariables } from '../../genesysPlatform/validateGenesysEnvVariables';
-import { configurePlatformClients } from '../../genesysPlatform/configurePlatformClients';
 import {
   createConversationIdGetter,
   messageIdToConversationIdFactory,
@@ -96,16 +95,23 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
       false,
     )
     .option('-fo, --failures-only', 'Only output failures', false)
+    .option(
+      '-t, --timeout <number>',
+      'Seconds to wait for a response before failing the test',
+      parsePositiveInt,
+      10,
+    )
     .action(
       async (
         testScriptPath: string,
         options: {
-          parallel?: number;
+          parallel: number;
           associateId?: boolean;
           failuresOnly?: boolean;
           deploymentId?: string;
           region?: string;
           origin?: string;
+          timeout: number;
         },
       ) => {
         const outputConfig = command.configureOutput();
@@ -123,6 +129,13 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
               ui.validatingAssociateConvoIdEnvValidationFailed(genesysEnvValidationResult.error),
             );
           } else {
+            // Only load when required
+            // Also removes 'You are trying to `import` a file after the Jest environment has been torn down' error due to
+            // file-watcher it starts
+            const { configurePlatformClients } = await import(
+              '../../genesysPlatform/configurePlatformClients'
+            );
+
             const clients = await configurePlatformClients(
               genesysEnvValidationResult.genesysVariables,
             );
@@ -193,28 +206,31 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
               }
 
               try {
-                new Transcriber(session).on('messageTranscribed', (event: TranscribedMessage) => {
-                  transcription.push(event);
+                new SessionTranscriber(session).on(
+                  'messageTranscribed',
+                  (event: TranscribedMessage) => {
+                    transcription.push(event);
 
-                  if (!quietMode) {
-                    if (hasMultipleTests) {
-                      task.output = ui?.firstLineOfMessageTranscribed(event);
-                    } else {
-                      const message = ui?.messageTranscribed(event);
-                      if (task.output) {
-                        task.output += message;
+                    if (!quietMode) {
+                      if (hasMultipleTests) {
+                        task.output = ui?.firstLineOfMessageTranscribed(event);
                       } else {
-                        task.output = message;
+                        const message = ui?.messageTranscribed(event);
+                        if (task.output) {
+                          task.output += message;
+                        } else {
+                          task.output = message;
+                        }
                       }
                     }
-                  }
-                });
+                  },
+                );
 
                 const convo = conversationFactory(session);
                 await convo.waitForConversationToStart();
 
                 for (const step of scenario.steps) {
-                  await step(convo, {});
+                  await step(convo, { timeoutInSeconds: options.timeout });
                 }
               } catch (error) {
                 context.scenarioResults.push({
