@@ -58,7 +58,7 @@ jobs:
         env:
           DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
           REGION: ${{ secrets.REGION }}
-      - run: cd examples/cli && chmod +x ./run.sh && ./run.sh
+      - run: cd examples/cli-scenario && chmod +x ./run.sh && ./run.sh
         env:
           DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
           REGION: ${{ secrets.REGION }}
