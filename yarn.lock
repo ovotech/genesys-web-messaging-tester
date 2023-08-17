@@ -968,6 +968,7 @@ __metadata:
     "@types/debug": ^4.1.8
     "@types/jest": ^29.0.3
     "@types/node": ^14.14.2
+    "@types/sinonjs__fake-timers": ^8.1.2
     "@types/uuid": ^9.0.2
     "@types/ws": ^8.5.5
     "@typescript-eslint/eslint-plugin": ^5.0.0
@@ -1244,6 +1245,13 @@ __metadata:
   version: 7.5.0
   resolution: "@types/semver@npm:7.5.0"
   checksum: 0a64b9b9c7424d9a467658b18dd70d1d781c2d6f033096a6e05762d20ebbad23c1b69b0083b0484722aabf35640b78ccc3de26368bcae1129c87e9df028a22e2
+  languageName: node
+  linkType: hard
+
+"@types/sinonjs__fake-timers@npm:^8.1.2":
+  version: 8.1.2
+  resolution: "@types/sinonjs__fake-timers@npm:8.1.2"
+  checksum: bbc73a5ab6c0ec974929392f3d6e1e8db4ebad97ec506d785301e1c3d8a4f98a35b1aa95b97035daef02886fd8efd7788a2fa3ced2ec7105988bfd8dce61eedd
   languageName: node
   linkType: hard
 

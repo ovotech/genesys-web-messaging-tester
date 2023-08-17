@@ -4,8 +4,7 @@ import getPort from 'get-port';
 import { WebMessageServerFixture } from './fixtures/WebMessageServerFixture';
 import { WebMessageServerConnectionFixture } from './fixtures/WebMessageServerConnectionFixture';
 import { NoDelay } from './fixtures/NoDelay';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const FakeTimers = require('@sinonjs/fake-timers');
+import FakeTimers from '@sinonjs/fake-timers';
 
 describe('Conversation', () => {
   let genesysServerFixture: WebMessageServerFixture;
@@ -110,6 +109,8 @@ Received before disconnection:
       await new Promise<void>((resolve) => session.on('structuredMessage', resolve));
 
     const clock = FakeTimers.createClock();
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const conversation = new Conversation(session, clock.setTimeout, clock.clearTimeout);
 
     serverConnection.simulateSessionResponseMessage();
