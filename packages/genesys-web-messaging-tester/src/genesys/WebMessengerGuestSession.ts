@@ -51,9 +51,9 @@ export class WebMessengerGuestSession extends EventEmitter {
   constructor(
     private readonly config: SessionConfig,
     private readonly participantData: Record<string, string> = {},
+    private readonly messageDelayer: MessageDelayer = new ReorderedMessageDelayer(),
     readonly wsFactory = (url: string, options?: ClientOptions | ClientRequestArgs) =>
       new WebSocket(url, options),
-    private readonly messageDelayer: MessageDelayer = new ReorderedMessageDelayer(),
   ) {
     super();
     this.sessionToken = uuidv4();

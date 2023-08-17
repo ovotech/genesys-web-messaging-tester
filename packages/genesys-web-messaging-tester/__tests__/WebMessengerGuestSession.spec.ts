@@ -34,6 +34,7 @@ describe('WebMessengerGuestSession', () => {
         origin: 'x.test',
       },
       {},
+      new NoDelay(),
       wsFactory,
     );
 
@@ -50,8 +51,8 @@ describe('WebMessengerGuestSession', () => {
         region: 'xxxx.pure.cloud',
       },
       {},
-      () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
       new NoDelay(),
+      () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
     );
 
     const connectionToServer = await genesysServerFixture.waitForConnection();
@@ -70,8 +71,8 @@ describe('WebMessengerGuestSession', () => {
         region: 'xxxx.pure.cloud',
       },
       {},
-      () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
       new NoDelay(),
+      () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
     );
 
     const serverConnection = await genesysServerFixture.waitForConnection();
@@ -96,8 +97,8 @@ describe('WebMessengerGuestSession', () => {
         region: 'xxxx.pure.cloud',
       },
       {},
-      () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
       new NoDelay(),
+      () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
     );
 
     (await genesysServerFixture.waitForConnection()).simulateOutboundTextStructuredMessage(
@@ -134,8 +135,8 @@ describe('WebMessengerGuestSession', () => {
         region: 'xxxx.pure.cloud',
       },
       { test: 'test-value' },
-      () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
       new NoDelay(),
+      () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
     );
 
     const serverConnection = await genesysServerFixture.waitForConnection();

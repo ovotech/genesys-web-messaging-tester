@@ -29,8 +29,8 @@ describe('Transcriber', () => {
         region: 'xxxx.pure.cloud',
       },
       {},
-      () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
       new NoDelay(),
+      () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
     );
 
     serverConnection = await genesysServerFixture.waitForConnection();

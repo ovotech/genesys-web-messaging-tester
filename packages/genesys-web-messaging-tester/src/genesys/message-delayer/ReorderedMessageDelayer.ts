@@ -30,12 +30,15 @@ export class ReorderedMessageDelayer extends EventEmitter implements MessageDela
   private intervalReference: NodeJS.Timeout | undefined;
 
   constructor(
-    private readonly delayBeforeEmittingInMs: number = 5000,
+    private readonly delayBeforeEmittingInMs: number = 1000,
     private readonly intervalInMs: number = 1000,
     private readonly intervalSet: typeof setInterval = setInterval,
     private readonly intervalClear: typeof clearInterval = clearInterval,
   ) {
     super();
+    if (intervalInMs <= 0) {
+      throw new Error('Interval must be greater than 0');
+    }
   }
 
   private logUnorderedMessageTimeDiff(message: Response<unknown>): void {
