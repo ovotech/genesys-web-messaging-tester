@@ -1,11 +1,14 @@
 import { Cli, createCli, Dependencies } from '../../src/cli';
 import { readFileSync } from 'fs';
 import { Command } from 'commander';
+import { ReorderedMessageDelayer } from '@ovotech/genesys-web-messaging-tester';
 
 describe('Session Config', () => {
   let program: Command;
   let fsReadFileSync: jest.MockedFunction<typeof readFileSync>;
 
+  let reorderedMessageDelayer: jest.Mocked<Pick<ReorderedMessageDelayer, 'delay' | 'add' | 'on'>>;
+  let reorderedMessageDelayerFactory: jest.Mocked<Dependencies['reorderedMessageDelayerFactory']>;
   let webMessengerSessionFactory: jest.Mocked<Dependencies['webMessengerSessionFactory']>;
   let conversationFactory: jest.Mocked<Dependencies['conversationFactory']>;
 
@@ -13,6 +16,9 @@ describe('Session Config', () => {
 
   beforeEach(() => {
     fsReadFileSync = jest.fn();
+
+    reorderedMessageDelayer = { delay: 0, add: jest.fn(), on: jest.fn() };
+    reorderedMessageDelayerFactory = jest.fn().mockReturnValue(reorderedMessageDelayer);
 
     const webMessengerSession = { on: jest.fn(), close: jest.fn() };
     webMessengerSessionFactory = jest.fn().mockReturnValue(webMessengerSession);
@@ -26,6 +32,7 @@ describe('Session Config', () => {
       program,
       fsReadFileSync,
       fsAccessSync: jest.fn(),
+      reorderedMessageDelayerFactory,
       webMessengerSessionFactory,
       conversationFactory,
       processExitOverride: () => {
@@ -52,11 +59,14 @@ scenarios:
       ...['/test/path'],
     ]);
 
-    expect(webMessengerSessionFactory).toHaveBeenCalledWith({
-      deploymentId: 'test-deployment-id',
-      region: 'test-region',
-      origin: 'test-origin',
-    });
+    expect(webMessengerSessionFactory).toHaveBeenCalledWith(
+      {
+        deploymentId: 'test-deployment-id',
+        region: 'test-region',
+        origin: 'test-origin',
+      },
+      reorderedMessageDelayer,
+    );
   });
 
   test('Test-Script session config not necessary if session config args provided', async () => {
@@ -74,11 +84,14 @@ scenarios:
       ...['/test/path'],
     ]);
 
-    expect(webMessengerSessionFactory).toHaveBeenCalledWith({
-      deploymentId: 'test-deployment-id-2',
-      region: 'test-region-2',
-      origin: 'test-origin-2',
-    });
+    expect(webMessengerSessionFactory).toHaveBeenCalledWith(
+      {
+        deploymentId: 'test-deployment-id-2',
+        region: 'test-region-2',
+        origin: 'test-origin-2',
+      },
+      reorderedMessageDelayer,
+    );
   });
 
   test('Test-Script session config used if session config args not provided', async () => {
@@ -94,10 +107,13 @@ scenarios:
 
     await cli([...['node', '/path/to/cli'], ...['/test/path']]);
 
-    expect(webMessengerSessionFactory).toHaveBeenCalledWith({
-      deploymentId: 'test-deployment-id-3',
-      region: 'test-region-3',
-      origin: 'test-origin-3',
-    });
+    expect(webMessengerSessionFactory).toHaveBeenCalledWith(
+      {
+        deploymentId: 'test-deployment-id-3',
+        region: 'test-region-3',
+        origin: 'test-origin-3',
+      },
+      reorderedMessageDelayer,
+    );
   });
 });
