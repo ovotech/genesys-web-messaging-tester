@@ -29,6 +29,8 @@ export class ReorderedMessageDelayer extends EventEmitter implements MessageDela
 
   private intervalReference: NodeJS.Timeout | undefined;
 
+  private unorderedMessageOccurred = false;
+
   constructor(
     private readonly delayBeforeEmittingInMs: number = 1000,
     private readonly intervalInMs: number = 1000,
@@ -49,6 +51,7 @@ export class ReorderedMessageDelayer extends EventEmitter implements MessageDela
           new Date(this.lastMessageWithTimestamp.body.channel.time).getTime();
 
         if (timeDifference < 0) {
+          this.unorderedMessageOccurred = true;
           ReorderedMessageDelayer.debugger(
             "Message received was out of order. Last msg's timestamp came before this one by %d ms",
             -timeDifference,
@@ -61,6 +64,10 @@ export class ReorderedMessageDelayer extends EventEmitter implements MessageDela
         this.lastMessageWithTimestamp = message;
       }
     }
+  }
+
+  public get unorderdMessageDetected(): boolean {
+    return this.unorderedMessageOccurred;
   }
 
   /**
