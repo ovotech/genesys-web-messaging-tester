@@ -218,7 +218,7 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
           tryableTask(async (isRetry) => {
             const transcription: TranscribedMessage[] = [];
 
-            const reorderedMessageDelayer = reorderedMessageDelayerFactory(isRetry ? 7000 : 1000);
+            const reorderedMessageDelayer = reorderedMessageDelayerFactory(isRetry ? 6000 : 1000);
             const session = webMessengerSessionFactory(
               scenario.sessionConfig,
               reorderedMessageDelayer,
@@ -266,11 +266,11 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
               } else {
                 stepError = e;
               }
+            } finally {
+              session.close();
             }
 
             if (stepError) {
-              session.close();
-
               context.scenarioResults.push({
                 scenario,
                 transcription,

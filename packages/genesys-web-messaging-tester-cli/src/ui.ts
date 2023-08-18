@@ -220,7 +220,7 @@ export class Ui {
       if (r.wasRetriedDueToUnorderedMessageFailure) {
         lines.push(
           chalk.yellow(
-            '  ^This test was retried following a failure that coincided with unordered messages being being received from Genesys\n' +
+            '  ^ This test was retried following a failure that coincided with unordered messages being being received from Genesys\n' +
               '  Read more here: https://github.com/ovotech/genesys-web-messaging-tester/blob/main/docs/cli/unordered-messages.md',
           ),
         );

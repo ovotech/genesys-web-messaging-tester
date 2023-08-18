@@ -115,28 +115,29 @@ export class ReorderedMessageDelayer extends EventEmitter implements MessageDela
 
     this.messages = result.responses;
 
-    let finished = false;
+    // let finished = false;
     const now = new Date().getTime();
-    do {
-      if (isStructuredMessage(this.messages[0].response)) {
-        const ageOfMessageInMs = now - this.messages[0].received.getTime();
-        if (ageOfMessageInMs >= this.delayBeforeEmittingInMs) {
-          const message = this.messages.shift()?.response;
-          this.emit('message', message);
-          ReorderedMessageDelayer.debugger('Emitted message with timestamp: %O', {
-            msDelayed: ageOfMessageInMs,
-            message,
-          });
-        } else {
-          finished = true;
-        }
-      } else {
+    // do {
+    if (isStructuredMessage(this.messages[0].response)) {
+      const ageOfMessageInMs = now - this.messages[0].received.getTime();
+      if (ageOfMessageInMs >= this.delayBeforeEmittingInMs) {
         const message = this.messages.shift()?.response;
-        // No timestamp so just emit
         this.emit('message', message);
-        ReorderedMessageDelayer.debugger('Emitted message without timestamp %O', message);
+        ReorderedMessageDelayer.debugger('Emitted message with timestamp: %O', {
+          msDelayed: ageOfMessageInMs,
+          message,
+        });
       }
-    } while (!finished && this.messages.length > 0);
+      // else {
+      //   finished = true;
+      // }
+    } else {
+      const message = this.messages.shift()?.response;
+      // No timestamp so just emit
+      this.emit('message', message);
+      ReorderedMessageDelayer.debugger('Emitted message without timestamp %O', message);
+    }
+    // } while (!finished && this.messages.length > 0);
 
     if (this.messages.length === 0) {
       this.stopInterval();

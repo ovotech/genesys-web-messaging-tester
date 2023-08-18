@@ -20,6 +20,10 @@ export class WebMessageServerConnectionFixture {
     });
   }
 
+  public async waitForConnectionToClose(): Promise<void> {
+    return new Promise((resolve) => this.ws.on('close', resolve));
+  }
+
   public simulateSessionResponseMessage(): void {
     const payload = webMessagePayloads.sessionResponse();
     this.ws.send(JSON.stringify(payload));
