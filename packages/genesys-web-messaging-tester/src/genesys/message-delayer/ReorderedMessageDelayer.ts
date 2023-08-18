@@ -115,10 +115,8 @@ export class ReorderedMessageDelayer extends EventEmitter implements MessageDela
 
     this.messages = result.responses;
 
-    // let finished = false;
-    const now = new Date().getTime();
-    // do {
     if (isStructuredMessage(this.messages[0].response)) {
+      const now = new Date().getTime();
       const ageOfMessageInMs = now - this.messages[0].received.getTime();
       if (ageOfMessageInMs >= this.delayBeforeEmittingInMs) {
         const message = this.messages.shift()?.response;
@@ -128,16 +126,12 @@ export class ReorderedMessageDelayer extends EventEmitter implements MessageDela
           message,
         });
       }
-      // else {
-      //   finished = true;
-      // }
     } else {
       const message = this.messages.shift()?.response;
       // No timestamp so just emit
       this.emit('message', message);
       ReorderedMessageDelayer.debugger('Emitted message without timestamp %O', message);
     }
-    // } while (!finished && this.messages.length > 0);
 
     if (this.messages.length === 0) {
       this.stopInterval();
