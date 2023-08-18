@@ -1,6 +1,5 @@
 import { EventEmitter } from 'events';
-import { Response } from '../../src/genesys/Response';
-import { MessageDelayer } from '../../src';
+import { MessageDelayer, Response } from '../../src';
 
 export class NoDelay extends EventEmitter implements MessageDelayer {
   constructor() {

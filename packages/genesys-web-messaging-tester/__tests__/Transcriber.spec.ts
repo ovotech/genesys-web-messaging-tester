@@ -1,17 +1,12 @@
-import { WebMessengerGuestSession, TranscribedMessage, SessionTranscriber } from '../src';
+import {
+  SessionTranscriber,
+  TranscribedMessage,
+  WebMessageServerConnectionFixture,
+  WebMessageServerFixture,
+  WebMessengerGuestSession,
+} from '../src';
 import WebSocket from 'ws';
 import getPort from 'get-port';
-
-import {
-  WebMessageServerFixture,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore
-} from './fixtures/WebMessageServerFixture';
-import {
-  WebMessageServerConnectionFixture,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore
-} from './fixtures/WebMessageServerConnectionFixture';
 import { NoDelay } from './fixtures/NoDelay';
 
 describe('Transcriber', () => {

@@ -1,8 +1,11 @@
-import { Conversation, WebMessengerGuestSession } from '../src';
+import {
+  Conversation,
+  WebMessageServerConnectionFixture,
+  WebMessageServerFixture,
+  WebMessengerGuestSession,
+} from '../src';
 import WebSocket from 'ws';
 import getPort from 'get-port';
-import { WebMessageServerFixture } from './fixtures/WebMessageServerFixture';
-import { WebMessageServerConnectionFixture } from './fixtures/WebMessageServerConnectionFixture';
 import { NoDelay } from './fixtures/NoDelay';
 import FakeTimers from '@sinonjs/fake-timers';
 

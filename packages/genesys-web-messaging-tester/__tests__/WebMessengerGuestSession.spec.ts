@@ -1,12 +1,6 @@
-import { WebMessengerGuestSession, StructuredMessage } from '../src';
+import { StructuredMessage, WebMessageServerFixture, WebMessengerGuestSession } from '../src';
 import WebSocket from 'ws';
 import getPort from 'get-port';
-
-import {
-  WebMessageServerFixture,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-} from './fixtures/WebMessageServerFixture';
 import { NoDelay } from './fixtures/NoDelay';
 
 describe('WebMessengerGuestSession', () => {
