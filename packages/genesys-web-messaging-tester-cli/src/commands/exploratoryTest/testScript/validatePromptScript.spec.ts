@@ -6,19 +6,23 @@ test('Valid', () => {
       deploymentId: 'test-deployment-id',
       region: 'test-region',
     },
-    prompts: {
+    scenarios: {
       'test-name-of-test-1': {
-        prompt: 'test-prompt-1',
-        terminatingResponses: {
-          fail: ['test-failing-response-1'],
-          pass: ['test-passing-prompt-1'],
+        setup: {
+          prompt: 'test-prompt-1',
+          terminatingPhrases: {
+            fail: ['test-failing-response-1'],
+            pass: ['test-passing-prompt-1'],
+          },
         },
       },
       'test-name-of-test-2': {
-        prompt: 'test-prompt-2',
-        terminatingResponses: {
-          fail: ['test-failing-response-2'],
-          pass: ['test-passing-prompt-2'],
+        setup: {
+          prompt: 'test-prompt-2',
+          terminatingPhrases: {
+            fail: ['test-failing-response-2'],
+            pass: ['test-passing-prompt-2'],
+          },
         },
       },
     },
@@ -29,19 +33,23 @@ test('Valid', () => {
         deploymentId: 'test-deployment-id',
         region: 'test-region',
       },
-      prompts: {
+      scenarios: {
         'test-name-of-test-1': {
-          prompt: 'test-prompt-1',
-          terminatingResponses: {
-            fail: ['test-failing-response-1'],
-            pass: ['test-passing-prompt-1'],
+          setup: {
+            prompt: 'test-prompt-1',
+            terminatingPhrases: {
+              fail: ['test-failing-response-1'],
+              pass: ['test-passing-prompt-1'],
+            },
           },
         },
         'test-name-of-test-2': {
-          prompt: 'test-prompt-2',
-          terminatingResponses: {
-            fail: ['test-failing-response-2'],
-            pass: ['test-passing-prompt-2'],
+          setup: {
+            prompt: 'test-prompt-2',
+            terminatingPhrases: {
+              fail: ['test-failing-response-2'],
+              pass: ['test-passing-prompt-2'],
+            },
           },
         },
       },
@@ -55,11 +63,13 @@ test('Invalid', () => {
       deploymentId: 'test-deployment-id',
       region: 'test-region',
     },
-    prompts: {
+    scenarios: {
       'test-name-of-test-1': {
-        prompt: 'test-prompt-1',
-        terminatingResponses: {
-          pass: ['test-passing-prompt-1'],
+        setup: {
+          prompt: 'test-prompt-1',
+          terminatingPhrases: {
+            pass: ['test-passing-prompt-1'],
+          },
         },
       },
     },
@@ -70,10 +80,10 @@ test('Invalid', () => {
         {
           context: {
             key: 'fail',
-            label: 'prompts.test-name-of-test-1.terminatingResponses.fail',
+            label: 'scenarios.test-name-of-test-1.setup.terminatingPhrases.fail',
           },
-          message: '"prompts.test-name-of-test-1.terminatingResponses.fail" is required',
-          path: ['prompts', 'test-name-of-test-1', 'terminatingResponses', 'fail'],
+          message: '"scenarios.test-name-of-test-1.setup.terminatingPhrases.fail" is required',
+          path: ['scenarios', 'test-name-of-test-1', 'setup', 'terminatingPhrases', 'fail'],
           type: 'any.required',
         },
       ],

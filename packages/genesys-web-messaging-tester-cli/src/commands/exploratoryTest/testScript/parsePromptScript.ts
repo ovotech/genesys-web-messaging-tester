@@ -1,11 +1,15 @@
 import { SessionConfig } from '@ovotech/genesys-web-messaging-tester';
 
-export interface PromptSection {
+export interface ExploratoryScenarioSetupSection {
   readonly prompt: string;
-  readonly terminatingResponses: {
+  readonly terminatingPhrases: {
     readonly pass: string[];
     readonly fail: string[];
   };
+}
+
+export interface ExploratoryScenarioSection {
+  setup: ExploratoryScenarioSetupSection;
 }
 
 export interface TestPromptFile {
@@ -14,27 +18,29 @@ export interface TestPromptFile {
     readonly region: string;
     readonly origin?: string;
   };
-  readonly prompts: {
-    [name: string]: PromptSection;
+  readonly scenarios: {
+    [name: string]: ExploratoryScenarioSection;
   };
 }
 
-export interface TestScriptAi extends PromptSection {
+export interface ExploratoryTestScript extends ExploratoryScenarioSection {
   readonly sessionConfig: SessionConfig;
   readonly name: string;
 }
 
-export function extractPrompts(
+export function extractExploratoryTestScenarios(
   testScript: Exclude<TestPromptFile, 'config'>,
   sessionConfig: SessionConfig,
-): TestScriptAi[] {
-  return Object.entries(testScript.prompts ?? []).map(([promptName, prompt]) => ({
+): ExploratoryTestScript[] {
+  return Object.entries(testScript.scenarios ?? []).map(([scenarioName, scenario]) => ({
     sessionConfig,
-    name: promptName,
-    prompt: prompt.prompt,
-    terminatingResponses: {
-      pass: prompt.terminatingResponses.pass ?? [],
-      fail: prompt.terminatingResponses.fail ?? [],
+    name: scenarioName,
+    setup: {
+      prompt: scenario.setup.prompt,
+      terminatingPhrases: {
+        pass: scenario.setup.terminatingPhrases.pass ?? [],
+        fail: scenario.setup.terminatingPhrases.fail ?? [],
+      },
     },
   }));
 }

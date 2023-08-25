@@ -130,13 +130,13 @@ export function createExploratoryTestCommand({
           throw new Error();
         }
 
-        const totalPrompts = Object.keys(validPromptScript?.prompts).length;
-        if (totalPrompts > 1) {
-          outputConfig.writeErr(ui.onlyOnePromptSupported(totalPrompts));
+        const totalScenarios = Object.keys(validPromptScript?.scenarios).length;
+        if (totalScenarios > 1) {
+          outputConfig.writeErr(ui.onlyOnePromptSupported(totalScenarios));
           throw new Error();
         }
 
-        const promptConfig = Object.entries(validPromptScript?.prompts)[0][1];
+        const promptConfig = Object.entries(validPromptScript?.scenarios)[0][1];
 
         const session = webMessengerSessionFactory(sessionValidationResult.validSessionConfig);
 
@@ -145,15 +145,17 @@ export function createExploratoryTestCommand({
           maxRetries: 5,
         });
 
-        new SessionTranscriber(session).on('messageTranscribed', (msg: TranscribedMessage) =>
-          ui.messageTranscribed(msg),
-        );
+        // const transcript: TranscribedMessage[] = [];
+        new SessionTranscriber(session).on('messageTranscribed', (msg: TranscribedMessage) => {
+          ui.messageTranscribed(msg);
+          // transcript.push(msg);
+        });
 
         const convo = conversationFactory(session);
         const messages: OpenAI.Chat.Completions.CreateChatCompletionRequestMessage[] = [
           {
             role: 'system',
-            content: promptConfig.prompt,
+            content: promptConfig.setup.prompt,
           },
         ];
 
@@ -177,8 +179,8 @@ export function createExploratoryTestCommand({
 
           endConversation = shouldEndConversation(
             messages,
-            promptConfig.terminatingResponses.fail,
-            promptConfig.terminatingResponses.pass,
+            promptConfig.setup.terminatingPhrases.fail,
+            promptConfig.setup.terminatingPhrases.pass,
           );
 
           if (!endConversation.hasEnded) {
@@ -188,8 +190,8 @@ export function createExploratoryTestCommand({
 
           endConversation = shouldEndConversation(
             messages,
-            promptConfig.terminatingResponses.fail,
-            promptConfig.terminatingResponses.pass,
+            promptConfig.setup.terminatingPhrases.fail,
+            promptConfig.setup.terminatingPhrases.pass,
           );
         } while (!endConversation.hasEnded);
 

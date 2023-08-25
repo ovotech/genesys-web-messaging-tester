@@ -7,15 +7,17 @@ const schema = Joi.object({
     region: Joi.string(),
     origin: Joi.string(),
   }).optional(),
-  prompts: Joi.object()
+  scenarios: Joi.object()
     .min(1)
     .pattern(
       /./,
       Joi.object({
-        prompt: Joi.string().required(),
-        terminatingResponses: Joi.object({
-          pass: Joi.array().items(Joi.string()).min(1).required(),
-          fail: Joi.array().items(Joi.string()).min(1).required(),
+        setup: Joi.object({
+          prompt: Joi.string().required(),
+          terminatingPhrases: Joi.object({
+            pass: Joi.array().items(Joi.string()).min(1).required(),
+            fail: Joi.array().items(Joi.string()).min(1).required(),
+          }).required(),
         }).required(),
       }).required(),
     )
