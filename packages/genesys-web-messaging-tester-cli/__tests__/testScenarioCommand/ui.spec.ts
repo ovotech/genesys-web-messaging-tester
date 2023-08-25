@@ -71,7 +71,7 @@ scenarios:
     try {
       await cli.parseAsync([
         ...['node', '/path/to/cli'],
-        ...['test-scenario', '/test/path/config.json'],
+        ...['scripted', '/test/path/config.json'],
       ]);
     } catch {
       // Intentionally ignored

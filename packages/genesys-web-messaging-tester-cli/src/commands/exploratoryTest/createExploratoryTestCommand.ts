@@ -28,7 +28,7 @@ import { validatePromptScript } from './testScript/validatePromptScript';
  */
 const temperature = 0.6;
 
-export interface ExploreCommandDependencies {
+export interface ExploratoryTestCommandDependencies {
   command?: Command;
   ui?: Ui;
   openAiApiFactory?: (config: ClientOptions) => OpenAI;
@@ -38,7 +38,7 @@ export interface ExploreCommandDependencies {
   fsAccessSync?: typeof accessSync;
 }
 
-export function createExploreCommand({
+export function createExploratoryTestCommand({
   command = new Command(),
   ui = new Ui(),
   openAiApiFactory = (config) => new OpenAI(config),
@@ -46,7 +46,7 @@ export function createExploreCommand({
   conversationFactory = (session) => new Conversation(session),
   fsReadFileSync = readFileSync,
   fsAccessSync = accessSync,
-}: ExploreCommandDependencies = {}): Command {
+}: ExploratoryTestCommandDependencies = {}): Command {
   const yamlFileReader = createYamlFileReader(fsReadFileSync);
   if (!ui) {
     throw new Error('UI must be defined');
@@ -54,7 +54,7 @@ export function createExploreCommand({
 
   return command
     .command('explore')
-    .description('Test a WM Deployment against Generative AI')
+    .description('Perform exploratory testing using Generative AI')
     .argument(
       '<filePath>',
       'Path of the YAML test-script file',

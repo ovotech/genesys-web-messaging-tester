@@ -58,7 +58,7 @@ scenarios:
       waitForReplyContaining: hello
 `);
     await expect(
-      cli.parseAsync([...['node', '/path/to/cli'], 'test-scenario', ...['test-path']]),
+      cli.parseAsync([...['node', '/path/to/cli'], 'scripted', ...['test-path']]),
     ).rejects.toBeDefined();
 
     expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual([
@@ -76,7 +76,7 @@ scenarios:
     - testing: 123
 `);
     await expect(
-      cli.parseAsync([...['node', '/path/to/cli'], 'test-scenario', ...['test-path']]),
+      cli.parseAsync([...['node', '/path/to/cli'], 'scripted', ...['test-path']]),
     ).rejects.toBeDefined();
 
     expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual([

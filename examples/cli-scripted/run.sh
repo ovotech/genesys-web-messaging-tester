@@ -8,10 +8,10 @@ function cleanup {
 trap cleanup EXIT
 
 ## Help message for updating the docs
-web-messaging-tester test-scenario --help
+web-messaging-tester scripted --help
 
 ## Passing example exits with exit code 0
-web-messaging-tester test-scenario example-pass.yml -id $DEPLOYMENT_ID -r $REGION -p 10
+web-messaging-tester scripted example-pass.yml -id $DEPLOYMENT_ID -r $REGION -p 10
 if [ $? -ne 0 ]
 then
   echo ""
@@ -21,7 +21,7 @@ then
 fi
 
 ## Failing example exits with exit code 1
-web-messaging-tester test-scenario example-fail.yml -id $DEPLOYMENT_ID -r $REGION -p 10
+web-messaging-tester scripted example-fail.yml -id $DEPLOYMENT_ID -r $REGION -p 10
 if [ $? -ne 1 ]
 then
   echo ""

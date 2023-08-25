@@ -1,19 +1,19 @@
 import { Command } from 'commander';
 import {
-  createScenarioTestCommand,
-  ScenarioTestCommandDependencies,
-} from './commands/scenario/createScenarioTestCommand';
+  createScriptedTestCommand,
+  ScriptedTestCommandDependencies,
+} from './commands/scriptedTest/createScriptedTestCommand';
 import {
-  createExploreCommand,
-  ExploreCommandDependencies,
-} from './commands/explore/createExploreCommand';
+  createExploratoryTestCommand,
+  ExploratoryTestCommandDependencies,
+} from './commands/exploratoryTest/createExploratoryTestCommand';
 
 export function createCli(
   command: Command = new Command(),
-  scenarioTestCommandDependencies?: ScenarioTestCommandDependencies,
-  aiCommandDependencies?: ExploreCommandDependencies,
+  scenarioTestCommandDependencies?: ScriptedTestCommandDependencies,
+  aiCommandDependencies?: ExploratoryTestCommandDependencies,
 ): Command {
   return command
-    .addCommand(createScenarioTestCommand(scenarioTestCommandDependencies))
-    .addCommand(createExploreCommand(aiCommandDependencies));
+    .addCommand(createScriptedTestCommand(scenarioTestCommandDependencies))
+    .addCommand(createExploratoryTestCommand(aiCommandDependencies));
 }

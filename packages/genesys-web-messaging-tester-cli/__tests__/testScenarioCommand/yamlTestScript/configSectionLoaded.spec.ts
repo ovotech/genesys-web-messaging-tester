@@ -1,4 +1,4 @@
-import { ScenarioTestCommandDependencies } from '../../../src/commands/scenario/createScenarioTestCommand';
+import { ScriptedTestCommandDependencies } from '../../../src/commands/scriptedTest/createScriptedTestCommand';
 import { readFileSync } from 'fs';
 import { Command } from 'commander';
 import { createCli } from '../../../src/createCli';
@@ -7,9 +7,9 @@ describe('Session Config', () => {
   let fsReadFileSync: jest.MockedFunction<typeof readFileSync>;
 
   let webMessengerSessionFactory: jest.Mocked<
-    ScenarioTestCommandDependencies['webMessengerSessionFactory']
+    ScriptedTestCommandDependencies['webMessengerSessionFactory']
   >;
-  let conversationFactory: jest.Mocked<ScenarioTestCommandDependencies['conversationFactory']>;
+  let conversationFactory: jest.Mocked<ScriptedTestCommandDependencies['conversationFactory']>;
 
   let cli: Command;
 
@@ -51,7 +51,7 @@ scenarios:
 
     await cli.parseAsync([
       ...['node', '/path/to/cli'],
-      'test-scenario',
+      'scripted',
       ...['--deployment-id', 'test-deployment-id'],
       ...['--region', 'test-region'],
       ...['--origin', 'test-origin'],
@@ -74,7 +74,7 @@ scenarios:
 
     await cli.parseAsync([
       ...['node', '/path/to/cli'],
-      'test-scenario',
+      'scripted',
       ...['--deployment-id', 'test-deployment-id-2'],
       ...['--region', 'test-region-2'],
       ...['--origin', 'test-origin-2'],
@@ -99,7 +99,7 @@ scenarios:
     - say: "hi"
 `);
 
-    await cli.parseAsync([...['node', '/path/to/cli'], ...['test-scenario', '/test/path']]);
+    await cli.parseAsync([...['node', '/path/to/cli'], ...['scripted', '/test/path']]);
 
     expect(webMessengerSessionFactory).toHaveBeenCalledWith({
       deploymentId: 'test-deployment-id-3',

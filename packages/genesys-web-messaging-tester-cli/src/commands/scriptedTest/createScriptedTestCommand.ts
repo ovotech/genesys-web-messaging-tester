@@ -41,7 +41,7 @@ interface ListrRunContext {
   scenarioResults: (ScenarioError | ScenarioSuccess)[];
 }
 
-export interface ScenarioTestCommandDependencies {
+export interface ScriptedTestCommandDependencies {
   command?: Command;
   ui?: Ui;
   webMessengerSessionFactory?: (sessionConfig: SessionConfig) => WebMessengerSession;
@@ -55,7 +55,7 @@ export interface ScenarioTestCommandDependencies {
   quietMode?: boolean;
 }
 
-export function createScenarioTestCommand({
+export function createScriptedTestCommand({
   command = new Command(),
   ui = new Ui(),
   webMessengerSessionFactory = (config) => new WebMessengerGuestSession(config, { IsTest: 'true' }),
@@ -63,14 +63,14 @@ export function createScenarioTestCommand({
   fsReadFileSync = readFileSync,
   fsAccessSync = accessSync,
   quietMode = !process.stdout.isTTY || ci.isCI,
-}: ScenarioTestCommandDependencies = {}): Command {
+}: ScriptedTestCommandDependencies = {}): Command {
   const yamlFileReader = createYamlFileReader(fsReadFileSync);
   if (!ui) {
     throw new Error('UI must be defined');
   }
 
   return command
-    .command('test-scenario')
+    .command('scripted')
     .description('Test a WM Deployment against a scenario')
     .argument(
       '<filePath>',

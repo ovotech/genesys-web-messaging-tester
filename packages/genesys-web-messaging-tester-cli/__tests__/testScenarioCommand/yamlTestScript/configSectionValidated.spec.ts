@@ -82,7 +82,7 @@ scenarios:
     - say: hi from scenario
 `);
     await expect(
-      cli.parseAsync([...['node', '/path/to/cli'], ...['test-scenario', 'test-path']]),
+      cli.parseAsync([...['node', '/path/to/cli'], ...['scripted', 'test-path']]),
     ).rejects.toBeDefined();
 
     expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual([expectedError]);
@@ -108,7 +108,7 @@ scenarios:
     - say: hi from scenario
 `);
     await expect(
-      cli.parseAsync([...['node', '/path/to/cli'], 'test-scenario', ...args, 'test-path']),
+      cli.parseAsync([...['node', '/path/to/cli'], 'scripted', ...args, 'test-path']),
     ).rejects.toBeDefined();
 
     expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual([expectedError]);

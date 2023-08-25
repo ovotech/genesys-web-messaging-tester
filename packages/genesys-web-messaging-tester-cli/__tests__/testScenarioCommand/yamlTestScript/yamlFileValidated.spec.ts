@@ -54,7 +54,7 @@ config:
   region: xx
 `);
     await expect(
-      cli.parseAsync([...['node', '/path/to/cli'], ...['test-scenario', 'test-path']]),
+      cli.parseAsync([...['node', '/path/to/cli'], ...['scripted', 'test-path']]),
     ).rejects.toBeDefined();
 
     expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual(['"scenarios" is required\n']);

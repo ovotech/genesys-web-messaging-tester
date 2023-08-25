@@ -62,7 +62,7 @@ describe('Test script YAML loaded', () => {
     });
 
     await expect(
-      cli.parseAsync([...['node', '/path/to/cli'], 'test-scenario', ...['test-file.yml']]),
+      cli.parseAsync([...['node', '/path/to/cli'], 'scripted', ...['test-file.yml']]),
     ).rejects.toBeDefined();
 
     expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual([
@@ -84,11 +84,7 @@ scenarios:
 
     when(fsReadFileSync).calledWith(validScenarioFilePath, 'utf8').mockReturnValue(yaml);
 
-    await cli.parseAsync([
-      ...['node', '/path/to/cli'],
-      'test-scenario',
-      ...[validScenarioFilePath],
-    ]);
+    await cli.parseAsync([...['node', '/path/to/cli'], 'scripted', ...[validScenarioFilePath]]);
 
     expect(capturedOutput.errOut).toStrictEqual([]);
 
