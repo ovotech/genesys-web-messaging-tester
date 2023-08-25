@@ -95,14 +95,14 @@ scenarios:
 Then run the test by pointing to the test-script in the terminal:
 
 ```shell
-web-messaging-tester tests/example.yml
+web-messaging-tester scripted tests/example.yml
 ```
 
 ## Examples
 
 ```
-$ web-messaging-tester --help
-Usage: web-messaging-tester [options] <filePath>
+$ web-messaging-tester scripted --help
+Usage: web-messaging-tester scripted [options] <filePath>
 
 Arguments:
   filePath                             Path of the YAML test-script file
@@ -127,13 +127,13 @@ Options:
 Override Deployment ID and Region in test-script file:
 
 ```shell
-web-messaging-tester test-script.yaml -id 00000000-0000-0000-0000-000000000000 -r xxxx.pure.cloud
+web-messaging-tester scripted test-script.yaml -id 00000000-0000-0000-0000-000000000000 -r xxxx.pure.cloud
 ```
 
 Run 10 scenarios in parallel:
 
 ```shell
-web-messaging-tester test-script.yaml --parallel 10
+web-messaging-tester scripted test-script.yaml --parallel 10
 ```
 
 ## Development
