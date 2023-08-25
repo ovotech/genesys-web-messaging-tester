@@ -28,7 +28,7 @@ import { validatePromptScript } from './testScript/validatePromptScript';
  */
 const temperature = 0.6;
 
-export interface AiCommandDependencies {
+export interface ExploreCommandDependencies {
   command?: Command;
   ui?: Ui;
   openAiApiFactory?: (config: ClientOptions) => OpenAI;
@@ -38,7 +38,7 @@ export interface AiCommandDependencies {
   fsAccessSync?: typeof accessSync;
 }
 
-export function createAiCommand({
+export function createExploreCommand({
   command = new Command(),
   ui = new Ui(),
   openAiApiFactory = (config) => new OpenAI(config),
@@ -46,14 +46,14 @@ export function createAiCommand({
   conversationFactory = (session) => new Conversation(session),
   fsReadFileSync = readFileSync,
   fsAccessSync = accessSync,
-}: AiCommandDependencies = {}): Command {
+}: ExploreCommandDependencies = {}): Command {
   const yamlFileReader = createYamlFileReader(fsReadFileSync);
   if (!ui) {
     throw new Error('UI must be defined');
   }
 
   return command
-    .command('ai')
+    .command('explore')
     .description('Test a WM Deployment against Generative AI')
     .argument(
       '<filePath>',

@@ -22,8 +22,8 @@
     "lint": "eslint 'src/**/*.ts'",
     "test:execute:test-scenario": "ts-node src/index.ts test-scenario ../../examples/cli-scenario/example.yml -id $DEPLOYMENT_ID -r $REGION -p 10",
     "test:execute:test-scenario:help": "ts-node src/index.ts --help",
-    "test:execute:ai": "ts-node src/index.ts ai ../../examples/cli-ai/example.yml -id $DEPLOYMENT_ID -r $REGION",
-    "test:execute:ai:help": "ts-node src/index.ts ai --help",
+    "test:execute:explore": "ts-node src/index.ts explore ../../examples/cli-explore/example.yml -id $DEPLOYMENT_ID -r $REGION",
+    "test:execute:explore:help": "ts-node src/index.ts explore --help",
     "test:execute:help": "ts-node src/index.ts --help"
   },
   "bin": {

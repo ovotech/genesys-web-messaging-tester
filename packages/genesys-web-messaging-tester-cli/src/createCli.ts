@@ -3,14 +3,17 @@ import {
   createScenarioTestCommand,
   ScenarioTestCommandDependencies,
 } from './commands/scenario/createScenarioTestCommand';
-import { createAiCommand, AiCommandDependencies } from './commands/ai/createAiCommand';
+import {
+  createExploreCommand,
+  ExploreCommandDependencies,
+} from './commands/explore/createExploreCommand';
 
 export function createCli(
   command: Command = new Command(),
   scenarioTestCommandDependencies?: ScenarioTestCommandDependencies,
-  aiCommandDependencies?: AiCommandDependencies,
+  aiCommandDependencies?: ExploreCommandDependencies,
 ): Command {
   return command
     .addCommand(createScenarioTestCommand(scenarioTestCommandDependencies))
-    .addCommand(createAiCommand(aiCommandDependencies));
+    .addCommand(createExploreCommand(aiCommandDependencies));
 }
