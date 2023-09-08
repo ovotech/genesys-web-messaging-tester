@@ -10,7 +10,7 @@
     "test:ts": "node -r ts-node/register ../api/src/ts-script.ts"
   },
   "devDependencies": {
-    "@ovotech/genesys-web-messaging-tester": "2.0.4-beta.4",
+    "@ovotech/genesys-web-messaging-tester": "2.0.5",
     "@types/jest": "^29.0.3",
     "@types/node": "^14.14.2",
     "@typescript-eslint/eslint-plugin": "^5.0.0",

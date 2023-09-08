@@ -485,7 +485,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@examples/api@workspace:examples/api"
   dependencies:
-    "@ovotech/genesys-web-messaging-tester": 2.0.4-beta.4
+    "@ovotech/genesys-web-messaging-tester": 2.0.5
     "@types/jest": ^29.0.3
     "@types/node": ^14.14.2
     "@typescript-eslint/eslint-plugin": ^5.0.0
@@ -916,7 +916,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ovotech/genesys-web-messaging-tester-cli@workspace:packages/genesys-web-messaging-tester-cli"
   dependencies:
-    "@ovotech/genesys-web-messaging-tester": 2.0.4-beta.4
+    "@ovotech/genesys-web-messaging-tester": 2.0.5
     "@types/humanize-duration": ^3.27.1
     "@types/jest": ^29.0.3
     "@types/jest-when": ^3.5.2
@@ -959,7 +959,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ovotech/genesys-web-messaging-tester@2.0.4-beta.4, @ovotech/genesys-web-messaging-tester@workspace:packages/genesys-web-messaging-tester":
+"@ovotech/genesys-web-messaging-tester@2.0.5, @ovotech/genesys-web-messaging-tester@workspace:packages/genesys-web-messaging-tester":
   version: 0.0.0-use.local
   resolution: "@ovotech/genesys-web-messaging-tester@workspace:packages/genesys-web-messaging-tester"
   dependencies:
