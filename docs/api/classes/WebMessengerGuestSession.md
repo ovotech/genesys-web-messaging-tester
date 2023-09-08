@@ -57,7 +57,7 @@ https://developer.genesys.cloud/api/digital/webmessaging/websocketapi#configure-
 
 ### constructor
 
-• **new WebMessengerGuestSession**(`config`, `participantData?`, `wsFactory?`, `messageDelayer?`)
+• **new WebMessengerGuestSession**(`config`, `participantData?`, `messageDelayer?`, `wsFactory?`)
 
 #### Parameters
 
@@ -65,8 +65,8 @@ https://developer.genesys.cloud/api/digital/webmessaging/websocketapi#configure-
 | :------ | :------ |
 | `config` | [`SessionConfig`](../interfaces/SessionConfig.md) |
 | `participantData` | `Record`<`string`, `string`\> |
-| `wsFactory` | (`url`: `string`, `options?`: `ClientRequestArgs` \| `ClientOptions`) => `WebSocket` |
 | `messageDelayer` | [`MessageDelayer`](../interfaces/MessageDelayer.md) |
+| `wsFactory` | (`url`: `string`, `options?`: `ClientRequestArgs` \| `ClientOptions`) => `WebSocket` |
 
 #### Overrides
 
@@ -99,7 +99,7 @@ EventEmitter.constructor
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:54](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L54)
+[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:55](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L55)
 
 ___
 

@@ -18,7 +18,7 @@ tag created last._
 
 ## Beta releases
 
-1. Suffix the versions with `-beta.0`, increase the number for subsequent publishes
+1. Suffix the versions with `-beta.0` (increase the number for subsequent publishes)
 2. Publish the beta version
    ```
    npm publish --tag beta
