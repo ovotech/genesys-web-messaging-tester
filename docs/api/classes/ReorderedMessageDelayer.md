@@ -35,6 +35,7 @@ timestamps.
 ### Accessors
 
 - [delay](ReorderedMessageDelayer.md#delay)
+- [unorderdMessageDetected](ReorderedMessageDelayer.md#unorderdmessagedetected)
 
 ### Methods
 
@@ -68,7 +69,7 @@ timestamps.
 
 | Name | Type | Default value |
 | :------ | :------ | :------ |
-| `delayBeforeEmittingInMs` | `number` | `5000` |
+| `delayBeforeEmittingInMs` | `number` | `1000` |
 | `intervalInMs` | `number` | `1000` |
 | `intervalSet` | (`callback`: (...`args`: `any`[]) => `void`, `ms?`: `number`, ...`args`: `any`[]) => `NodeJS.Timeout` | `setInterval` |
 | `intervalClear` | (`intervalId`: `undefined` \| `string` \| `number` \| `Timeout`) => `void` | `clearInterval` |
@@ -79,7 +80,7 @@ EventEmitter.constructor
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/genesys/message-delayer/ReorderedMessageDelayer.ts:32](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/message-delayer/ReorderedMessageDelayer.ts#L32)
+[packages/genesys-web-messaging-tester/src/genesys/message-delayer/ReorderedMessageDelayer.ts:34](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/message-delayer/ReorderedMessageDelayer.ts#L34)
 
 ## Properties
 
@@ -163,7 +164,21 @@ MessageDelayer.delay
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/genesys/message-delayer/ReorderedMessageDelayer.ts:137](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/message-delayer/ReorderedMessageDelayer.ts#L137)
+[packages/genesys-web-messaging-tester/src/genesys/message-delayer/ReorderedMessageDelayer.ts:142](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/message-delayer/ReorderedMessageDelayer.ts#L142)
+
+___
+
+### unorderdMessageDetected
+
+• `get` **unorderdMessageDetected**(): `boolean`
+
+#### Returns
+
+`boolean`
+
+#### Defined in
+
+[packages/genesys-web-messaging-tester/src/genesys/message-delayer/ReorderedMessageDelayer.ts:69](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/message-delayer/ReorderedMessageDelayer.ts#L69)
 
 ## Methods
 
@@ -178,7 +193,7 @@ before releasing the oldest message.
 
 | Name | Type |
 | :------ | :------ |
-| `message` | `Response`<`unknown`\> |
+| `message` | [`Response`](../README.md#response)<`unknown`\> |
 | `received` | `Date` |
 
 #### Returns
@@ -191,7 +206,7 @@ before releasing the oldest message.
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/genesys/message-delayer/ReorderedMessageDelayer.ts:67](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/message-delayer/ReorderedMessageDelayer.ts#L67)
+[packages/genesys-web-messaging-tester/src/genesys/message-delayer/ReorderedMessageDelayer.ts:77](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/message-delayer/ReorderedMessageDelayer.ts#L77)
 
 ___
 
