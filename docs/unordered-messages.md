@@ -11,6 +11,7 @@ this approach is problematic for this tool, as it asserts on the order of messag
 #...
 scenarios:
   "Convo starts with welcome message":
+    - say: Hi
     - waitForReplyContaining: Welcome to our company's chatbot
     - waitForReplyContaining: How can I help you?
 ```
