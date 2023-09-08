@@ -1,10 +1,8 @@
 # Handling unordered messages
 
-The Web Messenger server can sometimes return responses out of order, as mentioned in the documentation:
+The Web Messenger server can sometimes return responses out of order, as [mentioned in the documentation](https://developer.genesys.cloud/commdigital/digital/webmessaging/websocketapi#messaging):
 > All messaging follows a request/response pattern. However, web messaging is an asynchronous
 > channel and therefore no guarantee to ordering is provided.
->
-> Source: https://developer.genesys.cloud/commdigital/digital/webmessaging/websocketapi#messaging
 
 I suspect the official embeddable client deals with this by re-ordering the messages on the fly in the UI. However,
 this approach is problematic for this tool, as it asserts on the order of messages being received:
@@ -12,8 +10,8 @@ this approach is problematic for this tool, as it asserts on the order of messag
 ```yaml
 #...
 scenarios:
-  "Accept Survey":
-    - waitForReplyContaining: Welcome to our company's chatbot # Expected to come first
+  "Convo starts with welcome message":
+    - waitForReplyContaining: Welcome to our company's chatbot
     - waitForReplyContaining: How can I help you?
 ```
 
