@@ -23,7 +23,7 @@ The delay, detection and re-ordering of messages all happens in the [`ReorderedM
 ## How the CLI handles out-of-order messages
 
 The approach guaranteed to address the issue of out-of-order messages is to configure a long delay when instantiating [`ReorderedMessageDelayer`](./api/classes/ReorderedMessageDelayer.md).
-However, a longer delay between messages results in longer tests, at OVO this meant a suite of tests that usually took 14 mins taking 54 mins.
+However, a longer delay between messages results in longer tests - at OVO this meant a suite of tests that usually took 14 mins taking 54 mins.
 
 The CLI addresses this problem by starting all tests with a very short delay. Should a test fail then it will check to see if
 the conversation contained any unordered messages and if so will retry the test with a long delay. This means the majority of tests
