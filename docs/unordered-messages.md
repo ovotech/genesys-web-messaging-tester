@@ -1,8 +1,9 @@
-# Handling Unordered Messages
+# Handling unordered messages
 
 The Web Messenger server can sometimes return responses out of order, as mentioned in the documentation:
 > All messaging follows a request/response pattern. However, web messaging is an asynchronous
 > channel and therefore no guarantee to ordering is provided.
+>
 > Source: https://developer.genesys.cloud/commdigital/digital/webmessaging/websocketapi#messaging
 
 I suspect the official embeddable client deals with this by re-ordering the messages on the fly in the UI. However,
@@ -19,7 +20,7 @@ scenarios:
 This tool handles out-of-order messages by delaying their propagation into the rest of the tool. During this delay messages
 can then be re-reordered.
 
-The delay, detection and re-ordering of messages all happens in the [`ReorderedMessageDelayer`](./api/classes/ReorderedMessageDelayer.md) class
+The delay, detection and re-ordering of messages all happens in the [`ReorderedMessageDelayer`](./api/classes/ReorderedMessageDelayer.md) class.
 
 ## How the CLI handles out-of-order messages
 
