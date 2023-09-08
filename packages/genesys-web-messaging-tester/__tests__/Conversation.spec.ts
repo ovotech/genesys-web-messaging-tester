@@ -1,10 +1,13 @@
-import { Conversation, WebMessengerGuestSession } from '../src';
+import {
+  Conversation,
+  WebMessageServerConnectionFixture,
+  WebMessageServerFixture,
+  WebMessengerGuestSession,
+} from '../src';
 import WebSocket from 'ws';
 import getPort from 'get-port';
-import { WebMessageServerFixture } from './fixtures/WebMessageServerFixture';
-import { WebMessageServerConnectionFixture } from './fixtures/WebMessageServerConnectionFixture';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const FakeTimers = require('@sinonjs/fake-timers');
+import { NoDelay } from './fixtures/NoDelay';
+import FakeTimers from '@sinonjs/fake-timers';
 
 describe('Conversation', () => {
   let genesysServerFixture: WebMessageServerFixture;
@@ -21,6 +24,7 @@ describe('Conversation', () => {
         region: 'xxxx.pure.cloud',
       },
       {},
+      new NoDelay(),
       () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
     );
 
@@ -108,6 +112,8 @@ Received before disconnection:
       await new Promise<void>((resolve) => session.on('structuredMessage', resolve));
 
     const clock = FakeTimers.createClock();
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const conversation = new Conversation(session, clock.setTimeout, clock.clearTimeout);
 
     serverConnection.simulateSessionResponseMessage();

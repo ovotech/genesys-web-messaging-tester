@@ -1,6 +1,6 @@
 {
   "name": "@ovotech/genesys-web-messaging-tester-cli",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "license": "Apache-2.0",
@@ -27,7 +27,7 @@
     "web-messaging-tester": "lib/index.js"
   },
   "dependencies": {
-    "@ovotech/genesys-web-messaging-tester": "^2.0.4",
+    "@ovotech/genesys-web-messaging-tester": "2.0.5",
     "chalk": "^4.1.2",
     "ci-info": "^3.5.0",
     "commander": "^11.0.0",
@@ -43,8 +43,8 @@
     "@types/jest-when": "^3.5.2",
     "@types/js-yaml": "^4.0.5",
     "@types/node": "^14.14.2",
-    "@typescript-eslint/eslint-plugin": "^4.31.1",
-    "@typescript-eslint/parser": "^4.31.1",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jest": "^27.2.3",

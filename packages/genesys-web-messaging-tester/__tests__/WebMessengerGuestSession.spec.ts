@@ -1,12 +1,7 @@
-import { WebMessengerGuestSession, StructuredMessage } from '../src';
+import { StructuredMessage, WebMessageServerFixture, WebMessengerGuestSession } from '../src';
 import WebSocket from 'ws';
 import getPort from 'get-port';
-
-import {
-  WebMessageServerFixture,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-} from './fixtures/WebMessageServerFixture';
+import { NoDelay } from './fixtures/NoDelay';
 
 describe('WebMessengerGuestSession', () => {
   let genesysServerFixture: WebMessageServerFixture;
@@ -33,6 +28,7 @@ describe('WebMessengerGuestSession', () => {
         origin: 'x.test',
       },
       {},
+      new NoDelay(),
       wsFactory,
     );
 
@@ -49,6 +45,7 @@ describe('WebMessengerGuestSession', () => {
         region: 'xxxx.pure.cloud',
       },
       {},
+      new NoDelay(),
       () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
     );
 
@@ -68,6 +65,7 @@ describe('WebMessengerGuestSession', () => {
         region: 'xxxx.pure.cloud',
       },
       {},
+      new NoDelay(),
       () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
     );
 
@@ -93,6 +91,7 @@ describe('WebMessengerGuestSession', () => {
         region: 'xxxx.pure.cloud',
       },
       {},
+      new NoDelay(),
       () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
     );
 
@@ -130,6 +129,7 @@ describe('WebMessengerGuestSession', () => {
         region: 'xxxx.pure.cloud',
       },
       { test: 'test-value' },
+      new NoDelay(),
       () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
     );
 

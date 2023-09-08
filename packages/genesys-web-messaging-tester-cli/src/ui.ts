@@ -28,8 +28,15 @@ export class Ui {
     return Ui.trailingNewline(chalk.red(error.message));
   }
 
-  public titleOfTask(scenario: TestScriptScenario): string {
-    return scenario.name;
+  public titleOfTask(
+    scenario: TestScriptScenario,
+    isRetryDueToUnorderedMsgFailure = false,
+  ): string {
+    if (isRetryDueToUnorderedMsgFailure) {
+      return `${scenario.name} (RETRYING)`;
+    } else {
+      return scenario.name;
+    }
   }
 
   public titleOfFinishedTask(scenario: TestScriptScenario, hasPassed: boolean): string {
@@ -42,6 +49,10 @@ export class Ui {
 
   public messageTranscribed(event: TranscribedMessage): string {
     return Ui.trailingNewline(`${chalk.bold.grey(`${event.who}:`)} ${chalk.grey(event.message)}`);
+  }
+
+  public retryingTestDueToFailureLikelyByUnorderedMessage(): string {
+    return Ui.trailingNewline('Test failed. Retrying as unordered messages detected');
   }
 
   public firstLineOfMessageTranscribed(event: TranscribedMessage): string {
@@ -204,6 +215,15 @@ export class Ui {
         lines.push(chalk.green(`PASS - ${r.scenario.name}`));
       } else {
         lines.push(chalk.red(`FAIL - ${r.scenario.name}`));
+      }
+
+      if (r.wasRetriedDueToUnorderedMessageFailure) {
+        lines.push(
+          chalk.yellow(
+            '  ^ This test was retried following a failure that coincided with unordered messages being being received from Genesys\n' +
+              '  Read more here: https://github.com/ovotech/genesys-web-messaging-tester/blob/main/docs/cli/unordered-messages.md',
+          ),
+        );
       }
     }
 
