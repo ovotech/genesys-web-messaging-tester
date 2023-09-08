@@ -21,5 +21,5 @@ tag created last._
 1. Suffix the versions with `-beta.0`, increase the number for subsequent publishes
 2. Publish the beta version
    ```
-   npm publish --tag <tag-name>
+   npm publish --tag beta
    ```
