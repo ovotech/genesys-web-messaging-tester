@@ -953,8 +953,8 @@ __metadata:
   resolution: "@ovotech/genesys-web-messaging-tester-root@workspace:."
   dependencies:
     "@ikerin/build-readme": ^1.1.1
-    typedoc: ^0.24.8
-    typedoc-plugin-markdown: ^3.15.3
+    typedoc: ^0.25.1
+    typedoc-plugin-markdown: ^3.16.0
     typescript: ^5.1.6
   languageName: unknown
   linkType: soft
@@ -4034,7 +4034,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^9.0.0":
+"minimatch@npm:^9.0.3":
   version: 9.0.3
   resolution: "minimatch@npm:9.0.3"
   dependencies:
@@ -5235,30 +5235,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-plugin-markdown@npm:^3.15.3":
-  version: 3.15.3
-  resolution: "typedoc-plugin-markdown@npm:3.15.3"
+"typedoc-plugin-markdown@npm:^3.16.0":
+  version: 3.16.0
+  resolution: "typedoc-plugin-markdown@npm:3.16.0"
   dependencies:
     handlebars: ^4.7.7
   peerDependencies:
     typedoc: ">=0.24.0"
-  checksum: 845d8907948a7ea9f3eed31d8c2f1a4053569fb763f5c5187d06ecbffd247c6a6e532eaf0ec09d11f09eabbf26a3df8646c96fc3ac1a836cc9af273fa0e53413
+  checksum: e6ddcd36cf28c15bfa84072323e44b34ea10e6ee8f712518805e8a066a70fd2f9a6672fe6eade806ef377ab622b7e36743f0b338b531a494ec920b7f9b853ce6
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.24.8":
-  version: 0.24.8
-  resolution: "typedoc@npm:0.24.8"
+"typedoc@npm:^0.25.1":
+  version: 0.25.1
+  resolution: "typedoc@npm:0.25.1"
   dependencies:
     lunr: ^2.3.9
     marked: ^4.3.0
-    minimatch: ^9.0.0
+    minimatch: ^9.0.3
     shiki: ^0.14.1
   peerDependencies:
-    typescript: 4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x || 5.1.x
+    typescript: 4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x || 5.1.x || 5.2.x
   bin:
     typedoc: bin/typedoc
-  checksum: a46a14497f789fb3594e6c3af2e45276934ac46df40b7ed15a504ee51dc7a8013a2ffb3a54fd73abca6a2b71f97d3ec9ad356fa9aa81d29743e4645a965a2ae0
+  checksum: 6c1c28cbf51b6ab1741429f58f540c5c12d6119ce30054866b879ef2a3a2120a6adbaf59919f7411d3bb51b9113fc926522c40934a3d8ef601785abdf0134eed
   languageName: node
   linkType: hard
 
