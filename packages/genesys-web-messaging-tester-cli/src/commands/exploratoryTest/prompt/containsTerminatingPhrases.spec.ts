@@ -1,7 +1,10 @@
 import { containsTerminatingPhrases } from './containsTerminatingPhrases';
 
 test('failure phrase detected', () => {
-  const result = containsTerminatingPhrases('This was a failure', ['failure'], ['success']);
+  const result = containsTerminatingPhrases('This was a failure', {
+    fail: ['failure'],
+    pass: ['success'],
+  });
   expect(result).toStrictEqual({
     phraseFound: true,
     phraseInSubject: 'failure',
@@ -11,7 +14,10 @@ test('failure phrase detected', () => {
 });
 
 test('success phrase detected', () => {
-  const result = containsTerminatingPhrases('This was a success', ['failure'], ['success']);
+  const result = containsTerminatingPhrases('This was a success', {
+    fail: ['failure'],
+    pass: ['success'],
+  });
   expect(result).toStrictEqual({
     phraseFound: true,
     phraseInSubject: 'success',
@@ -21,7 +27,10 @@ test('success phrase detected', () => {
 });
 
 test('neither phrase detected', () => {
-  const result = containsTerminatingPhrases('This was inconclusive', ['failure'], ['success']);
+  const result = containsTerminatingPhrases('This was inconclusive', {
+    fail: ['failure'],
+    pass: ['success'],
+  });
   expect(result).toStrictEqual({
     phraseFound: false,
     subject: 'This was inconclusive',
