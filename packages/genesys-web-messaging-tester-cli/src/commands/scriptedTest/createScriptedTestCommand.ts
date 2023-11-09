@@ -24,6 +24,7 @@ import {
   messageIdToConversationIdFactory,
   MessageIdToConvoIdClient,
 } from '../../genesysPlatform/messageIdToConversationIdFactory';
+import { CommandExpectedlyFailedError } from '../CommandExpectedlyFailedError';
 
 function parsePositiveInt(value: string) {
   const parsedValue = parseInt(value, 10);
@@ -146,7 +147,7 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
             const checkResult = await messageIdToConversationIdClient.preflightCheck();
             if (!checkResult.ok) {
               outputConfig.writeErr(ui.preflightCheckOfAssociateConvoIdFailed(checkResult));
-              throw new Error();
+              throw new CommandExpectedlyFailedError();
             }
           }
         }
@@ -157,14 +158,14 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
           testScriptFileContents = yamlFileReader(testScriptPath);
         } catch (error) {
           outputConfig.writeErr(ui.errorReadingTestScriptFile(error as Error));
-          throw new Error();
+          throw new CommandExpectedlyFailedError();
         }
 
         // 2. Validate Test Script
         const testScriptValidationResults = validateTestScript(testScriptFileContents);
         if (testScriptValidationResults.error) {
           outputConfig.writeErr(ui.validatingTestScriptFailed(testScriptValidationResults.error));
-          throw new Error();
+          throw new CommandExpectedlyFailedError();
         }
 
         // 3. Merge session config from args and Test Script - args take priority
@@ -181,7 +182,7 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
           outputConfig.writeErr(
             ui.validatingSessionConfigFailed(sessionConfigValidationResults.error),
           );
-          throw new Error();
+          throw new CommandExpectedlyFailedError();
         }
 
         // 5. Extract Scenarios from Test Script
@@ -292,7 +293,7 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
         );
 
         if (results.scenarioResults.some((r) => !r.hasPassed)) {
-          throw new Error();
+          throw new CommandExpectedlyFailedError();
         }
       },
     );

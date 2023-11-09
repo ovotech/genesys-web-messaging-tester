@@ -16,8 +16,7 @@ import { shouldEndConversation, ShouldEndConversationResult } from './prompt/sho
 import { readableFileValidator } from '../../fileSystem/readableFileValidator';
 import { createYamlFileReader } from '../../fileSystem/yamlFileReader';
 import { validatePromptScript } from './testScript/validatePromptScript';
-import { substituteTemplatePlaceholders } from './prompt/substituteTemplatePlaceholders';
-import { containsTerminatingPhrases } from './prompt/containsTerminatingPhrases';
+import { CommandExpectedlyFailedError } from '../CommandExpectedlyFailedError';
 
 /**
  * This value can be between 0 and 1 and controls the randomness of ChatGPT's completions.
@@ -89,7 +88,7 @@ export function createExploratoryTestCommand({
           outputConfig.writeErr(
             ui.validatingOpenAiEnvValidationFailed(sessionValidationResult.error),
           );
-          throw new Error();
+          throw new CommandExpectedlyFailedError();
         }
 
         const openAiEnvValidationResult = validateOpenAiEnvVariables(process.env);
@@ -97,7 +96,7 @@ export function createExploratoryTestCommand({
           outputConfig.writeErr(
             ui.validatingOpenAiEnvValidationFailed(openAiEnvValidationResult.error),
           );
-          throw new Error();
+          throw new CommandExpectedlyFailedError();
         }
 
         // 1. Read YAML file
@@ -106,7 +105,7 @@ export function createExploratoryTestCommand({
           testScriptFileContents = yamlFileReader(testScriptPath);
         } catch (error) {
           outputConfig.writeErr(ui.errorReadingTestScriptFile(error as Error));
-          throw new Error();
+          throw new CommandExpectedlyFailedError();
         }
 
         // 2. Validate Test Script
@@ -114,7 +113,7 @@ export function createExploratoryTestCommand({
         // TODO Update scenario validation object to match
         if (testScriptValidationResults.error) {
           outputConfig.writeErr(ui.validatingPromptScriptFailed(testScriptValidationResults.error));
-          throw new Error();
+          throw new CommandExpectedlyFailedError();
         }
 
         // 3. Merge session config from args and Test Script - args take priority
@@ -131,13 +130,13 @@ export function createExploratoryTestCommand({
           outputConfig.writeErr(
             ui.validatingSessionConfigFailed(sessionConfigValidationResults.error),
           );
-          throw new Error();
+          throw new CommandExpectedlyFailedError();
         }
 
         const totalScenarios = Object.keys(validPromptScript?.scenarios).length;
         if (totalScenarios > 1) {
           outputConfig.writeErr(ui.onlyOnePromptSupported(totalScenarios));
-          throw new Error();
+          throw new CommandExpectedlyFailedError();
         }
 
         const scenario = Object.entries(validPromptScript?.scenarios)[0][1];
@@ -203,50 +202,53 @@ export function createExploratoryTestCommand({
         session.close();
 
         if (endConversation.reason.type === 'fail') {
-          throw new Error();
+          throw new CommandExpectedlyFailedError();
         }
 
         if (scenario.followUp) {
-          const content = substituteTemplatePlaceholders(scenario.followUp.prompt, transcript);
-          const { choices } = await openai.chat.completions.create({
-            model: chatGptModel,
-            n: 1, // Number of choices
-            temperature,
-            messages: [
-              {
-                role: 'system',
-                content,
-              },
-            ],
-          });
-
-          if (choices[0].message?.content) {
-            const result = containsTerminatingPhrases(choices[0].message.content, {
-              fail: scenario.setup.terminatingPhrases.fail,
-              pass: scenario.setup.terminatingPhrases.pass,
-            });
-
-            outputConfig.writeOut(ui.followUpDetails(choices[0].message.content));
-            if (result.phraseFound) {
-              outputConfig.writeOut(ui.followUpResult(result));
-              if (result.phraseIndicates === 'fail') {
-                throw new Error();
-              }
-            }
-          }
-
-          // endConversation = shouldEndConversation(
-          //   messages,
-          //   scenario.setup.terminatingPhrases.fail,
-          //   scenario.setup.terminatingPhrases.pass,
-          // );
-          // if (choices[0].message?.content) {
-          //   messages.push({ role: 'assistant', content: choices[0].message.content });
-          //   await convo.sendText(choices[0].message.content);
-          // } else {
-          //   messages.push({ role: 'assistant', content: '' });
-          // }
+          outputConfig.writeOut(ui.followUpDetailsUnderDevelopment());
         }
+        // if (scenario.followUp) {
+        //   const content = substituteTemplatePlaceholders(scenario.followUp.prompt, transcript);
+        //   const { choices } = await openai.chat.completions.create({
+        //     model: chatGptModel,
+        //     n: 1, // Number of choices
+        //     temperature,
+        //     messages: [
+        //       {
+        //         role: 'system',
+        //         content,
+        //       },
+        //     ],
+        //   });
+        //
+        //   if (choices[0].message?.content) {
+        //     const result = containsTerminatingPhrases(choices[0].message.content, {
+        //       fail: scenario.setup.terminatingPhrases.fail,
+        //       pass: scenario.setup.terminatingPhrases.pass,
+        //     });
+        //
+        //     outputConfig.writeOut(ui.followUpDetails(choices[0].message.content));
+        //     if (result.phraseFound) {
+        //       outputConfig.writeOut(ui.followUpResult(result));
+        //       if (result.phraseIndicates === 'fail') {
+        //         throw new CommandExpectedlyFailedError();
+        //       }
+        //     }
+        //   }
+        //
+        //   // endConversation = shouldEndConversation(
+        //   //   messages,
+        //   //   scenario.setup.terminatingPhrases.fail,
+        //   //   scenario.setup.terminatingPhrases.pass,
+        //   // );
+        //   // if (choices[0].message?.content) {
+        //   //   messages.push({ role: 'assistant', content: choices[0].message.content });
+        //   //   await convo.sendText(choices[0].message.content);
+        //   // } else {
+        //   //   messages.push({ role: 'assistant', content: '' });
+        //   // }
+        // }
       },
     );
 }

@@ -44,11 +44,11 @@ export class Ui {
 
   public testResult(result: ShouldEndConversationEndedResult): string {
     const resultMessage =
-      result.reason.type === 'fail'
-        ? chalk.bold.red(`FAILED: ${result.reason.description}`)
-        : chalk.bold.green(`PASSED: ${result.reason.description}`);
+      result.reason.type === 'pass'
+        ? [chalk.bold.green('PASSED'), chalk.green(result.reason.description)]
+        : [chalk.bold.red('FAILED'), chalk.red(result.reason.description)];
 
-    return Ui.trailingNewline(['\n---------------------', resultMessage].join('\n'));
+    return Ui.trailingNewline(['\n---------------------', ...resultMessage].join('\n'));
   }
 
   public messageTranscribed(msg: TranscribedMessage): string {
@@ -58,6 +58,12 @@ export class Ui {
       console.log(`Chatbot: ${msg.message}`);
     }
     return Ui.trailingNewline(`${chalk.bold.grey(`${msg.who}:`)} ${chalk.grey(msg.message)}`);
+  }
+
+  public followUpDetailsUnderDevelopment(): string {
+    return Ui.trailingNewline(
+      chalk.bold.yellow('Follow up definitions ignored, as functionality is under development'),
+    );
   }
 
   public followUpDetails(feedback: string): string {

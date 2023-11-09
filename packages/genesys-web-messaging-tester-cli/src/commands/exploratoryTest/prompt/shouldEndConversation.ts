@@ -30,7 +30,7 @@ export function shouldEndConversation(
 
   const lastMessage = messages.slice(-1);
   if (lastMessage.length === 1 && lastMessage[0].content === '') {
-    const who = lastMessage[0].role === 'assistant' ? 'ChatGPT' : 'ChatBot';
+    const who = lastMessage[0].role === 'assistant' ? 'ChatGPT' : 'Chatbot';
     return {
       hasEnded: true,
       reason: { type: 'fail', description: `${who} didn't have a response` },
@@ -50,7 +50,7 @@ export function shouldEndConversation(
         hasEnded: true,
         reason: {
           type: phraseResult.phraseIndicates,
-          description: `Terminating phrase found in response: ${lastChatGptMsg[0].content}`,
+          description: `Terminating phrase found in response: '${lastChatGptMsg[0].content}'`,
         },
       };
     }
@@ -79,7 +79,7 @@ export function shouldEndConversation(
 
         reason: {
           type: 'fail',
-          description: 'ChatBot has repeated itself',
+          description: 'The Chatbot repeated itself',
         },
       };
     }
