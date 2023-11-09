@@ -7,8 +7,8 @@ test('prompts converted', () => {
         setup: {
           prompt: 'test-prompt-1',
           terminatingPhrases: {
-            fail: ['test-failing-response-1'],
-            pass: ['test-passing-prompt-1'],
+            fail: ['test-failing-phrase-1'],
+            pass: ['test-passing-phrase-1'],
           },
         },
       },
@@ -16,8 +16,15 @@ test('prompts converted', () => {
         setup: {
           prompt: 'test-prompt-2',
           terminatingPhrases: {
-            fail: ['test-failing-response-2'],
-            pass: ['test-passing-prompt-2'],
+            fail: ['test-failing-phrase-2'],
+            pass: ['test-passing-phrase-2'],
+          },
+        },
+        followUp: {
+          prompt: 'test-prompt-3',
+          terminatingPhrases: {
+            fail: ['test-failing-phrase-3'],
+            pass: ['test-passing-phrase-3'],
           },
         },
       },
@@ -39,8 +46,8 @@ test('prompts converted', () => {
       setup: {
         prompt: 'test-prompt-1',
         terminatingPhrases: {
-          fail: ['test-failing-response-1'],
-          pass: ['test-passing-prompt-1'],
+          fail: ['test-failing-phrase-1'],
+          pass: ['test-passing-phrase-1'],
         },
       },
     },
@@ -53,8 +60,15 @@ test('prompts converted', () => {
       setup: {
         prompt: 'test-prompt-2',
         terminatingPhrases: {
-          fail: ['test-failing-response-2'],
-          pass: ['test-passing-prompt-2'],
+          fail: ['test-failing-phrase-2'],
+          pass: ['test-passing-phrase-2'],
+        },
+      },
+      followUp: {
+        prompt: 'test-prompt-3',
+        terminatingPhrases: {
+          fail: ['test-failing-phrase-3'],
+          pass: ['test-passing-phrase-3'],
         },
       },
     },

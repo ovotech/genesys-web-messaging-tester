@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import { containsTerminatingPhrases } from './containsTerminatingPhrases';
 
 interface Reason {
   type: 'fail' | 'pass';
@@ -20,8 +21,8 @@ export type ShouldEndConversationResult =
 
 export function shouldEndConversation(
   messages: OpenAI.Chat.Completions.CreateChatCompletionRequestMessage[],
-  wordsToIndicateFailure: string[],
-  wordsToIndicatePass: string[],
+  failPhrases: string[],
+  passPhrases: string[],
 ): ShouldEndConversationResult {
   if (messages.length === 0) {
     return { hasEnded: false };
@@ -38,36 +39,21 @@ export function shouldEndConversation(
 
   const lastChatGptMsg = messages.filter((m) => m.role === 'assistant').slice(-1);
 
-  if (
-    lastChatGptMsg.length === 1 &&
-    lastChatGptMsg[0].content &&
-    wordsToIndicateFailure.some((w) =>
-      lastChatGptMsg[0].content?.toUpperCase().includes(w.toUpperCase()),
-    )
-  ) {
-    return {
-      hasEnded: true,
-      reason: {
-        type: 'fail',
-        description: `Terminating phrase found in response: ${lastChatGptMsg[0].content}`,
-      },
-    };
-  }
+  if (lastChatGptMsg[0]?.content) {
+    const phraseResult = containsTerminatingPhrases(lastChatGptMsg[0].content, {
+      pass: passPhrases,
+      fail: failPhrases,
+    });
 
-  if (
-    lastChatGptMsg.length === 1 &&
-    lastChatGptMsg[0].content &&
-    wordsToIndicatePass.some((w) =>
-      lastChatGptMsg[0].content?.toUpperCase().includes(w.toUpperCase()),
-    )
-  ) {
-    return {
-      hasEnded: true,
-      reason: {
-        type: 'pass',
-        description: `AI indicated the bot passed: ${lastChatGptMsg[0].content}`,
-      },
-    };
+    if (phraseResult.phraseFound) {
+      return {
+        hasEnded: true,
+        reason: {
+          type: phraseResult.phraseIndicates,
+          description: `Terminating phrase found in response: ${lastChatGptMsg[0].content}`,
+        },
+      };
+    }
   }
 
   // const lastTwoChatGptMsgs = messages.filter((m) => m.role === 'assistant').slice(-2);

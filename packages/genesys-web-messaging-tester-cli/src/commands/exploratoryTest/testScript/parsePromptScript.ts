@@ -7,9 +7,17 @@ export interface ExploratoryScenarioSetupSection {
     readonly fail: string[];
   };
 }
+export interface ExploratoryScenarioFollowUpSection {
+  readonly prompt: string;
+  readonly terminatingPhrases: {
+    readonly pass: string[];
+    readonly fail: string[];
+  };
+}
 
 export interface ExploratoryScenarioSection {
   setup: ExploratoryScenarioSetupSection;
+  followUp?: ExploratoryScenarioFollowUpSection;
 }
 
 export interface TestPromptFile {
@@ -42,5 +50,16 @@ export function extractExploratoryTestScenarios(
         fail: scenario.setup.terminatingPhrases.fail ?? [],
       },
     },
+    ...(scenario.followUp
+      ? {
+          followUp: {
+            prompt: scenario.followUp.prompt,
+            terminatingPhrases: {
+              pass: scenario.followUp.terminatingPhrases.pass ?? [],
+              fail: scenario.followUp.terminatingPhrases.fail ?? [],
+            },
+          },
+        }
+      : {}),
   }));
 }

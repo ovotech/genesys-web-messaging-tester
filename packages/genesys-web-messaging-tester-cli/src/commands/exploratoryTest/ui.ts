@@ -1,8 +1,8 @@
 import chalk from 'chalk';
 import { ValidationError } from 'joi';
-import { ShouldEndConversationEndedResult } from './shouldEndConversation';
-import { AxiosError } from './AxiosError';
+import { ShouldEndConversationEndedResult } from './prompt/shouldEndConversation';
 import { TranscribedMessage } from '@ovotech/genesys-web-messaging-tester';
+import { PhraseFound } from './prompt/containsTerminatingPhrases';
 
 export class Ui {
   /**
@@ -51,14 +51,6 @@ export class Ui {
     return Ui.trailingNewline(['\n---------------------', resultMessage].join('\n'));
   }
 
-  public chatGptBackoff(error: AxiosError, attemptNumber: number): string {
-    return Ui.trailingNewline(
-      `${chalk.yellow.bold(`${error.response.statusText}:`)} ${chalk.yellow(
-        `Retrying (${attemptNumber} of 10)`,
-      )}`,
-    );
-  }
-
   public messageTranscribed(msg: TranscribedMessage): string {
     if (msg.who === 'You') {
       console.log(chalk.bold.green(`AI: ${msg.message}`));
@@ -66,5 +58,18 @@ export class Ui {
       console.log(`Chatbot: ${msg.message}`);
     }
     return Ui.trailingNewline(`${chalk.bold.grey(`${msg.who}:`)} ${chalk.grey(msg.message)}`);
+  }
+
+  public followUpDetails(feedback: string): string {
+    return Ui.trailingNewline(['\n---------------------', feedback].join('\n'));
+  }
+
+  public followUpResult(result: PhraseFound): string {
+    const resultMessage =
+      result.phraseIndicates === 'fail'
+        ? chalk.bold.red(`FAILED: ${result.subject}`)
+        : chalk.bold.green(`PASSED: ${result.subject}`);
+
+    return Ui.trailingNewline(['\n---------------------', resultMessage].join('\n'));
   }
 }

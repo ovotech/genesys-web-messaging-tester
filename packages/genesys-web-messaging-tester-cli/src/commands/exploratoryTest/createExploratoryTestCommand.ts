@@ -12,10 +12,12 @@ import OpenAI, { ClientOptions } from 'openai';
 import { validateOpenAiEnvVariables } from './validateOpenAIEnvVariables';
 import { Ui } from './ui';
 import { validateSessionConfig } from './validateSessionConfig';
-import { shouldEndConversation, ShouldEndConversationResult } from './shouldEndConversation';
+import { shouldEndConversation, ShouldEndConversationResult } from './prompt/shouldEndConversation';
 import { readableFileValidator } from '../../fileSystem/readableFileValidator';
 import { createYamlFileReader } from '../../fileSystem/yamlFileReader';
 import { validatePromptScript } from './testScript/validatePromptScript';
+import { substituteTemplatePlaceholders } from './prompt/substituteTemplatePlaceholders';
+import { containsTerminatingPhrases } from './prompt/containsTerminatingPhrases';
 
 /**
  * This value can be between 0 and 1 and controls the randomness of ChatGPT's completions.
@@ -36,6 +38,7 @@ export interface ExploratoryTestCommandDependencies {
   conversationFactory?: (session: WebMessengerSession) => Conversation;
   fsReadFileSync?: typeof readFileSync;
   fsAccessSync?: typeof accessSync;
+  chatGptModel?: OpenAI.CompletionCreateParams['model'];
 }
 
 export function createExploratoryTestCommand({
@@ -46,6 +49,7 @@ export function createExploratoryTestCommand({
   conversationFactory = (session) => new Conversation(session),
   fsReadFileSync = readFileSync,
   fsAccessSync = accessSync,
+  chatGptModel = 'gpt-3.5-turbo',
 }: ExploratoryTestCommandDependencies = {}): Command {
   const yamlFileReader = createYamlFileReader(fsReadFileSync);
   if (!ui) {
@@ -136,7 +140,7 @@ export function createExploratoryTestCommand({
           throw new Error();
         }
 
-        const promptConfig = Object.entries(validPromptScript?.scenarios)[0][1];
+        const scenario = Object.entries(validPromptScript?.scenarios)[0][1];
 
         const session = webMessengerSessionFactory(sessionValidationResult.validSessionConfig);
 
@@ -145,17 +149,17 @@ export function createExploratoryTestCommand({
           maxRetries: 5,
         });
 
-        // const transcript: TranscribedMessage[] = [];
+        const transcript: TranscribedMessage[] = [];
         new SessionTranscriber(session).on('messageTranscribed', (msg: TranscribedMessage) => {
           ui.messageTranscribed(msg);
-          // transcript.push(msg);
+          transcript.push(msg);
         });
 
         const convo = conversationFactory(session);
         const messages: OpenAI.Chat.Completions.CreateChatCompletionRequestMessage[] = [
           {
             role: 'system',
-            content: promptConfig.setup.prompt,
+            content: scenario.setup.prompt,
           },
         ];
 
@@ -164,7 +168,7 @@ export function createExploratoryTestCommand({
         };
         do {
           const { choices } = await openai.chat.completions.create({
-            model: 'gpt-3.5-turbo',
+            model: chatGptModel,
             n: 1, // Number of choices
             temperature,
             messages,
@@ -179,8 +183,8 @@ export function createExploratoryTestCommand({
 
           endConversation = shouldEndConversation(
             messages,
-            promptConfig.setup.terminatingPhrases.fail,
-            promptConfig.setup.terminatingPhrases.pass,
+            scenario.setup.terminatingPhrases.fail,
+            scenario.setup.terminatingPhrases.pass,
           );
 
           if (!endConversation.hasEnded) {
@@ -190,17 +194,58 @@ export function createExploratoryTestCommand({
 
           endConversation = shouldEndConversation(
             messages,
-            promptConfig.setup.terminatingPhrases.fail,
-            promptConfig.setup.terminatingPhrases.pass,
+            scenario.setup.terminatingPhrases.fail,
+            scenario.setup.terminatingPhrases.pass,
           );
         } while (!endConversation.hasEnded);
 
         outputConfig.writeOut(ui.testResult(endConversation));
-
         session.close();
 
         if (endConversation.reason.type === 'fail') {
           throw new Error();
+        }
+
+        if (scenario.followUp) {
+          const content = substituteTemplatePlaceholders(scenario.followUp.prompt, transcript);
+          const { choices } = await openai.chat.completions.create({
+            model: chatGptModel,
+            n: 1, // Number of choices
+            temperature,
+            messages: [
+              {
+                role: 'system',
+                content,
+              },
+            ],
+          });
+
+          if (choices[0].message?.content) {
+            const result = containsTerminatingPhrases(choices[0].message.content, {
+              fail: scenario.setup.terminatingPhrases.fail,
+              pass: scenario.setup.terminatingPhrases.pass,
+            });
+
+            outputConfig.writeOut(ui.followUpDetails(choices[0].message.content));
+            if (result.phraseFound) {
+              outputConfig.writeOut(ui.followUpResult(result));
+              if (result.phraseIndicates === 'fail') {
+                throw new Error();
+              }
+            }
+          }
+
+          // endConversation = shouldEndConversation(
+          //   messages,
+          //   scenario.setup.terminatingPhrases.fail,
+          //   scenario.setup.terminatingPhrases.pass,
+          // );
+          // if (choices[0].message?.content) {
+          //   messages.push({ role: 'assistant', content: choices[0].message.content });
+          //   await convo.sendText(choices[0].message.content);
+          // } else {
+          //   messages.push({ role: 'assistant', content: '' });
+          // }
         }
       },
     );
