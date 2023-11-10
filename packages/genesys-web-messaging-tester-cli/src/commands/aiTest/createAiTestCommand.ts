@@ -29,7 +29,7 @@ import { CommandExpectedlyFailedError } from '../CommandExpectedlyFailedError';
  */
 const temperature = 0.6;
 
-export interface ExploratoryTestCommandDependencies {
+export interface AiTestCommandDependencies {
   command?: Command;
   ui?: Ui;
   openAiApiFactory?: (config: ClientOptions) => OpenAI;
@@ -40,7 +40,7 @@ export interface ExploratoryTestCommandDependencies {
   chatGptModel?: OpenAI.CompletionCreateParams['model'];
 }
 
-export function createExploratoryTestCommand({
+export function createAiTestCommand({
   command = new Command(),
   ui = new Ui(),
   openAiApiFactory = (config) => new OpenAI(config),
@@ -49,15 +49,15 @@ export function createExploratoryTestCommand({
   fsReadFileSync = readFileSync,
   fsAccessSync = accessSync,
   chatGptModel = 'gpt-3.5-turbo',
-}: ExploratoryTestCommandDependencies = {}): Command {
+}: AiTestCommandDependencies = {}): Command {
   const yamlFileReader = createYamlFileReader(fsReadFileSync);
   if (!ui) {
     throw new Error('UI must be defined');
   }
 
   return command
-    .command('explore')
-    .description('Perform exploratory testing using Generative AI')
+    .command('ai')
+    .description('Perform testing using Generative AI')
     .argument(
       '<filePath>',
       'Path of the YAML test-script file',

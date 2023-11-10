@@ -4,16 +4,16 @@ import {
   ScriptedTestCommandDependencies,
 } from './commands/scriptedTest/createScriptedTestCommand';
 import {
-  createExploratoryTestCommand,
-  ExploratoryTestCommandDependencies,
-} from './commands/exploratoryTest/createExploratoryTestCommand';
+  createAiTestCommand,
+  AiTestCommandDependencies,
+} from './commands/aiTest/createAiTestCommand';
 
 export function createCli(
   command: Command = new Command(),
   scenarioTestCommandDependencies?: ScriptedTestCommandDependencies,
-  aiCommandDependencies?: ExploratoryTestCommandDependencies,
+  aiCommandDependencies?: AiTestCommandDependencies,
 ): Command {
   return command
     .addCommand(createScriptedTestCommand(scenarioTestCommandDependencies))
-    .addCommand(createExploratoryTestCommand(aiCommandDependencies));
+    .addCommand(createAiTestCommand(aiCommandDependencies));
 }

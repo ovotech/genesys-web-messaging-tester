@@ -1,4 +1,4 @@
-import { extractExploratoryTestScenarios, TestPromptFile } from './parsePromptScript';
+import { extractAiTestScenarios, TestPromptFile } from './parsePromptScript';
 
 test('prompts converted', () => {
   const testScriptFile: TestPromptFile = {
@@ -32,7 +32,7 @@ test('prompts converted', () => {
   };
 
   expect(
-    extractExploratoryTestScenarios(testScriptFile, {
+    extractAiTestScenarios(testScriptFile, {
       deploymentId: 'test-deployment-id',
       region: 'test-region',
     }),

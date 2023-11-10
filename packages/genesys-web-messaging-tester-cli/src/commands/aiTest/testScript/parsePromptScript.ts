@@ -1,13 +1,13 @@
 import { SessionConfig } from '@ovotech/genesys-web-messaging-tester';
 
-export interface ExploratoryScenarioSetupSection {
+export interface AiScenarioSetupSection {
   readonly prompt: string;
   readonly terminatingPhrases: {
     readonly pass: string[];
     readonly fail: string[];
   };
 }
-export interface ExploratoryScenarioFollowUpSection {
+export interface AiScenarioFollowUpSection {
   readonly prompt: string;
   readonly terminatingPhrases: {
     readonly pass: string[];
@@ -15,9 +15,9 @@ export interface ExploratoryScenarioFollowUpSection {
   };
 }
 
-export interface ExploratoryScenarioSection {
-  setup: ExploratoryScenarioSetupSection;
-  followUp?: ExploratoryScenarioFollowUpSection;
+export interface AiScenarioSection {
+  setup: AiScenarioSetupSection;
+  followUp?: AiScenarioFollowUpSection;
 }
 
 export interface TestPromptFile {
@@ -27,19 +27,19 @@ export interface TestPromptFile {
     readonly origin?: string;
   };
   readonly scenarios: {
-    [name: string]: ExploratoryScenarioSection;
+    [name: string]: AiScenarioSection;
   };
 }
 
-export interface ExploratoryTestScript extends ExploratoryScenarioSection {
+export interface AiTestScript extends AiScenarioSection {
   readonly sessionConfig: SessionConfig;
   readonly name: string;
 }
 
-export function extractExploratoryTestScenarios(
+export function extractAiTestScenarios(
   testScript: Exclude<TestPromptFile, 'config'>,
   sessionConfig: SessionConfig,
-): ExploratoryTestScript[] {
+): AiTestScript[] {
   return Object.entries(testScript.scenarios ?? []).map(([scenarioName, scenario]) => ({
     sessionConfig,
     name: scenarioName,
