@@ -193,7 +193,7 @@ before releasing the oldest message.
 
 | Name | Type |
 | :------ | :------ |
-| `message` | [`Response`](../README.md#response)<`unknown`\> |
+| `message` | [`Response`](../README.md#response)\<`unknown`\> |
 | `received` | `Date` |
 
 #### Returns
@@ -630,10 +630,6 @@ ___
 
 ▸ `Static` **listenerCount**(`emitter`, `event`): `number`
 
-**`Deprecated`**
-
-since v4.0.0
-
 #### Parameters
 
 | Name | Type |
@@ -644,6 +640,10 @@ since v4.0.0
 #### Returns
 
 `number`
+
+**`Deprecated`**
+
+since v4.0.0
 
 #### Inherited from
 
@@ -657,7 +657,7 @@ ___
 
 ### on
 
-▸ `Static` **on**(`emitter`, `event`): `AsyncIterableIterator`<`any`\>
+▸ `Static` **on**(`emitter`, `event`): `AsyncIterableIterator`\<`any`\>
 
 #### Parameters
 
@@ -668,7 +668,7 @@ ___
 
 #### Returns
 
-`AsyncIterableIterator`<`any`\>
+`AsyncIterableIterator`\<`any`\>
 
 #### Inherited from
 
@@ -682,7 +682,7 @@ ___
 
 ### once
 
-▸ `Static` **once**(`emitter`, `event`): `Promise`<`any`[]\>
+▸ `Static` **once**(`emitter`, `event`): `Promise`\<`any`[]\>
 
 #### Parameters
 
@@ -693,7 +693,7 @@ ___
 
 #### Returns
 
-`Promise`<`any`[]\>
+`Promise`\<`any`[]\>
 
 #### Inherited from
 
@@ -703,7 +703,7 @@ EventEmitter.once
 
 node_modules/@types/node/events.d.ts:21
 
-▸ `Static` **once**(`emitter`, `event`): `Promise`<`any`[]\>
+▸ `Static` **once**(`emitter`, `event`): `Promise`\<`any`[]\>
 
 #### Parameters
 
@@ -714,7 +714,7 @@ node_modules/@types/node/events.d.ts:21
 
 #### Returns
 
-`Promise`<`any`[]\>
+`Promise`\<`any`[]\>
 
 #### Inherited from
 

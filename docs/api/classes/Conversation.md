@@ -61,7 +61,7 @@ console.log(reply);
 
 ### sendText
 
-▸ **sendText**(`text`, `delayInMs?`): `Promise`<`void`\>
+▸ **sendText**(`text`, `delayInMs?`): `Promise`\<`void`\>
 
 Sends text to the conversation
 
@@ -74,7 +74,7 @@ Sends text to the conversation
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 #### Defined in
 
@@ -84,7 +84,7 @@ ___
 
 ### waitForConversationToStart
 
-▸ **waitForConversationToStart**(): `Promise`<[`Conversation`](Conversation.md)\>
+▸ **waitForConversationToStart**(): `Promise`\<[`Conversation`](Conversation.md)\>
 
 Resolves when the conversation has started.
 
@@ -93,7 +93,7 @@ background. This method allows you to wait for this process to finish.
 
 #### Returns
 
-`Promise`<[`Conversation`](Conversation.md)\>
+`Promise`\<[`Conversation`](Conversation.md)\>
 
 #### Defined in
 
@@ -103,7 +103,7 @@ ___
 
 ### waitForResponseText
 
-▸ **waitForResponseText**(): `Promise`<`string`\>
+▸ **waitForResponseText**(): `Promise`\<`string`\>
 
 Resolves on the next response from the other participant in the conversation that contains text.
 
@@ -111,7 +111,7 @@ If you want to wait for a specific message use [waitForResponseWithTextContainin
 
 #### Returns
 
-`Promise`<`string`\>
+`Promise`\<`string`\>
 
 #### Defined in
 
@@ -121,7 +121,7 @@ ___
 
 ### waitForResponseWithTextContaining
 
-▸ **waitForResponseWithTextContaining**(`text`, `«destructured»?`): `Promise`<`string`\>
+▸ **waitForResponseWithTextContaining**(`text`, `«destructured»?`): `Promise`\<`string`\>
 
 Resolves when a response is received that contains a specific piece of text.
 If no response is received that contains the text within the timeout period
@@ -143,7 +143,7 @@ use [waitForResponseText](Conversation.md#waitforresponsetext).
 
 #### Returns
 
-`Promise`<`string`\>
+`Promise`\<`string`\>
 
 #### Defined in
 
@@ -153,7 +153,7 @@ ___
 
 ### waitForResponseWithTextMatchingPattern
 
-▸ **waitForResponseWithTextMatchingPattern**(`pattern`, `«destructured»?`): `Promise`<`string`\>
+▸ **waitForResponseWithTextMatchingPattern**(`pattern`, `«destructured»?`): `Promise`\<`string`\>
 
 Resolves when a response is received that matches a regular expression.
 If no response is received that matches the pattern within the timeout period
@@ -172,7 +172,7 @@ use [waitForResponseText](Conversation.md#waitforresponsetext).
 
 #### Returns
 
-`Promise`<`string`\>
+`Promise`\<`string`\>
 
 #### Defined in
 
@@ -182,7 +182,7 @@ ___
 
 ### waitForResponses
 
-▸ **waitForResponses**(`timeToWaitAfterLastMessageInMs?`): `Promise`<`string`[]\>
+▸ **waitForResponses**(`timeToWaitAfterLastMessageInMs?`): `Promise`\<`string`[]\>
 
 Wait for all responses until there is a predefined amount of 'silence'.
 
@@ -194,7 +194,7 @@ Wait for all responses until there is a predefined amount of 'silence'.
 
 #### Returns
 
-`Promise`<`string`[]\>
+`Promise`\<`string`[]\>
 
 #### Defined in
 

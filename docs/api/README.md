@@ -36,7 +36,7 @@ Genesys Web Messaging Tester
 
 ### Response
 
-Ƭ **Response**<`T`\>: `SuccessResponse`<`T`\> \| `FailureResponse`
+Ƭ **Response**\<`T`\>: `SuccessResponse`\<`T`\> \| `FailureResponse`
 
 #### Type parameters
 

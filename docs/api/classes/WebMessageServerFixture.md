@@ -61,11 +61,11 @@ ___
 
 ### waitForConnection
 
-▸ **waitForConnection**(): `Promise`<[`WebMessageServerConnectionFixture`](WebMessageServerConnectionFixture.md)\>
+▸ **waitForConnection**(): `Promise`\<[`WebMessageServerConnectionFixture`](WebMessageServerConnectionFixture.md)\>
 
 #### Returns
 
-`Promise`<[`WebMessageServerConnectionFixture`](WebMessageServerConnectionFixture.md)\>
+`Promise`\<[`WebMessageServerConnectionFixture`](WebMessageServerConnectionFixture.md)\>
 
 #### Defined in
 

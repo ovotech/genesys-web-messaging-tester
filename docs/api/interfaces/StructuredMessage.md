@@ -4,7 +4,7 @@
 
 ## Hierarchy
 
-- `SuccessResponse`<`StructuredMessageTextBody` \| `StructuredMessageStructuredBody` \| `StructuredMessageEventBody`\>
+- `SuccessResponse`\<`StructuredMessageTextBody` \| `StructuredMessageStructuredBody` \| `StructuredMessageEventBody`\>
 
   ↳ **`StructuredMessage`**
 
