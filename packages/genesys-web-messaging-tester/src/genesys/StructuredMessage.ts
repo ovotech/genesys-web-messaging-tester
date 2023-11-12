@@ -5,7 +5,7 @@ export interface StructuredMessageTextBody {
   direction: 'Inbound' | 'Outbound';
   text: string;
   id: string;
-  originatingEntity: string;
+  originatingEntity?: string; // Bot
   channel: {
     time: string;
     messageId?: string;

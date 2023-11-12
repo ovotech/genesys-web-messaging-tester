@@ -26,6 +26,10 @@ https://developer.genesys.cloud/api/digital/webmessaging/websocketapi#configure-
 - [defaultMaxListeners](WebMessengerGuestSession.md#defaultmaxlisteners)
 - [errorMonitor](WebMessengerGuestSession.md#errormonitor)
 
+### Accessors
+
+- [messageDelayInMs](WebMessengerGuestSession.md#messagedelayinms)
+
 ### Methods
 
 - [addListener](WebMessengerGuestSession.md#addlistener)
@@ -53,7 +57,7 @@ https://developer.genesys.cloud/api/digital/webmessaging/websocketapi#configure-
 
 ### constructor
 
-• **new WebMessengerGuestSession**(`config`, `participantData?`, `wsFactory?`)
+• **new WebMessengerGuestSession**(`config`, `participantData?`, `messageDelayer?`, `wsFactory?`)
 
 #### Parameters
 
@@ -61,6 +65,7 @@ https://developer.genesys.cloud/api/digital/webmessaging/websocketapi#configure-
 | :------ | :------ |
 | `config` | [`SessionConfig`](../interfaces/SessionConfig.md) |
 | `participantData` | `Record`<`string`, `string`\> |
+| `messageDelayer` | [`MessageDelayer`](../interfaces/MessageDelayer.md) |
 | `wsFactory` | (`url`: `string`, `options?`: `ClientRequestArgs` \| `ClientOptions`) => `WebSocket` |
 
 #### Overrides
@@ -69,7 +74,7 @@ EventEmitter.constructor
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:31](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L31)
+[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:51](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L51)
 
 ## Properties
 
@@ -94,7 +99,7 @@ EventEmitter.constructor
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:34](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L34)
+[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:55](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L55)
 
 ___
 
@@ -162,6 +167,20 @@ EventEmitter.errorMonitor
 
 node_modules/@types/node/events.d.ts:37
 
+## Accessors
+
+### messageDelayInMs
+
+• `get` **messageDelayInMs**(): `number`
+
+#### Returns
+
+`number`
+
+#### Defined in
+
+[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:71](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L71)
+
 ## Methods
 
 ### addListener
@@ -199,7 +218,7 @@ ___
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:121](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L121)
+[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:147](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L147)
 
 ___
 
@@ -526,7 +545,7 @@ ___
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:98](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L98)
+[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:124](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L124)
 
 ___
 

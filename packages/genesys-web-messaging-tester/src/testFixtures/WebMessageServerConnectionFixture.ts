@@ -1,9 +1,5 @@
 import WebSocket from 'ws';
-import {
-  webMessagePayloads,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore
-} from './webMessagePayloads';
+import { webMessagePayloads } from './webMessagePayloads';
 
 export class WebMessageServerConnectionFixture {
   constructor(private readonly ws: WebSocket) {}
@@ -22,6 +18,10 @@ export class WebMessageServerConnectionFixture {
         }
       });
     });
+  }
+
+  public async waitForConnectionToClose(): Promise<void> {
+    return new Promise((resolve) => this.ws.on('close', resolve));
   }
 
   public simulateSessionResponseMessage(): void {

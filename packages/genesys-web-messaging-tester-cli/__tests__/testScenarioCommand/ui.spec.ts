@@ -36,7 +36,7 @@ describe('Test script YAML loaded', () => {
       })
       .configureOutput({
         writeErr: (str) => capturedOutput.errOut.push(str),
-        writeOut: (str: string) => capturedOutput.stdOut.push(str),
+        writeOut: (str) => capturedOutput.stdOut.push(str),
       });
 
     const scenarioTestCommand = new Command()
@@ -45,7 +45,7 @@ describe('Test script YAML loaded', () => {
       })
       .configureOutput({
         writeErr: (str) => capturedOutput.errOut.push(str),
-        writeOut: (str: string) => capturedOutput.stdOut.push(str),
+        writeOut: (str) => capturedOutput.stdOut.push(str),
       });
 
     cli = createCli(cliCommand, {

@@ -6,6 +6,7 @@ import {
 import { createConversationIdGetter } from '../../genesysPlatform/messageIdToConversationIdFactory';
 
 export interface ScenarioResult {
+  wasRetriedDueToUnorderedMessageFailure: boolean;
   scenario: TestScriptScenario;
   transcription: TranscribedMessage[];
   conversationId:

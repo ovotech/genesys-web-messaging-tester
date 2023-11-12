@@ -1,51 +1,51 @@
-[Genesys Web Messaging Tester](../README.md) / WebMessengerSession
+[Genesys Web Messaging Tester](../README.md) / MessageDelayer
 
-# Interface: WebMessengerSession
+# Interface: MessageDelayer
+
+Provides the ability to delay messages for the purpose of re-ordering them.
+This is useful for reordering messages that are received out of order, presumably
+due to it  being async and not guaranteeing order.
 
 ## Hierarchy
 
 - `EventEmitter`
 
-  ↳ **`WebMessengerSession`**
+  ↳ **`MessageDelayer`**
+
+## Implemented by
+
+- [`ReorderedMessageDelayer`](../classes/ReorderedMessageDelayer.md)
 
 ## Table of contents
 
 ### Accessors
 
-- [messageDelayInMs](WebMessengerSession.md#messagedelayinms)
+- [delay](MessageDelayer.md#delay)
 
 ### Methods
 
-- [addListener](WebMessengerSession.md#addlistener)
-- [close](WebMessengerSession.md#close)
-- [emit](WebMessengerSession.md#emit)
-- [eventNames](WebMessengerSession.md#eventnames)
-- [getMaxListeners](WebMessengerSession.md#getmaxlisteners)
-- [listenerCount](WebMessengerSession.md#listenercount)
-- [listeners](WebMessengerSession.md#listeners)
-- [off](WebMessengerSession.md#off)
-- [on](WebMessengerSession.md#on)
-- [once](WebMessengerSession.md#once)
-- [prependListener](WebMessengerSession.md#prependlistener)
-- [prependOnceListener](WebMessengerSession.md#prependoncelistener)
-- [rawListeners](WebMessengerSession.md#rawlisteners)
-- [removeAllListeners](WebMessengerSession.md#removealllisteners)
-- [removeListener](WebMessengerSession.md#removelistener)
-- [sendText](WebMessengerSession.md#sendtext)
-- [setMaxListeners](WebMessengerSession.md#setmaxlisteners)
+- [add](MessageDelayer.md#add)
+- [addListener](MessageDelayer.md#addlistener)
+- [emit](MessageDelayer.md#emit)
+- [eventNames](MessageDelayer.md#eventnames)
+- [getMaxListeners](MessageDelayer.md#getmaxlisteners)
+- [listenerCount](MessageDelayer.md#listenercount)
+- [listeners](MessageDelayer.md#listeners)
+- [off](MessageDelayer.md#off)
+- [on](MessageDelayer.md#on)
+- [once](MessageDelayer.md#once)
+- [prependListener](MessageDelayer.md#prependlistener)
+- [prependOnceListener](MessageDelayer.md#prependoncelistener)
+- [rawListeners](MessageDelayer.md#rawlisteners)
+- [removeAllListeners](MessageDelayer.md#removealllisteners)
+- [removeListener](MessageDelayer.md#removelistener)
+- [setMaxListeners](MessageDelayer.md#setmaxlisteners)
 
 ## Accessors
 
-### messageDelayInMs
+### delay
 
-• `get` **messageDelayInMs**(): `number`
-
-The Web Messenger server can sometimes return responses out of order. To cater for this
-we have to have a delay after every message is received before passing it to any listeners
-of the implementation. This delay hopefully provides enough time for any messages that should
-have preceded the other to be received and ordered.
-
-This delay should be taken into account for any timeout values of downstream functionality.
+• `get` **delay**(): `number`
 
 #### Returns
 
@@ -53,13 +53,34 @@ This delay should be taken into account for any timeout values of downstream fun
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:21](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L21)
+[packages/genesys-web-messaging-tester/src/genesys/message-delayer/MessageDelayer.ts:10](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/message-delayer/MessageDelayer.ts#L10)
 
 ## Methods
 
+### add
+
+▸ **add**(`message`, `whenReceived`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `message` | [`Response`](../README.md#response)<`unknown`\> |
+| `whenReceived` | `Date` |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[packages/genesys-web-messaging-tester/src/genesys/message-delayer/MessageDelayer.ts:11](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/message-delayer/MessageDelayer.ts#L11)
+
+___
+
 ### addListener
 
-▸ **addListener**(`event`, `listener`): [`WebMessengerSession`](WebMessengerSession.md)
+▸ **addListener**(`event`, `listener`): [`MessageDelayer`](MessageDelayer.md)
 
 #### Parameters
 
@@ -70,7 +91,7 @@ This delay should be taken into account for any timeout values of downstream fun
 
 #### Returns
 
-[`WebMessengerSession`](WebMessengerSession.md)
+[`MessageDelayer`](MessageDelayer.md)
 
 #### Inherited from
 
@@ -79,20 +100,6 @@ EventEmitter.addListener
 #### Defined in
 
 node_modules/@types/node/events.d.ts:57
-
-___
-
-### close
-
-▸ **close**(): `void`
-
-#### Returns
-
-`void`
-
-#### Defined in
-
-[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:25](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L25)
 
 ___
 
@@ -207,7 +214,7 @@ ___
 
 ### off
 
-▸ **off**(`event`, `listener`): [`WebMessengerSession`](WebMessengerSession.md)
+▸ **off**(`event`, `listener`): [`MessageDelayer`](MessageDelayer.md)
 
 #### Parameters
 
@@ -218,7 +225,7 @@ ___
 
 #### Returns
 
-[`WebMessengerSession`](WebMessengerSession.md)
+[`MessageDelayer`](MessageDelayer.md)
 
 #### Inherited from
 
@@ -232,7 +239,7 @@ ___
 
 ### on
 
-▸ **on**(`event`, `listener`): [`WebMessengerSession`](WebMessengerSession.md)
+▸ **on**(`event`, `listener`): [`MessageDelayer`](MessageDelayer.md)
 
 #### Parameters
 
@@ -243,7 +250,7 @@ ___
 
 #### Returns
 
-[`WebMessengerSession`](WebMessengerSession.md)
+[`MessageDelayer`](MessageDelayer.md)
 
 #### Inherited from
 
@@ -257,7 +264,7 @@ ___
 
 ### once
 
-▸ **once**(`event`, `listener`): [`WebMessengerSession`](WebMessengerSession.md)
+▸ **once**(`event`, `listener`): [`MessageDelayer`](MessageDelayer.md)
 
 #### Parameters
 
@@ -268,7 +275,7 @@ ___
 
 #### Returns
 
-[`WebMessengerSession`](WebMessengerSession.md)
+[`MessageDelayer`](MessageDelayer.md)
 
 #### Inherited from
 
@@ -282,7 +289,7 @@ ___
 
 ### prependListener
 
-▸ **prependListener**(`event`, `listener`): [`WebMessengerSession`](WebMessengerSession.md)
+▸ **prependListener**(`event`, `listener`): [`MessageDelayer`](MessageDelayer.md)
 
 #### Parameters
 
@@ -293,7 +300,7 @@ ___
 
 #### Returns
 
-[`WebMessengerSession`](WebMessengerSession.md)
+[`MessageDelayer`](MessageDelayer.md)
 
 #### Inherited from
 
@@ -307,7 +314,7 @@ ___
 
 ### prependOnceListener
 
-▸ **prependOnceListener**(`event`, `listener`): [`WebMessengerSession`](WebMessengerSession.md)
+▸ **prependOnceListener**(`event`, `listener`): [`MessageDelayer`](MessageDelayer.md)
 
 #### Parameters
 
@@ -318,7 +325,7 @@ ___
 
 #### Returns
 
-[`WebMessengerSession`](WebMessengerSession.md)
+[`MessageDelayer`](MessageDelayer.md)
 
 #### Inherited from
 
@@ -356,7 +363,7 @@ ___
 
 ### removeAllListeners
 
-▸ **removeAllListeners**(`event?`): [`WebMessengerSession`](WebMessengerSession.md)
+▸ **removeAllListeners**(`event?`): [`MessageDelayer`](MessageDelayer.md)
 
 #### Parameters
 
@@ -366,7 +373,7 @@ ___
 
 #### Returns
 
-[`WebMessengerSession`](WebMessengerSession.md)
+[`MessageDelayer`](MessageDelayer.md)
 
 #### Inherited from
 
@@ -380,7 +387,7 @@ ___
 
 ### removeListener
 
-▸ **removeListener**(`event`, `listener`): [`WebMessengerSession`](WebMessengerSession.md)
+▸ **removeListener**(`event`, `listener`): [`MessageDelayer`](MessageDelayer.md)
 
 #### Parameters
 
@@ -391,7 +398,7 @@ ___
 
 #### Returns
 
-[`WebMessengerSession`](WebMessengerSession.md)
+[`MessageDelayer`](MessageDelayer.md)
 
 #### Inherited from
 
@@ -403,29 +410,9 @@ node_modules/@types/node/events.d.ts:60
 
 ___
 
-### sendText
-
-▸ **sendText**(`message`): `void`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `message` | `string` |
-
-#### Returns
-
-`void`
-
-#### Defined in
-
-[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:23](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L23)
-
-___
-
 ### setMaxListeners
 
-▸ **setMaxListeners**(`n`): [`WebMessengerSession`](WebMessengerSession.md)
+▸ **setMaxListeners**(`n`): [`MessageDelayer`](MessageDelayer.md)
 
 #### Parameters
 
@@ -435,7 +422,7 @@ ___
 
 #### Returns
 
-[`WebMessengerSession`](WebMessengerSession.md)
+[`MessageDelayer`](MessageDelayer.md)
 
 #### Inherited from
 

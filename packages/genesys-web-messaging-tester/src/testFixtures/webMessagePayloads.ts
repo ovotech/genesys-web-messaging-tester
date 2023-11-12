@@ -1,4 +1,4 @@
-import { StructuredMessage, SessionResponse } from '../../src';
+import { StructuredMessage, SessionResponse } from '../index';
 
 /**
  * Payloads taken from real interactions

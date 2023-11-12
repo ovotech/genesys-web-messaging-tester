@@ -8,9 +8,10 @@ import { createYamlFileReader } from '../../fileSystem/yamlFileReader';
 import { extractScenarios } from './testScript/parseTestScript';
 import {
   Conversation,
+  ReorderedMessageDelayer,
   SessionConfig,
-  TranscribedMessage,
   SessionTranscriber,
+  TranscribedMessage,
   WebMessengerGuestSession,
   WebMessengerSession,
 } from '@ovotech/genesys-web-messaging-tester';
@@ -25,6 +26,7 @@ import {
   MessageIdToConvoIdClient,
 } from '../../genesysPlatform/messageIdToConversationIdFactory';
 import { CommandExpectedlyFailedError } from '../CommandExpectedlyFailedError';
+import { RetryTask, tryableTask } from './taskRetry';
 
 function parsePositiveInt(value: string) {
   const parsedValue = parseInt(value, 10);
@@ -45,7 +47,11 @@ interface ListrRunContext {
 export interface ScriptedTestCommandDependencies {
   command?: Command;
   ui?: Ui;
-  webMessengerSessionFactory?: (sessionConfig: SessionConfig) => WebMessengerSession;
+  reorderedMessageDelayerFactory?: (delayBeforeEmittingInMs: number) => ReorderedMessageDelayer;
+  webMessengerSessionFactory?: (
+    sessionConfig: SessionConfig,
+    reorderedMessageDelayer: ReorderedMessageDelayer,
+  ) => WebMessengerSession;
   conversationFactory?: (session: WebMessengerSession) => Conversation;
   fsReadFileSync?: typeof readFileSync;
   fsAccessSync?: typeof accessSync;
@@ -59,7 +65,10 @@ export interface ScriptedTestCommandDependencies {
 export function createScriptedTestCommand({
   command = new Command(),
   ui = new Ui(),
-  webMessengerSessionFactory = (config) => new WebMessengerGuestSession(config, { IsTest: 'true' }),
+  reorderedMessageDelayerFactory = (delayBeforeEmittingInMs) =>
+    new ReorderedMessageDelayer(delayBeforeEmittingInMs),
+  webMessengerSessionFactory = (config, reorderedMessageDelayer) =>
+    new WebMessengerGuestSession(config, { IsTest: 'true' }, reorderedMessageDelayer),
   conversationFactory = (session) => new Conversation(session),
   fsReadFileSync = readFileSync,
   fsAccessSync = accessSync,
@@ -196,17 +205,25 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
         const tasks = new Listr<ListrRunContext>(
           testScriptScenarios.map((scenario) => ({
             title: ui.titleOfTask(scenario),
-            task: async (context, task) => {
-              const transcription: TranscribedMessage[] = [];
-              const session = webMessengerSessionFactory(scenario.sessionConfig);
+            task: (context, task) =>
+              tryableTask(async (isRetry) => {
+                const transcription: TranscribedMessage[] = [];
 
-              let conversationIdGetter: ReturnType<typeof createConversationIdGetter> | undefined =
-                undefined;
-              if (associateId.enabled) {
-                conversationIdGetter = createConversationIdGetter(session, associateId.client);
-              }
+                const reorderedMessageDelayer = reorderedMessageDelayerFactory(
+                  isRetry ? 6000 : 1000,
+                );
+                const session = webMessengerSessionFactory(
+                  scenario.sessionConfig,
+                  reorderedMessageDelayer,
+                );
 
-              try {
+                let conversationIdGetter:
+                  | ReturnType<typeof createConversationIdGetter>
+                  | undefined = undefined;
+                if (associateId.enabled) {
+                  conversationIdGetter = createConversationIdGetter(session, associateId.client);
+                }
+
                 new SessionTranscriber(session).on(
                   'messageTranscribed',
                   (event: TranscribedMessage) => {
@@ -230,35 +247,51 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
                 const convo = conversationFactory(session);
                 await convo.waitForConversationToStart();
 
-                for (const step of scenario.steps) {
-                  await step(convo, { timeoutInSeconds: options.timeout });
+                let stepError: unknown;
+                try {
+                  for (const step of scenario.steps) {
+                    await step(convo, { timeoutInSeconds: options.timeout });
+                  }
+                } catch (e) {
+                  if (!isRetry && reorderedMessageDelayer.unorderdMessageDetected) {
+                    task.output = ui?.retryingTestDueToFailureLikelyByUnorderedMessage();
+                    task.title = ui?.titleOfTask(scenario, true);
+                    throw new RetryTask();
+                  } else {
+                    stepError = e;
+                  }
+                } finally {
+                  session.close();
                 }
-              } catch (error) {
+
+                if (stepError) {
+                  context.scenarioResults.push({
+                    scenario,
+                    transcription,
+                    wasRetriedDueToUnorderedMessageFailure: isRetry,
+                    hasPassed: false,
+                    reasonForError:
+                      stepError instanceof Error
+                        ? stepError
+                        : new Error('Unexpected error occurred'),
+                    conversationId: conversationIdGetter
+                      ? { associateId: true, conversationIdGetter }
+                      : { associateId: false },
+                  });
+                  throw new Error(ui?.titleOfFinishedTask(scenario, false));
+                }
+
+                task.title = ui?.titleOfFinishedTask(scenario, true);
                 context.scenarioResults.push({
                   scenario,
                   transcription,
-                  hasPassed: false,
-                  reasonForError:
-                    error instanceof Error ? error : new Error('Unexpected error occurred'),
+                  wasRetriedDueToUnorderedMessageFailure: isRetry,
+                  hasPassed: true,
                   conversationId: conversationIdGetter
                     ? { associateId: true, conversationIdGetter }
                     : { associateId: false },
                 });
-                throw new Error(ui?.titleOfFinishedTask(scenario, false));
-              } finally {
-                session.close();
-              }
-
-              task.title = ui?.titleOfFinishedTask(scenario, true);
-              context.scenarioResults.push({
-                scenario,
-                transcription,
-                hasPassed: true,
-                conversationId: conversationIdGetter
-                  ? { associateId: true, conversationIdGetter }
-                  : { associateId: false },
-              });
-            },
+              }),
           })),
           {
             concurrent: options.parallel,
