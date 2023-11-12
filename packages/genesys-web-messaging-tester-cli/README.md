@@ -142,16 +142,6 @@ scenarios:
       terminatingPhrases:
         pass: ["PASS"]
         fail: ["FAIL"]
-#    followUp:
-#      prompt: |
-#        Inspect the transcript below for spelling or grammatical errors and list them. Ignore anything
-#        said by the speaker called 'AI'.
-#
-#        Transcript:
-#        %TRANSCRIPT%
-#      terminatingPhrases:
-#        pass: ["PASS"]
-#        fail: ["FAIL"]
 ```
 
 Then run the AI test by pointing to the scenario file in the terminal:
