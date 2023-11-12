@@ -1,4 +1,3 @@
-import { Cli, createCli } from '../src/cli';
 import { accessSync, readFileSync } from 'fs';
 import { Command } from 'commander';
 import {
@@ -10,9 +9,10 @@ import stripAnsi from 'strip-ansi';
 import getPort from 'get-port';
 import WebSocket from 'ws';
 import { waitForMs } from './fixtures/wait';
+import { createCli } from '../lib/createCli';
 
 jest.setTimeout(50000);
-describe('Test script YAML loaded', () => {
+describe('Retry unordered message', () => {
   let genesysServerFixture: WebMessageServerFixture;
   let latestConversation: Conversation;
 
@@ -21,11 +21,10 @@ describe('Test script YAML loaded', () => {
     stdOut: string[];
   };
 
-  let program: Command;
   let fsReadFileSync: jest.MockedFunction<typeof readFileSync>;
   let fsAccessSync: jest.MockedFunction<typeof accessSync>;
 
-  let cli: Cli;
+  let cli: Command;
 
   beforeEach(async () => {
     genesysServerFixture = new WebMessageServerFixture(await getPort());
@@ -38,21 +37,32 @@ describe('Test script YAML loaded', () => {
       stdOut: [],
     };
 
-    program = new Command();
+    const cliCommand = new Command()
+      .exitOverride(() => {
+        throw new Error('CLI Command errored');
+      })
+      .configureOutput({
+        writeErr: (str) => {
+          console.error(str);
+          capturedOutput.errOut.push(str);
+        },
+        writeOut: (str) => capturedOutput.stdOut.push(str),
+      });
 
-    program.configureOutput({
-      writeErr: (str) => {
-        console.log(str);
-        capturedOutput.errOut.push(str);
-      },
-      writeOut: (str: string) => {
-        console.log(str);
-        capturedOutput.stdOut.push(str);
-      },
-    });
+    const scenarioTestCommand = new Command()
+      .exitOverride(() => {
+        throw new Error('Scenario Test Command errored');
+      })
+      .configureOutput({
+        writeErr: (str) => {
+          console.error(str);
+          capturedOutput.errOut.push(str);
+        },
+        writeOut: (str) => capturedOutput.stdOut.push(str),
+      });
 
-    cli = createCli({
-      program,
+    cli = createCli(cliCommand, {
+      command: scenarioTestCommand,
       fsReadFileSync,
       fsAccessSync,
       conversationFactory: (session) => {
@@ -66,9 +76,6 @@ describe('Test script YAML loaded', () => {
           reorderedMessageDelayer,
           () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
         ),
-      processExitOverride: () => {
-        throw new Error('force app to exit');
-      },
     });
   });
 
@@ -89,7 +96,10 @@ scenarios:
 `;
 
     fsReadFileSync.mockReturnValue(yaml);
-    const cliPromise = cli([...['node', '/path/to/cli'], ...['/test/path/config.json']]);
+    const cliPromise = cli.parseAsync([
+      ...['node', '/path/to/cli'],
+      ...['scripted', '/test/path/config.json'],
+    ]);
 
     const serverConnection = await genesysServerFixture.waitForConnection();
 
@@ -131,10 +141,10 @@ scenarios:
 `;
 
     fsReadFileSync.mockReturnValue(yaml);
-    const cliPromise = cli([
+    const cliPromise = cli.parseAsync([
       ...['node', '/path/to/cli'],
-      ...['/test/path/config.json', '--timeout', '6'],
-    ]); //.catch((e) => console.error(e));
+      ...['scripted', '/test/path/config.json', '--timeout', '6'],
+    ]);
 
     const serverConnection = await genesysServerFixture.waitForConnection();
 

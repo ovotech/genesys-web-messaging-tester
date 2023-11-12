@@ -1,6 +1,6 @@
 {
   "name": "@ovotech/genesys-web-messaging-tester-cli",
-  "version": "1.0.14",
+  "version": "2.0.0",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "license": "Apache-2.0",
@@ -19,15 +19,18 @@
   "scripts": {
     "build": "rm -rf ./lib && tsc -p tsconfig.json",
     "test": "jest __tests__/",
-    "test:execute": "ts-node src/index.ts ../../examples/cli/example-pass.yml -id $DEPLOYMENT_ID -r $REGION -p 10 -t 10",
-    "test:execute:help": "ts-node src/index.ts --help",
-    "lint": "eslint 'src/**/*.ts'"
+    "lint": "eslint 'src/**/*.ts'",
+    "test:execute:scripted": "ts-node src/index.ts scripted ../../examples/cli-scripted-tests/example.yml -id $DEPLOYMENT_ID -r $REGION -p 10",
+    "test:execute:scripted:help": "ts-node src/index.ts --help",
+    "test:execute:ai": "ts-node src/index.ts ai ../../examples/cli-ai-tests/example.yml -id $DEPLOYMENT_ID -r $REGION",
+    "test:execute:ai:help": "ts-node src/index.ts ai --help",
+    "test:execute:help": "ts-node src/index.ts --help"
   },
   "bin": {
     "web-messaging-tester": "lib/index.js"
   },
   "dependencies": {
-    "@ovotech/genesys-web-messaging-tester": "2.0.5",
+    "@ovotech/genesys-web-messaging-tester": "^2.0.6",
     "chalk": "^4.1.2",
     "ci-info": "^3.5.0",
     "commander": "^11.0.0",
@@ -35,6 +38,7 @@
     "joi": "^17.9.2",
     "js-yaml": "^4.1.0",
     "listr2": "^5.0.5",
+    "openai": "4.0.0-beta.12",
     "purecloud-platform-client-v2": "^153.0.0"
   },
   "devDependencies": {
@@ -49,6 +53,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jest": "^27.2.3",
     "eslint-plugin-prettier": "^3.1.4",
+    "get-port": "^5.1.1",
     "jest": "^29.0.3",
     "jest-when": "^3.5.0",
     "prettier": "^2.8.8",

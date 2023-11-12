@@ -22,10 +22,21 @@ const schema = Joi.object({
     .required(),
 });
 
-export function validateTestScript(testScript: unknown): {
-  validTestScript?: TestScriptFile;
-  error?: ValidationError;
-} {
+interface ValidateTestScriptValidResult {
+  validTestScript: TestScriptFile;
+  error?: undefined;
+}
+
+interface ValidateTestScriptInvalidResult {
+  validPromptScript?: undefined;
+  error: ValidationError;
+}
+
+export type ValidateTestScriptResult =
+  | ValidateTestScriptValidResult
+  | ValidateTestScriptInvalidResult;
+
+export function validateTestScript(testScript: unknown): ValidateTestScriptResult {
   const { error, value } = schema.validate(testScript);
 
   if (error) {

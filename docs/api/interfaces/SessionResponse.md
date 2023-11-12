@@ -4,7 +4,7 @@
 
 ## Hierarchy
 
-- `SuccessResponse`<`SessionResponseSuccessBody`\>
+- `SuccessResponse`\<`SessionResponseSuccessBody`\>
 
   ↳ **`SessionResponse`**
 

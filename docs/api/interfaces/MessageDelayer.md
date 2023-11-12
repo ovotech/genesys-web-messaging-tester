@@ -65,7 +65,7 @@ due to it  being async and not guaranteeing order.
 
 | Name | Type |
 | :------ | :------ |
-| `message` | [`Response`](../README.md#response)<`unknown`\> |
+| `message` | [`Response`](../README.md#response)\<`unknown`\> |
 | `whenReceived` | `Date` |
 
 #### Returns

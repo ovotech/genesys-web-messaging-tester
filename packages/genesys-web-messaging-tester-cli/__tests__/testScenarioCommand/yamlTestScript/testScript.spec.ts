@@ -1,19 +1,27 @@
-import { Cli, createCli } from '../../src/cli';
 import { accessSync, readFileSync } from 'fs';
 import { Command } from 'commander';
+import { createCli } from '../../../src/createCli';
 
 describe('Test-script read from disk', () => {
   let fsReadFileSync: jest.MockedFunction<typeof readFileSync>;
   let fsAccessSync: jest.MockedFunction<typeof accessSync>;
 
-  let cli: Cli;
+  let cli: Command;
 
   beforeEach(() => {
     fsReadFileSync = jest.fn();
     fsAccessSync = jest.fn();
 
-    cli = createCli({
-      program: new Command(),
+    const cliCommand = new Command().exitOverride(() => {
+      throw new Error('CLI Command errored');
+    });
+
+    const scenarioTestCommand = new Command().exitOverride(() => {
+      throw new Error('Scenario Test Command errored');
+    });
+
+    cli = createCli(cliCommand, {
+      command: scenarioTestCommand,
       fsReadFileSync,
       fsAccessSync,
       webMessengerSessionFactory() {
@@ -21,9 +29,6 @@ describe('Test-script read from disk', () => {
       },
       conversationFactory() {
         throw Error('Not implemented');
-      },
-      processExitOverride() {
-        throw new Error('force app to exit');
       },
     });
   });
@@ -33,7 +38,9 @@ describe('Test-script read from disk', () => {
       throw new Error('test error');
     });
 
-    await expect(cli([...['node', '/path/to/cli'], ...['/test/path.yaml']])).rejects.toBeDefined();
+    await expect(
+      cli.parseAsync([...['node', '/path/to/cli'], ...['scripted', '/test/path.yaml']]),
+    ).rejects.toBeDefined();
 
     expect(fsReadFileSync).toHaveBeenCalledWith('/test/path.yaml', 'utf8');
   });
@@ -43,7 +50,9 @@ describe('Test-script read from disk', () => {
       throw new Error('test error');
     });
 
-    await expect(cli([...['node', '/path/to/cli'], ...['/test/path.yaml']])).rejects.toBeDefined();
+    await expect(
+      cli.parseAsync([...['node', '/path/to/cli'], ...['scripted', '/test/path.yaml']]),
+    ).rejects.toBeDefined();
 
     expect(fsAccessSync).toHaveBeenCalledWith('/test/path.yaml', expect.any(Number));
   });

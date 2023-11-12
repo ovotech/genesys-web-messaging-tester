@@ -11,7 +11,7 @@ import humanizeDuration from 'humanize-duration';
 import {
   ConversationIdGetterFailure,
   PreflightError,
-} from './genesysPlatform/messageIdToConversationIdFactory';
+} from '../../genesysPlatform/messageIdToConversationIdFactory';
 
 export class Ui {
   /**
@@ -29,7 +29,7 @@ export class Ui {
   }
 
   public titleOfTask(
-    scenario: TestScriptScenario,
+    scenario: Pick<TestScriptScenario, 'name'>,
     isRetryDueToUnorderedMsgFailure = false,
   ): string {
     if (isRetryDueToUnorderedMsgFailure) {
@@ -39,7 +39,10 @@ export class Ui {
     }
   }
 
-  public titleOfFinishedTask(scenario: TestScriptScenario, hasPassed: boolean): string {
+  public titleOfFinishedTask(
+    scenario: Pick<TestScriptScenario, 'name'>,
+    hasPassed: boolean,
+  ): string {
     if (hasPassed) {
       return `${scenario.name} (${chalk.bold.green('PASS')})`;
     } else {

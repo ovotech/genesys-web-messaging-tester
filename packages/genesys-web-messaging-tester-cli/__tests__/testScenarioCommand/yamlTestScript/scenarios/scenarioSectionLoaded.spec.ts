@@ -1,9 +1,9 @@
-import { Cli, createCli } from '../../src/cli';
 import { accessSync, readFileSync } from 'fs';
 import { Command } from 'commander';
 import { when } from 'jest-when';
 import { Conversation, WebMessengerSession } from '@ovotech/genesys-web-messaging-tester';
 import stripAnsi from 'strip-ansi';
+import { createCli } from '../../../../src/createCli';
 
 describe('Test script YAML loaded', () => {
   const validScenarioFilePath = '/test/path/config.json';
@@ -12,14 +12,13 @@ describe('Test script YAML loaded', () => {
     errOut: string[];
   };
 
-  let program: Command;
   let fsReadFileSync: jest.MockedFunction<typeof readFileSync>;
   let fsAccessSync: jest.MockedFunction<typeof accessSync>;
 
   let webMessengerSession: jest.Mocked<Pick<WebMessengerSession, 'on' | 'close'>>;
   let conversation: jest.Mocked<Pick<Conversation, 'waitForConversationToStart' | 'sendText'>>;
 
-  let cli: Cli;
+  let cli: Command;
 
   beforeEach(() => {
     fsAccessSync = jest.fn();
@@ -32,21 +31,28 @@ describe('Test script YAML loaded', () => {
       errOut: [],
     };
 
-    program = new Command();
+    const cliCommand = new Command()
+      .exitOverride(() => {
+        throw new Error('CLI Command errored');
+      })
+      .configureOutput({
+        writeErr: (str) => capturedOutput.errOut.push(str),
+      });
 
-    program.configureOutput({
-      writeErr: (str) => capturedOutput.errOut.push(str),
-    });
+    const scenarioTestCommand = new Command()
+      .exitOverride(() => {
+        throw new Error('Scenario Test Command errored');
+      })
+      .configureOutput({
+        writeErr: (str) => capturedOutput.errOut.push(str),
+      });
 
-    cli = createCli({
-      program,
+    cli = createCli(cliCommand, {
+      command: scenarioTestCommand,
       fsReadFileSync,
       fsAccessSync,
       webMessengerSessionFactory: jest.fn().mockReturnValue(webMessengerSession),
       conversationFactory: jest.fn().mockReturnValue(conversation),
-      processExitOverride: () => {
-        throw new Error('force app to exit');
-      },
     });
   });
 
@@ -55,7 +61,9 @@ describe('Test script YAML loaded', () => {
       throw new Error('force app to exit');
     });
 
-    await expect(cli([...['node', '/path/to/cli'], ...['test-file.yml']])).rejects.toBeDefined();
+    await expect(
+      cli.parseAsync([...['node', '/path/to/cli'], 'scripted', ...['test-file.yml']]),
+    ).rejects.toBeDefined();
 
     expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual([
       "error: command-argument value 'test-file.yml' is invalid for argument 'filePath'. File 'test-file.yml' is not readable\n",
@@ -76,7 +84,7 @@ scenarios:
 
     when(fsReadFileSync).calledWith(validScenarioFilePath, 'utf8').mockReturnValue(yaml);
 
-    await cli([...['node', '/path/to/cli'], ...[validScenarioFilePath]]);
+    await cli.parseAsync([...['node', '/path/to/cli'], 'scripted', ...[validScenarioFilePath]]);
 
     expect(capturedOutput.errOut).toStrictEqual([]);
 

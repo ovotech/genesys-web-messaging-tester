@@ -113,11 +113,11 @@ ___
 
 ### waitForConnectionToClose
 
-▸ **waitForConnectionToClose**(): `Promise`<`void`\>
+▸ **waitForConnectionToClose**(): `Promise`\<`void`\>
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 #### Defined in
 
@@ -127,11 +127,11 @@ ___
 
 ### waitForMessage
 
-▸ **waitForMessage**(): `Promise`<`any`\>
+▸ **waitForMessage**(): `Promise`\<`any`\>
 
 #### Returns
 
-`Promise`<`any`\>
+`Promise`\<`any`\>
 
 #### Defined in
 

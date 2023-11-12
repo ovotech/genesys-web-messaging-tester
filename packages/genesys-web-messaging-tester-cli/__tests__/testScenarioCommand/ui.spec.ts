@@ -1,8 +1,8 @@
-import { Cli, createCli } from '../src/cli';
 import { accessSync, readFileSync } from 'fs';
 import { Command } from 'commander';
 import { Conversation, WebMessengerSession } from '@ovotech/genesys-web-messaging-tester';
 import stripAnsi from 'strip-ansi';
+import { createCli } from '../../src/createCli';
 
 describe('Test script YAML loaded', () => {
   let capturedOutput: {
@@ -10,14 +10,13 @@ describe('Test script YAML loaded', () => {
     stdOut: string[];
   };
 
-  let program: Command;
   let fsReadFileSync: jest.MockedFunction<typeof readFileSync>;
   let fsAccessSync: jest.MockedFunction<typeof accessSync>;
 
   let webMessengerSession: jest.Mocked<Pick<WebMessengerSession, 'on' | 'close'>>;
   let conversation: jest.Mocked<Pick<Conversation, 'waitForConversationToStart' | 'sendText'>>;
 
-  let cli: Cli;
+  let cli: Command;
 
   beforeEach(() => {
     fsAccessSync = jest.fn();
@@ -31,22 +30,30 @@ describe('Test script YAML loaded', () => {
       stdOut: [],
     };
 
-    program = new Command();
+    const cliCommand = new Command()
+      .exitOverride(() => {
+        throw new Error('CLI Command errored');
+      })
+      .configureOutput({
+        writeErr: (str) => capturedOutput.errOut.push(str),
+        writeOut: (str) => capturedOutput.stdOut.push(str),
+      });
 
-    program.configureOutput({
-      writeErr: (str) => capturedOutput.errOut.push(str),
-      writeOut: (str: string) => capturedOutput.stdOut.push(str),
-    });
+    const scenarioTestCommand = new Command()
+      .exitOverride(() => {
+        throw new Error('Scenario Test Command errored');
+      })
+      .configureOutput({
+        writeErr: (str) => capturedOutput.errOut.push(str),
+        writeOut: (str) => capturedOutput.stdOut.push(str),
+      });
 
-    cli = createCli({
-      program,
+    cli = createCli(cliCommand, {
+      command: scenarioTestCommand,
       fsReadFileSync,
       fsAccessSync,
       webMessengerSessionFactory: jest.fn().mockReturnValue(webMessengerSession),
       conversationFactory: jest.fn().mockReturnValue(conversation),
-      processExitOverride: () => {
-        throw new Error('force app to exit');
-      },
     });
   });
 
@@ -61,7 +68,14 @@ scenarios:
 `;
 
     fsReadFileSync.mockReturnValue(yaml);
-    await cli([...['node', '/path/to/cli'], ...['/test/path/config.json']]);
+    try {
+      await cli.parseAsync([
+        ...['node', '/path/to/cli'],
+        ...['scripted', '/test/path/config.json'],
+      ]);
+    } catch {
+      // Intentionally ignored
+    }
 
     expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual([]);
     expect(capturedOutput.stdOut.map(stripAnsi).join('')).toStrictEqual(`

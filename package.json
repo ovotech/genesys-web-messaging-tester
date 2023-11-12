@@ -15,7 +15,7 @@
     "lint": "yarn workspaces foreach --verbose run lint",
     "build": "yarn workspaces foreach --verbose run build",
     "build:docs": "yarn build:readme && cp README.md packages/genesys-web-messaging-tester-cli/README.md && typedoc && yarn workspaces foreach --verbose run build:readme",
-    "build:readme": "yarn build-readme ./README.md https://github.com/ovotech/genesys-web-messaging-tester/tree/main",
+    "build:readme": "yarn build-readme ./README.md https://github.com/ovotech/genesys-web-messaging-tester/tree/implement-chatgpt",
     "publish": "yarn workspaces foreach --no-private --verbose npm publish --tolerate-republish --access public"
   },
   "devDependencies": {
