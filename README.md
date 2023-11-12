@@ -112,8 +112,9 @@ Start by setting up an API key for ChatGPT:
 Write a scenario file containing all the scenarios you wish to run along with
 the [ID and region of your Web Messenger Deployment](https://help.mypurecloud.com/articles/deploy-messenger/).
 
-The scenarios are written as ChatGPT Prompts, these can take some fine-tuning to get right. The `terminatingPhrases`
-section defines the phrases you instruct ChatGPT to say to pass or fail a test.
+The scenarios are written as ChatGPT Prompts, these can take some fine-tuning to get
+right ([see examples here](https://genesys-messenger-tester.makingchatbots.com/writing-tests/ai/example-prompts.html)).
+The `terminatingPhrases` section defines the phrases you instruct ChatGPT to say to pass or fail a test.
 
 > [examples/cli-ai-tests/example.yml](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli-ai-tests/example.yml)
 
