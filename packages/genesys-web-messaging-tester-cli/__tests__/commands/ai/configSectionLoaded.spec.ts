@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 import { Command } from 'commander';
 import { AiTestCommandDependencies } from '../../../src/commands/aiTest/createAiTestCommand';
 import { createCli } from '../../../src/createCli';
-import { OpenAI } from 'openai';
+import OpenAI from 'openai';
 import { ChatCompletion } from 'openai/src/resources/chat/completions';
 
 describe('Session Config', () => {

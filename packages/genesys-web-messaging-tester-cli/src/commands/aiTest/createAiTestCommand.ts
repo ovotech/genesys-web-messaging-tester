@@ -8,7 +8,7 @@ import {
   WebMessengerGuestSession,
   WebMessengerSession,
 } from '@ovotech/genesys-web-messaging-tester';
-import { ClientOptions, OpenAI } from 'openai';
+import OpenAI, { ClientOptions } from 'openai';
 import { validateOpenAiEnvVariables } from './validateOpenAIEnvVariables';
 import { Ui } from './ui';
 import { validateSessionConfig } from './validateSessionConfig';
