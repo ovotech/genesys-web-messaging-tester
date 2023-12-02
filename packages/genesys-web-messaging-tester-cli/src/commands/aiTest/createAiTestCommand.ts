@@ -45,7 +45,8 @@ export function createAiTestCommand({
   command = new Command(),
   ui = new Ui(),
   openAiChatCompletionFactory = (config) => new OpenAI(config).chat.completions,
-  webMessengerSessionFactory = (config) => new WebMessengerGuestSession(config, { IsTest: 'true' }),
+  webMessengerSessionFactory = (config) =>
+    new WebMessengerGuestSession(config, { IsAutomatedTest: 'true' }),
   conversationFactory = (session) => new Conversation(session),
   processEnv = process.env,
   fsReadFileSync = readFileSync,

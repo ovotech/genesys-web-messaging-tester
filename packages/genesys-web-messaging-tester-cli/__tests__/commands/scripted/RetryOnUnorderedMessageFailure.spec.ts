@@ -72,7 +72,7 @@ describe('Retry unordered message', () => {
       webMessengerSessionFactory: (config, reorderedMessageDelayer) =>
         new WebMessengerGuestSession(
           config,
-          { IsTest: 'true' },
+          { IsAutomatedTest: 'true' },
           reorderedMessageDelayer,
           () => new WebSocket(`ws://localhost:${genesysServerFixture.port}`),
         ),
