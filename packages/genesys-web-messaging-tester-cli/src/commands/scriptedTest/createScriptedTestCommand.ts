@@ -125,8 +125,8 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
         },
       ) => {
         const outputConfig = command.configureOutput();
-        if (!outputConfig.writeOut || !outputConfig.writeErr) {
-          throw new Error('No writeOut');
+        if (!outputConfig?.writeOut || !outputConfig?.writeErr) {
+          throw new Error('No writeOut and/or writeErr');
         }
 
         let associateId: { enabled: false } | { enabled: true; client: MessageIdToConvoIdClient };

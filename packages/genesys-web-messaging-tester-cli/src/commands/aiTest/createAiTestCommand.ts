@@ -8,7 +8,7 @@ import {
   WebMessengerGuestSession,
   WebMessengerSession,
 } from '@ovotech/genesys-web-messaging-tester';
-import OpenAI, { ClientOptions } from 'openai';
+import { ClientOptions, OpenAI } from 'openai';
 import { validateOpenAiEnvVariables } from './validateOpenAIEnvVariables';
 import { Ui } from './ui';
 import { validateSessionConfig } from './validateSessionConfig';
@@ -32,9 +32,10 @@ const temperature = 0.6;
 export interface AiTestCommandDependencies {
   command?: Command;
   ui?: Ui;
-  openAiApiFactory?: (config: ClientOptions) => OpenAI;
+  openAiChatCompletionFactory?: (config: ClientOptions) => Pick<OpenAI.Chat.Completions, 'create'>;
   webMessengerSessionFactory?: (sessionConfig: SessionConfig) => WebMessengerSession;
   conversationFactory?: (session: WebMessengerSession) => Conversation;
+  processEnv?: NodeJS.ProcessEnv;
   fsReadFileSync?: typeof readFileSync;
   fsAccessSync?: typeof accessSync;
   chatGptModel?: OpenAI.CompletionCreateParams['model'];
@@ -43,9 +44,10 @@ export interface AiTestCommandDependencies {
 export function createAiTestCommand({
   command = new Command(),
   ui = new Ui(),
-  openAiApiFactory = (config) => new OpenAI(config),
+  openAiChatCompletionFactory = (config) => new OpenAI(config).chat.completions,
   webMessengerSessionFactory = (config) => new WebMessengerGuestSession(config, { IsTest: 'true' }),
   conversationFactory = (session) => new Conversation(session),
+  processEnv = process.env,
   fsReadFileSync = readFileSync,
   fsAccessSync = accessSync,
   chatGptModel = 'gpt-3.5-turbo',
@@ -75,23 +77,11 @@ export function createAiTestCommand({
         options: { deploymentId?: string; region?: string; origin?: string },
       ) => {
         const outputConfig = command.configureOutput();
-        if (!outputConfig) {
-          throw new Error('Output must be defined');
+        if (!outputConfig?.writeOut || !outputConfig?.writeErr) {
+          throw new Error('No writeOut and/or writeErr');
         }
 
-        if (!outputConfig.writeOut || !outputConfig.writeErr) {
-          throw new Error('No writeOut');
-        }
-
-        const sessionValidationResult = validateSessionConfig(options);
-        if (!sessionValidationResult.validSessionConfig) {
-          outputConfig.writeErr(
-            ui.validatingOpenAiEnvValidationFailed(sessionValidationResult.error),
-          );
-          throw new CommandExpectedlyFailedError();
-        }
-
-        const openAiEnvValidationResult = validateOpenAiEnvVariables(process.env);
+        const openAiEnvValidationResult = validateOpenAiEnvVariables(processEnv);
         if (!openAiEnvValidationResult.openAikey) {
           outputConfig.writeErr(
             ui.validatingOpenAiEnvValidationFailed(openAiEnvValidationResult.error),
@@ -141,9 +131,11 @@ export function createAiTestCommand({
 
         const scenario = Object.entries(validPromptScript?.scenarios)[0][1];
 
-        const session = webMessengerSessionFactory(sessionValidationResult.validSessionConfig);
+        const session = webMessengerSessionFactory(
+          sessionConfigValidationResults.validSessionConfig,
+        );
 
-        const openai = openAiApiFactory({
+        const openaiChatCompletion = openAiChatCompletionFactory({
           apiKey: openAiEnvValidationResult.openAikey,
           maxRetries: 5,
         });
@@ -166,7 +158,7 @@ export function createAiTestCommand({
           hasEnded: false,
         };
         do {
-          const { choices } = await openai.chat.completions.create({
+          const { choices } = await openaiChatCompletion.create({
             model: chatGptModel,
             n: 1, // Number of choices
             temperature,

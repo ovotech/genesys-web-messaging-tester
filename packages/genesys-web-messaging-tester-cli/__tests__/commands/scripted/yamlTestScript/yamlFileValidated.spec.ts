@@ -3,7 +3,7 @@ import { Command } from 'commander';
 import stripAnsi from 'strip-ansi';
 import { createCli } from '../../../../src/createCli';
 
-describe('Scenario Section Validated', () => {
+describe('YAML file Validated', () => {
   let capturedOutput: {
     errOut: string[];
   };
@@ -47,40 +47,16 @@ describe('Scenario Section Validated', () => {
     });
   });
 
-  test('scenario step can only contain one element', async () => {
+  test('prompts or scenario section is required if scenarios not defined', async () => {
     fsReadFileSync.mockReturnValue(`
 config:
   deploymentId: xx
   region: xx
-scenarios:
-  scenario-name:
-    - say: hi from scenario
-      waitForReplyContaining: hello
 `);
     await expect(
-      cli.parseAsync([...['node', '/path/to/cli'], 'scripted', ...['test-path']]),
+      cli.parseAsync([...['node', '/path/to/cli'], ...['scripted', 'test-path']]),
     ).rejects.toBeDefined();
 
-    expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual([
-      '"scenarios.scenario-name[0]" must have 1 key\n',
-    ]);
-  });
-
-  test("scenario step can only contain 'say' or 'waitForReplyContaining'", async () => {
-    fsReadFileSync.mockReturnValue(`
-config:
-  deploymentId: xx
-  region: xx
-scenarios:
-  scenario-name:
-    - testing: 123
-`);
-    await expect(
-      cli.parseAsync([...['node', '/path/to/cli'], 'scripted', ...['test-path']]),
-    ).rejects.toBeDefined();
-
-    expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual([
-      '"scenarios.scenario-name[0].testing" is not allowed\n',
-    ]);
+    expect(capturedOutput.errOut.map(stripAnsi)).toStrictEqual(['"scenarios" is required\n']);
   });
 });

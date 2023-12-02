@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs';
 import { Command } from 'commander';
 import stripAnsi from 'strip-ansi';
-import { createCli } from '../../../src/createCli';
+import { createCli } from '../../../../src/createCli';
 
 describe('Session Config Validated', () => {
   let capturedOutput: {

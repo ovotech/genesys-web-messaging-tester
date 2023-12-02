@@ -2,7 +2,7 @@ import { accessSync, readFileSync } from 'fs';
 import { Command } from 'commander';
 import { Conversation, WebMessengerSession } from '@ovotech/genesys-web-messaging-tester';
 import stripAnsi from 'strip-ansi';
-import { createCli } from '../../src/createCli';
+import { createCli } from '../../../src/createCli';
 
 describe('Test script YAML loaded', () => {
   let capturedOutput: {

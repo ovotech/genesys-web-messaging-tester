@@ -8,8 +8,8 @@ import {
 import stripAnsi from 'strip-ansi';
 import getPort from 'get-port';
 import WebSocket from 'ws';
-import { waitForMs } from './fixtures/wait';
-import { createCli } from '../lib/createCli';
+import { waitForMs } from '../../fixtures/wait';
+import { createCli } from '../../../src/createCli';
 
 jest.setTimeout(50000);
 describe('Retry unordered message', () => {
