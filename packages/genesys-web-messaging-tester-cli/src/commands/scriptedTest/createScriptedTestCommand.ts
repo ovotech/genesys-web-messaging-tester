@@ -68,7 +68,7 @@ export function createScriptedTestCommand({
   reorderedMessageDelayerFactory = (delayBeforeEmittingInMs) =>
     new ReorderedMessageDelayer(delayBeforeEmittingInMs),
   webMessengerSessionFactory = (config, reorderedMessageDelayer) =>
-    new WebMessengerGuestSession(config, { IsTest: 'true' }, reorderedMessageDelayer),
+    new WebMessengerGuestSession(config, { IsAutomatedTest: 'true' }, reorderedMessageDelayer),
   conversationFactory = (session) => new Conversation(session),
   fsReadFileSync = readFileSync,
   fsAccessSync = accessSync,
