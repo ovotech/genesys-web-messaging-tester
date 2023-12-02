@@ -2,8 +2,7 @@ import { readFileSync } from 'fs';
 import { Command } from 'commander';
 import { AiTestCommandDependencies } from '../../../src/commands/aiTest/createAiTestCommand';
 import { createCli } from '../../../src/createCli';
-import OpenAI from 'openai';
-import { ChatCompletion } from 'openai/src/resources/chat/completions';
+import { OpenAI } from 'openai';
 
 describe('Session Config', () => {
   let fsReadFileSync: jest.MockedFunction<typeof readFileSync>;
@@ -58,7 +57,7 @@ scenarios:
         pass: ["PASS"]
         fail: ["FAIL"]
 `);
-    const completion: ChatCompletion = {
+    const completion: OpenAI.Chat.ChatCompletion = {
       choices: [{ message: { role: 'system', content: 'PASS' }, finish_reason: 'stop', index: 0 }],
       created: 0,
       id: '',
@@ -88,7 +87,7 @@ scenarios:
           fail: ["FAIL"]
   `);
 
-    const completion: ChatCompletion = {
+    const completion: OpenAI.Chat.ChatCompletion = {
       choices: [{ message: { role: 'system', content: 'PASS' }, finish_reason: 'stop', index: 0 }],
       created: 0,
       id: '',
