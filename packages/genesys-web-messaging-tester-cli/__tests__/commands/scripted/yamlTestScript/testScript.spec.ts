@@ -1,6 +1,6 @@
 import { accessSync, readFileSync } from 'fs';
 import { Command } from 'commander';
-import { createCli } from '../../../src/createCli';
+import { createCli } from '../../../../src/createCli';
 
 describe('Test-script read from disk', () => {
   let fsReadFileSync: jest.MockedFunction<typeof readFileSync>;

@@ -1,7 +1,7 @@
-import { ScriptedTestCommandDependencies } from '../../../src/commands/scriptedTest/createScriptedTestCommand';
+import { ScriptedTestCommandDependencies } from '../../../../src/commands/scriptedTest/createScriptedTestCommand';
 import { readFileSync } from 'fs';
 import { Command } from 'commander';
-import { createCli } from '../../../src/createCli';
+import { createCli } from '../../../../src/createCli';
 import { ReorderedMessageDelayer } from '@ovotech/genesys-web-messaging-tester';
 
 describe('Session Config', () => {
