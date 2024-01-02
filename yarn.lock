@@ -492,7 +492,7 @@ __metadata:
   dependencies:
     "@ovotech/genesys-web-messaging-tester": 2.0.6
     "@types/jest": ^29.0.3
-    "@types/node": ^14.14.2
+    "@types/node": ^20.10.6
     "@typescript-eslint/eslint-plugin": ^6.17.0
     "@typescript-eslint/parser": ^5.0.0
     dotenv: ^16.3.1
@@ -925,7 +925,7 @@ __metadata:
     "@types/jest": ^29.0.3
     "@types/jest-when": ^3.5.2
     "@types/js-yaml": ^4.0.5
-    "@types/node": ^14.14.2
+    "@types/node": ^20.10.6
     "@typescript-eslint/eslint-plugin": ^6.17.0
     "@typescript-eslint/parser": ^5.0.0
     chalk: ^4.1.2
@@ -973,7 +973,7 @@ __metadata:
     "@sinonjs/fake-timers": ^11.0.0
     "@types/debug": ^4.1.8
     "@types/jest": ^29.0.3
-    "@types/node": ^14.14.2
+    "@types/node": ^20.10.6
     "@types/sinonjs__fake-timers": ^8.1.2
     "@types/uuid": ^9.0.2
     "@types/ws": ^8.5.5
@@ -1243,19 +1243,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^14.14.2":
-  version: 14.18.63
-  resolution: "@types/node@npm:14.18.63"
-  checksum: be909061a54931778c71c49dc562586c32f909c4b6197e3d71e6dac726d8bd9fccb9f599c0df99f52742b68153712b5097c0f00cac4e279fa894b0ea6719a8fd
-  languageName: node
-  linkType: hard
-
 "@types/node@npm:^18.11.18":
   version: 18.18.9
   resolution: "@types/node@npm:18.18.9"
   dependencies:
     undici-types: ~5.26.4
   checksum: 629ce20357586144031cb43d601617eef45e59460dea6b1e123f708e6885664f44d54f65e5b72b2614af5b8613f3652ced832649c0b991accbc6a85139befa51
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^20.10.6":
+  version: 20.10.6
+  resolution: "@types/node@npm:20.10.6"
+  dependencies:
+    undici-types: ~5.26.4
+  checksum: ada40e4ccbda3697dca88f8d13f4c996c493be6fbc15f5f5d3b91096d56bd700786a2c148a92a2b4c5d1f133379e63f754a786b3aebfc6a7d09fc7ea16dc017b
   languageName: node
   linkType: hard
 
