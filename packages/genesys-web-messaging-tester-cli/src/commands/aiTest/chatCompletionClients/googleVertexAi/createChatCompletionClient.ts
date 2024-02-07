@@ -36,14 +36,6 @@ export function createChatCompletionClient({
     async preflightCheck(): Promise<PreflightResult> {
       const prompt: PromptRequest = {
         context: 'You help people with math problems',
-        examples: [
-          {
-            input: { content: 'How many moons does Mars have?' },
-            output: {
-              content: 'The planet Mars has two moons, Phobos and Deimos.',
-            },
-          },
-        ],
         messages: [{ author: 'student', content: 'What is 1+1?' }],
       };
 
