@@ -43,7 +43,7 @@ console.log(reply);
 
 ### constructor
 
-• **new Conversation**(`messengerSession`, `timeoutSet?`, `timeoutClear?`)
+• **new Conversation**(`messengerSession`, `timeoutSet?`, `timeoutClear?`): [`Conversation`](Conversation.md)
 
 #### Parameters
 
@@ -52,6 +52,10 @@ console.log(reply);
 | `messengerSession` | [`WebMessengerSession`](../interfaces/WebMessengerSession.md) | `undefined` |
 | `timeoutSet` | typeof `setTimeout` | `setTimeout` |
 | `timeoutClear` | (`timeoutId`: `undefined` \| `string` \| `number` \| `Timeout`) => `void` | `clearTimeout` |
+
+#### Returns
+
+[`Conversation`](Conversation.md)
 
 #### Defined in
 
@@ -134,12 +138,12 @@ use [waitForResponseText](Conversation.md#waitforresponsetext).
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `text` | `string` |
-| `«destructured»` | `Object` |
-| › `caseInsensitive?` | `boolean` |
-| › `timeoutInSeconds?` | `number` |
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `text` | `string` | `undefined` |
+| `«destructured»` | `Object` | `{}` |
+| › `caseInsensitive?` | `boolean` | `true` |
+| › `timeoutInSeconds?` | `number` | `10` |
 
 #### Returns
 
@@ -164,11 +168,11 @@ use [waitForResponseText](Conversation.md#waitforresponsetext).
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `pattern` | `string` \| `RegExp` |
-| `«destructured»` | `Object` |
-| › `timeoutInSeconds?` | `number` |
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `pattern` | `string` \| `RegExp` | `undefined` |
+| `«destructured»` | `Object` | `{}` |
+| › `timeoutInSeconds?` | `number` | `10` |
 
 #### Returns
 

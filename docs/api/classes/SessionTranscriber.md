@@ -49,16 +49,20 @@ Transcribes a Web Messenger session into an array of transcribed messages.
 
 ### constructor
 
-• **new SessionTranscriber**(`messengerSession`, `«destructured»?`)
+• **new SessionTranscriber**(`messengerSession`, `«destructured»?`): [`SessionTranscriber`](SessionTranscriber.md)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `messengerSession` | [`WebMessengerSession`](../interfaces/WebMessengerSession.md) |
-| `«destructured»` | `Object` |
-| › `nameForClient?` | `string` |
-| › `nameForServer?` | `string` |
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `messengerSession` | [`WebMessengerSession`](../interfaces/WebMessengerSession.md) | `undefined` |
+| `«destructured»` | `Object` | `{}` |
+| › `nameForClient?` | `string` | `'You'` |
+| › `nameForServer?` | `string` | `'Them'` |
+
+#### Returns
+
+[`SessionTranscriber`](SessionTranscriber.md)
 
 #### Overrides
 
@@ -138,7 +142,7 @@ node_modules/@types/node/events.d.ts:37
 
 ### addListener
 
-▸ **addListener**(`event`, `listener`): [`SessionTranscriber`](SessionTranscriber.md)
+▸ **addListener**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -149,7 +153,7 @@ node_modules/@types/node/events.d.ts:37
 
 #### Returns
 
-[`SessionTranscriber`](SessionTranscriber.md)
+`this`
 
 #### Inherited from
 
@@ -286,7 +290,7 @@ ___
 
 ### off
 
-▸ **off**(`event`, `listener`): [`SessionTranscriber`](SessionTranscriber.md)
+▸ **off**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -297,7 +301,7 @@ ___
 
 #### Returns
 
-[`SessionTranscriber`](SessionTranscriber.md)
+`this`
 
 #### Inherited from
 
@@ -311,7 +315,7 @@ ___
 
 ### on
 
-▸ **on**(`event`, `listener`): [`SessionTranscriber`](SessionTranscriber.md)
+▸ **on**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -322,7 +326,7 @@ ___
 
 #### Returns
 
-[`SessionTranscriber`](SessionTranscriber.md)
+`this`
 
 #### Inherited from
 
@@ -336,7 +340,7 @@ ___
 
 ### once
 
-▸ **once**(`event`, `listener`): [`SessionTranscriber`](SessionTranscriber.md)
+▸ **once**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -347,7 +351,7 @@ ___
 
 #### Returns
 
-[`SessionTranscriber`](SessionTranscriber.md)
+`this`
 
 #### Inherited from
 
@@ -361,7 +365,7 @@ ___
 
 ### prependListener
 
-▸ **prependListener**(`event`, `listener`): [`SessionTranscriber`](SessionTranscriber.md)
+▸ **prependListener**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -372,7 +376,7 @@ ___
 
 #### Returns
 
-[`SessionTranscriber`](SessionTranscriber.md)
+`this`
 
 #### Inherited from
 
@@ -386,7 +390,7 @@ ___
 
 ### prependOnceListener
 
-▸ **prependOnceListener**(`event`, `listener`): [`SessionTranscriber`](SessionTranscriber.md)
+▸ **prependOnceListener**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -397,7 +401,7 @@ ___
 
 #### Returns
 
-[`SessionTranscriber`](SessionTranscriber.md)
+`this`
 
 #### Inherited from
 
@@ -435,7 +439,7 @@ ___
 
 ### removeAllListeners
 
-▸ **removeAllListeners**(`event?`): [`SessionTranscriber`](SessionTranscriber.md)
+▸ **removeAllListeners**(`event?`): `this`
 
 #### Parameters
 
@@ -445,7 +449,7 @@ ___
 
 #### Returns
 
-[`SessionTranscriber`](SessionTranscriber.md)
+`this`
 
 #### Inherited from
 
@@ -459,7 +463,7 @@ ___
 
 ### removeListener
 
-▸ **removeListener**(`event`, `listener`): [`SessionTranscriber`](SessionTranscriber.md)
+▸ **removeListener**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -470,7 +474,7 @@ ___
 
 #### Returns
 
-[`SessionTranscriber`](SessionTranscriber.md)
+`this`
 
 #### Inherited from
 
@@ -484,7 +488,7 @@ ___
 
 ### setMaxListeners
 
-▸ **setMaxListeners**(`n`): [`SessionTranscriber`](SessionTranscriber.md)
+▸ **setMaxListeners**(`n`): `this`
 
 #### Parameters
 
@@ -494,7 +498,7 @@ ___
 
 #### Returns
 
-[`SessionTranscriber`](SessionTranscriber.md)
+`this`
 
 #### Inherited from
 
@@ -508,7 +512,7 @@ ___
 
 ### listenerCount
 
-▸ `Static` **listenerCount**(`emitter`, `event`): `number`
+▸ **listenerCount**(`emitter`, `event`): `number`
 
 #### Parameters
 
@@ -537,7 +541,7 @@ ___
 
 ### on
 
-▸ `Static` **on**(`emitter`, `event`): `AsyncIterableIterator`\<`any`\>
+▸ **on**(`emitter`, `event`): `AsyncIterableIterator`\<`any`\>
 
 #### Parameters
 
@@ -562,7 +566,7 @@ ___
 
 ### once
 
-▸ `Static` **once**(`emitter`, `event`): `Promise`\<`any`[]\>
+▸ **once**(`emitter`, `event`): `Promise`\<`any`[]\>
 
 #### Parameters
 
@@ -583,7 +587,7 @@ EventEmitter.once
 
 node_modules/@types/node/events.d.ts:21
 
-▸ `Static` **once**(`emitter`, `event`): `Promise`\<`any`[]\>
+▸ **once**(`emitter`, `event`): `Promise`\<`any`[]\>
 
 #### Parameters
 

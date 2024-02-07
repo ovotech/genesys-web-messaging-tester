@@ -35,7 +35,7 @@
 
 ### constructor
 
-• **new BotDisconnectedWaitingForResponseError**(`_expectedResponse`, `_responsesReceived?`)
+• **new BotDisconnectedWaitingForResponseError**(`_expectedResponse`, `_responsesReceived?`): [`BotDisconnectedWaitingForResponseError`](BotDisconnectedWaitingForResponseError.md)
 
 #### Parameters
 
@@ -43,6 +43,10 @@
 | :------ | :------ | :------ |
 | `_expectedResponse` | `string` | `undefined` |
 | `_responsesReceived` | readonly (`StructuredMessageTextBody` \| `StructuredMessageStructuredBody`)[] | `[]` |
+
+#### Returns
+
+[`BotDisconnectedWaitingForResponseError`](BotDisconnectedWaitingForResponseError.md)
 
 #### Overrides
 
@@ -64,7 +68,7 @@ Error.message
 
 #### Defined in
 
-node_modules/typescript/lib/lib.es5.d.ts:1068
+node_modules/typescript/lib/lib.es5.d.ts:1076
 
 ___
 
@@ -78,7 +82,7 @@ Error.name
 
 #### Defined in
 
-node_modules/typescript/lib/lib.es5.d.ts:1067
+node_modules/typescript/lib/lib.es5.d.ts:1075
 
 ___
 
@@ -92,13 +96,19 @@ Error.stack
 
 #### Defined in
 
-node_modules/typescript/lib/lib.es5.d.ts:1069
+node_modules/typescript/lib/lib.es5.d.ts:1077
 
 ___
 
 ### prepareStackTrace
 
 ▪ `Static` `Optional` **prepareStackTrace**: (`err`: `Error`, `stackTraces`: `CallSite`[]) => `any`
+
+Optional override for formatting stack traces
+
+**`See`**
+
+https://v8.dev/docs/stack-trace-api#customizing-stack-traces
 
 #### Type declaration
 
@@ -175,7 +185,7 @@ readonly (`StructuredMessageTextBody` \| `StructuredMessageStructuredBody`)[]
 
 ### captureStackTrace
 
-▸ `Static` **captureStackTrace**(`targetObject`, `constructorOpt?`): `void`
+▸ **captureStackTrace**(`targetObject`, `constructorOpt?`): `void`
 
 Create .stack property on a target object
 

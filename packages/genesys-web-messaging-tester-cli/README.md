@@ -122,6 +122,10 @@ The `terminatingPhrases` section defines the phrases you instruct ChatGPT to say
 config:
   deploymentId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
   region: xxxx.pure.cloud
+  ai:
+    provider: chatgpt
+    config:
+      temperature: 1
 scenarios:
   "Accept survey":
     setup:
@@ -150,6 +154,8 @@ Then run the AI test by pointing to the scenario file in the terminal:
 ```shell
 web-messaging-tester ai tests/example.yml
 ```
+
+For a slightly more detailed guide see: [Let's test a Genesys chatbot with AI](https://www.linkedin.com/pulse/lets-test-genesys-chatbot-ai-lucas-woodward-dvrpc).
 
 ## Example commands
 
@@ -188,6 +194,13 @@ Run 10 scenarios in parallel:
 ```shell
 web-messaging-tester scripted test-script.yaml --parallel 10
 ```
+
+## Support
+
+If you have any questions you can either:
+
+* Raise an issue on this [project's GitHub repository](https://github.com/ovotech/genesys-web-messaging-tester)
+* [Drop me a message](https://www.linkedin.com/in/lucas-woodward-the-dev/)
 
 ## Development
 
