@@ -30,6 +30,7 @@
     "web-messaging-tester": "lib/index.js"
   },
   "dependencies": {
+    "@google-cloud/aiplatform": "3.10.0",
     "@ovotech/genesys-web-messaging-tester": "^2.0.6",
     "chalk": "^4.1.2",
     "ci-info": "^3.5.0",

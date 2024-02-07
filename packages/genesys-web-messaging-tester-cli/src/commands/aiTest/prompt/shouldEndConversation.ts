@@ -1,5 +1,5 @@
-import { OpenAI } from 'openai';
 import { containsTerminatingPhrases } from './containsTerminatingPhrases';
+import { Utterance } from '../chatCompletionClients/chatCompletionClient';
 
 interface Reason {
   type: 'fail' | 'pass';
@@ -20,27 +20,27 @@ export type ShouldEndConversationResult =
   | ShouldEndConversationNotEndedResult;
 
 export function shouldEndConversation(
-  messages: OpenAI.Chat.Completions.CreateChatCompletionRequestMessage[],
+  utterances: Utterance[],
   failPhrases: string[],
   passPhrases: string[],
 ): ShouldEndConversationResult {
-  if (messages.length === 0) {
+  if (utterances.length === 0) {
     return { hasEnded: false };
   }
 
-  const lastMessage = messages.slice(-1);
+  const lastMessage = utterances.slice(-1);
   if (lastMessage.length === 1 && lastMessage[0].content === '') {
-    const who = lastMessage[0].role === 'assistant' ? 'ChatGPT' : 'Chatbot';
+    const who = lastMessage[0].role === 'customer' ? 'AI' : 'Chatbot';
     return {
       hasEnded: true,
       reason: { type: 'fail', description: `${who} didn't have a response` },
     };
   }
 
-  const lastChatGptMsg = messages.filter((m) => m.role === 'assistant').slice(-1);
+  const lastAiMsg = utterances.filter((m) => m.role === 'customer').slice(-1);
 
-  if (lastChatGptMsg[0]?.content) {
-    const phraseResult = containsTerminatingPhrases(lastChatGptMsg[0].content, {
+  if (lastAiMsg[0]?.content) {
+    const phraseResult = containsTerminatingPhrases(lastAiMsg[0].content, {
       pass: passPhrases,
       fail: failPhrases,
     });
@@ -50,7 +50,7 @@ export function shouldEndConversation(
         hasEnded: true,
         reason: {
           type: phraseResult.phraseIndicates,
-          description: `Terminating phrase found in response: '${lastChatGptMsg[0].content}'`,
+          description: `Terminating phrase found in response: '${lastAiMsg[0].content}'`,
         },
       };
     }
@@ -70,7 +70,7 @@ export function shouldEndConversation(
   //   }
   // }
 
-  const lastTwoChatBotMsgs = messages.filter((m) => m.role === 'user').slice(-2);
+  const lastTwoChatBotMsgs = utterances.filter((m) => m.role === 'bot').slice(-2);
   if (lastTwoChatBotMsgs.length === 2) {
     const areMessagesTheSame = lastTwoChatBotMsgs[0].content === lastTwoChatBotMsgs[1].content;
     if (areMessagesTheSame) {

@@ -1,6 +1,10 @@
 config:
   deploymentId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
   region: xxxx.pure.cloud
+  ai:
+    provider: chatgpt
+    config:
+      temperature: 1
 scenarios:
   "Accept survey":
     setup:

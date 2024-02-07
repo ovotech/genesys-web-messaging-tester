@@ -5,6 +5,13 @@ test('Valid', () => {
     config: {
       deploymentId: 'test-deployment-id',
       region: 'test-region',
+      ai: {
+        provider: 'google-vertex-ai',
+        config: {
+          project: 'test-project',
+          location: 'test-location',
+        },
+      },
     },
     scenarios: {
       'test-name-of-test-1': {
@@ -39,6 +46,13 @@ test('Valid', () => {
       config: {
         deploymentId: 'test-deployment-id',
         region: 'test-region',
+        ai: {
+          provider: 'google-vertex-ai',
+          config: {
+            location: 'test-location',
+            project: 'test-project',
+          },
+        },
       },
       scenarios: {
         'test-name-of-test-1': {

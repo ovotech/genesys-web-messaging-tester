@@ -5,19 +5,15 @@ test('conversation ended when ChatGPT says special word', () => {
   const shouldEnd = shouldEndConversation(
     [
       {
-        role: 'system',
-        content: 'Say hello',
-      },
-      {
-        role: 'assistant',
+        role: 'customer',
         content: 'Hello',
       },
       {
-        role: 'user',
+        role: 'bot',
         content: 'Hi',
       },
       {
-        role: 'assistant',
+        role: 'customer',
         content: `${wordToIndicateEnd} - This has gone wrong`,
       },
     ],
