@@ -87,7 +87,7 @@ export function createChatCompletionClient({
           const content = candidate.structValue?.fields?.content?.stringValue;
           const author = candidate.structValue?.fields?.author?.stringValue;
           if (author && content) {
-            return { content: content, role: author as unknown as any };
+            return { content: content.trim(), role: author as unknown as any };
           }
         }
       }
