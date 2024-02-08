@@ -8,7 +8,9 @@ Automatically test your Web Messenger Deployments
 
 Allows behaviour for Genesys Chatbots and Architect flows behind [Genesys' Web Messenger Deployments](https://help.mypurecloud.com/articles/web-messaging-overview/) to be automatically tested using:
 * **Scripted Dialogue** - I say "X" and expect "Y" in response ([example](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli-scripted-tests/example-pass.yml))
-* **Generative AI** - Converse with my chatbot and fail the test if it doesn't do "X" ([ChatGTP example](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli-ai-tests/chatgpt-example.yml), [Google's PaLM 2 example](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli-ai-tests/google-vertex-ai-example.yml))
+* **Generative AI** - Converse with my chatbot and fail the test if it doesn't do "X"
+  * [ChatGTP example](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli-ai-tests/chatgpt-example.yml)
+  * [Google's PaLM 2 example](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli-ai-tests/google-vertex-ai-example.yml))
 
 Why? Well it makes testing:
 
