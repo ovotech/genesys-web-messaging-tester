@@ -78,7 +78,7 @@ node examples/api/src/js-script.js
 
 ## Support
 
-If you have any questions you can either:
+If you have any questions then please feel free to:
 
 * Raise an issue on this [project's GitHub repository](https://github.com/ovotech/genesys-web-messaging-tester)
 * [Drop me a message](https://www.linkedin.com/in/lucas-woodward-the-dev/)
