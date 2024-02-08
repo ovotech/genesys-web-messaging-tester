@@ -61,15 +61,15 @@ export function createChatCompletionClient({
     async predict(context: string, conversationUtterances: Utterance[]): Promise<Utterance | null> {
       const prompt: PromptRequest = {
         context,
-        messages: conversationUtterances.map((u) => ({
-          author: u.role,
-          content: u.content,
-        })),
+        messages: [
+          // Google requires at least one message. This message is hopefully innocuous enough not to lead to an unexpected result.
+          { content: '...', author: 'bot' },
+          ...conversationUtterances.map((u) => ({
+            author: u.role,
+            content: u.content,
+          })),
+        ],
       };
-      // Google requires at least one message. This message is hopefully innocuous enough not to lead to an unexpected result.
-      if (prompt.messages.length === 0) {
-        prompt.messages.push({ content: '...', author: 'bot' });
-      }
 
       const instanceValue = helpers.toValue(prompt);
 
