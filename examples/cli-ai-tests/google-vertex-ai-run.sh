@@ -10,4 +10,4 @@ function cleanup {
 }
 trap cleanup EXIT
 
-web-messaging-tester ai example.yml -id $DEPLOYMENT_ID -r $REGION
+web-messaging-tester ai google-vertex-ai-example.yml -id $DEPLOYMENT_ID -r $REGION
