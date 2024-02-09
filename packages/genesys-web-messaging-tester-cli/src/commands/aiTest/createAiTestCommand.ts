@@ -175,6 +175,7 @@ export function createAiTestCommand({
           );
 
           if (!endConversation.hasEnded) {
+            // TODO Allow time to wait to be customised
             const chatBotResponses = await convo.waitForResponses(3000);
             messages.push({ role: 'bot', content: chatBotResponses.join('\n') });
           }
@@ -184,6 +185,7 @@ export function createAiTestCommand({
             scenario.setup.terminatingPhrases.fail,
             scenario.setup.terminatingPhrases.pass,
           );
+          // TODO Handle bot ending conversation
         } while (!endConversation.hasEnded);
 
         outputConfig.writeOut(ui.testResult(endConversation));
