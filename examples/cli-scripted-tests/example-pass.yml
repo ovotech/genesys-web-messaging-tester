@@ -16,5 +16,4 @@ scenarios:
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
     - say: Example
-    - waitForReplyContaining: Sorry I didn't understand you. Please answer with either 'yes' or 'no'
-    - waitForReplyContaining: Can we ask you some questions about your experience today?
+    - waitForReplyContaining: Sorry. Please input "Yes" or "No". Do you want to proceed?
