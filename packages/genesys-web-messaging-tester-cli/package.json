@@ -1,6 +1,6 @@
 {
   "name": "@ovotech/genesys-web-messaging-tester-cli",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "license": "Apache-2.0",
@@ -30,7 +30,7 @@
     "web-messaging-tester": "lib/index.js"
   },
   "dependencies": {
-    "@ovotech/genesys-web-messaging-tester": "^2.0.6",
+    "@ovotech/genesys-web-messaging-tester": "^2.0.7",
     "chalk": "^4.1.2",
     "ci-info": "^3.5.0",
     "commander": "^11.0.0",

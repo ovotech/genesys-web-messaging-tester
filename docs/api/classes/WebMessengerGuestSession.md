@@ -57,7 +57,7 @@ https://developer.genesys.cloud/api/digital/webmessaging/websocketapi#configure-
 
 ### constructor
 
-• **new WebMessengerGuestSession**(`config`, `participantData?`, `messageDelayer?`, `wsFactory?`)
+• **new WebMessengerGuestSession**(`config`, `participantData?`, `messageDelayer?`, `wsFactory?`): [`WebMessengerGuestSession`](WebMessengerGuestSession.md)
 
 #### Parameters
 
@@ -67,6 +67,10 @@ https://developer.genesys.cloud/api/digital/webmessaging/websocketapi#configure-
 | `participantData` | `Record`\<`string`, `string`\> |
 | `messageDelayer` | [`MessageDelayer`](../interfaces/MessageDelayer.md) |
 | `wsFactory` | (`url`: `string`, `options?`: `ClientRequestArgs` \| `ClientOptions`) => `WebSocket` |
+
+#### Returns
+
+[`WebMessengerGuestSession`](WebMessengerGuestSession.md)
 
 #### Overrides
 
@@ -185,7 +189,7 @@ node_modules/@types/node/events.d.ts:37
 
 ### addListener
 
-▸ **addListener**(`event`, `listener`): [`WebMessengerGuestSession`](WebMessengerGuestSession.md)
+▸ **addListener**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -196,7 +200,7 @@ node_modules/@types/node/events.d.ts:37
 
 #### Returns
 
-[`WebMessengerGuestSession`](WebMessengerGuestSession.md)
+`this`
 
 #### Inherited from
 
@@ -333,7 +337,7 @@ ___
 
 ### off
 
-▸ **off**(`event`, `listener`): [`WebMessengerGuestSession`](WebMessengerGuestSession.md)
+▸ **off**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -344,7 +348,7 @@ ___
 
 #### Returns
 
-[`WebMessengerGuestSession`](WebMessengerGuestSession.md)
+`this`
 
 #### Inherited from
 
@@ -358,7 +362,7 @@ ___
 
 ### on
 
-▸ **on**(`event`, `listener`): [`WebMessengerGuestSession`](WebMessengerGuestSession.md)
+▸ **on**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -369,7 +373,7 @@ ___
 
 #### Returns
 
-[`WebMessengerGuestSession`](WebMessengerGuestSession.md)
+`this`
 
 #### Inherited from
 
@@ -383,7 +387,7 @@ ___
 
 ### once
 
-▸ **once**(`event`, `listener`): [`WebMessengerGuestSession`](WebMessengerGuestSession.md)
+▸ **once**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -394,7 +398,7 @@ ___
 
 #### Returns
 
-[`WebMessengerGuestSession`](WebMessengerGuestSession.md)
+`this`
 
 #### Inherited from
 
@@ -408,7 +412,7 @@ ___
 
 ### prependListener
 
-▸ **prependListener**(`event`, `listener`): [`WebMessengerGuestSession`](WebMessengerGuestSession.md)
+▸ **prependListener**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -419,7 +423,7 @@ ___
 
 #### Returns
 
-[`WebMessengerGuestSession`](WebMessengerGuestSession.md)
+`this`
 
 #### Inherited from
 
@@ -433,7 +437,7 @@ ___
 
 ### prependOnceListener
 
-▸ **prependOnceListener**(`event`, `listener`): [`WebMessengerGuestSession`](WebMessengerGuestSession.md)
+▸ **prependOnceListener**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -444,7 +448,7 @@ ___
 
 #### Returns
 
-[`WebMessengerGuestSession`](WebMessengerGuestSession.md)
+`this`
 
 #### Inherited from
 
@@ -482,7 +486,7 @@ ___
 
 ### removeAllListeners
 
-▸ **removeAllListeners**(`event?`): [`WebMessengerGuestSession`](WebMessengerGuestSession.md)
+▸ **removeAllListeners**(`event?`): `this`
 
 #### Parameters
 
@@ -492,7 +496,7 @@ ___
 
 #### Returns
 
-[`WebMessengerGuestSession`](WebMessengerGuestSession.md)
+`this`
 
 #### Inherited from
 
@@ -506,7 +510,7 @@ ___
 
 ### removeListener
 
-▸ **removeListener**(`event`, `listener`): [`WebMessengerGuestSession`](WebMessengerGuestSession.md)
+▸ **removeListener**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -517,7 +521,7 @@ ___
 
 #### Returns
 
-[`WebMessengerGuestSession`](WebMessengerGuestSession.md)
+`this`
 
 #### Inherited from
 
@@ -551,7 +555,7 @@ ___
 
 ### setMaxListeners
 
-▸ **setMaxListeners**(`n`): [`WebMessengerGuestSession`](WebMessengerGuestSession.md)
+▸ **setMaxListeners**(`n`): `this`
 
 #### Parameters
 
@@ -561,7 +565,7 @@ ___
 
 #### Returns
 
-[`WebMessengerGuestSession`](WebMessengerGuestSession.md)
+`this`
 
 #### Inherited from
 
@@ -575,7 +579,7 @@ ___
 
 ### listenerCount
 
-▸ `Static` **listenerCount**(`emitter`, `event`): `number`
+▸ **listenerCount**(`emitter`, `event`): `number`
 
 #### Parameters
 
@@ -604,7 +608,7 @@ ___
 
 ### on
 
-▸ `Static` **on**(`emitter`, `event`): `AsyncIterableIterator`\<`any`\>
+▸ **on**(`emitter`, `event`): `AsyncIterableIterator`\<`any`\>
 
 #### Parameters
 
@@ -629,7 +633,7 @@ ___
 
 ### once
 
-▸ `Static` **once**(`emitter`, `event`): `Promise`\<`any`[]\>
+▸ **once**(`emitter`, `event`): `Promise`\<`any`[]\>
 
 #### Parameters
 
@@ -650,7 +654,7 @@ EventEmitter.once
 
 node_modules/@types/node/events.d.ts:21
 
-▸ `Static` **once**(`emitter`, `event`): `Promise`\<`any`[]\>
+▸ **once**(`emitter`, `event`): `Promise`\<`any`[]\>
 
 #### Parameters
 

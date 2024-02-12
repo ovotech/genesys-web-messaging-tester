@@ -97,6 +97,13 @@ Received before disconnection:
   }
 }
 
+export class TimeoutWaitingForDisconnectionError extends Error {
+  constructor() {
+    super('Bot did not disconnect from the conversation within the timeout period');
+    Object.setPrototypeOf(this, TimeoutWaitingForDisconnectionError.prototype);
+  }
+}
+
 /**
  * Provides an API to simplify sending and receiving messages in a Web Messenger
  * session.
@@ -130,6 +137,8 @@ export class Conversation {
    */
   private readonly timeoutCompensation: number;
 
+  private disconnectedByGenesys: boolean = false;
+
   constructor(
     private readonly messengerSession: WebMessengerSession,
     private readonly timeoutSet: typeof setTimeout = setTimeout,
@@ -137,12 +146,62 @@ export class Conversation {
   ) {
     this.sessionStarted = false;
     this.messengerSession.once('sessionStarted', () => (this.sessionStarted = true));
-
     this.timeoutCompensation = messengerSession.messageDelayInMs;
+
+    const detectDisconnectFunc = (event: StructuredMessage) => {
+      if (
+        event.body.direction === 'Outbound' &&
+        event.body.type === 'Event' &&
+        Conversation.containsDisconnectEvent(event.body)
+      ) {
+        this.disconnectedByGenesys = true;
+        this.messengerSession.off('structuredMessage', detectDisconnectFunc);
+      }
+    };
+    this.messengerSession.on('structuredMessage', detectDisconnectFunc);
   }
 
   private static containsDisconnectEvent(event: StructuredMessageEventBody): boolean {
     return event.events.some((e) => e.eventType === 'Presence' && e.presence.type === 'Disconnect');
+  }
+
+  public async waitForConversationToClose(timeoutInMs = 2000): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      if (this.disconnectedByGenesys) {
+        resolve();
+        return;
+      }
+
+      let timeout: NodeJS.Timeout | undefined = undefined;
+
+      const checkMessage = (event: StructuredMessage): void => {
+        if (
+          event.body.direction === 'Outbound' &&
+          event.body.type === 'Event' &&
+          Conversation.containsDisconnectEvent(event.body)
+        ) {
+          if (timeout) {
+            this.timeoutClear(timeout);
+          }
+          resolve();
+        }
+      };
+
+      this.messengerSession.on('structuredMessage', checkMessage);
+
+      timeout = this.timeoutSet(() => {
+        this.messengerSession.off('structuredMessage', checkMessage);
+
+        reject(new TimeoutWaitingForDisconnectionError());
+      }, timeoutInMs);
+    });
+  }
+
+  /**
+   * Returns whether the conversation has been disconnected
+   */
+  public get isDisconnected(): boolean {
+    return this.disconnectedByGenesys;
   }
 
   /**
@@ -175,6 +234,10 @@ export class Conversation {
   public async sendText(text: string, delayInMs = 2000): Promise<void> {
     if (text.length === 0) {
       throw new Error('Text cannot be empty');
+    }
+
+    if (this.disconnectedByGenesys) {
+      throw new Error('Cannot send text as conversation was disconnected by Genesys');
     }
 
     if (delayInMs > 0) {

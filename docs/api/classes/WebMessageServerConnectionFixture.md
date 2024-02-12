@@ -21,13 +21,17 @@
 
 ### constructor
 
-• **new WebMessageServerConnectionFixture**(`ws`)
+• **new WebMessageServerConnectionFixture**(`ws`): [`WebMessageServerConnectionFixture`](WebMessageServerConnectionFixture.md)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `ws` | `WebSocket` |
+
+#### Returns
+
+[`WebMessageServerConnectionFixture`](WebMessageServerConnectionFixture.md)
 
 #### Defined in
 

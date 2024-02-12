@@ -12,6 +12,7 @@ export {
   Conversation,
   TimeoutWaitingForResponseError,
   BotDisconnectedWaitingForResponseError,
+  TimeoutWaitingForDisconnectionError,
 } from './Conversation';
 export { SessionTranscriber, TranscribedMessage } from './transcribe/Transcriber';
 

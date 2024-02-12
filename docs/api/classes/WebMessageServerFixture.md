@@ -21,13 +21,17 @@
 
 ### constructor
 
-• **new WebMessageServerFixture**(`port`)
+• **new WebMessageServerFixture**(`port`): [`WebMessageServerFixture`](WebMessageServerFixture.md)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `port` | `number` |
+
+#### Returns
+
+[`WebMessageServerFixture`](WebMessageServerFixture.md)
 
 #### Defined in
 
