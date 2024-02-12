@@ -66,6 +66,14 @@ describe('Using jest to perform the test', () => {
       'Can we ask you some questions about your experience today?',
     );
 
+    await convo.sendText('Yes');
+
+    await expect(convo.waitForResponseText()).resolves.toContain(
+      'Thank you! Now for the next question...',
+    );
+
+    await expect(convo.waitForConversationToClose()).resolves.toBeUndefined();
+
     // Log the transcript for the entire conversation
     console.log(transcriber.getTranscript().map((t) => t.toString()));
   });

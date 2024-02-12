@@ -212,6 +212,8 @@ Then run the AI test by pointing to the scenario file in the terminal:
 web-messaging-tester ai tests/example.yml
 ```
 
+For a slightly more detailed guide see: [Let's test a Genesys chatbot with AI](https://www.linkedin.com/pulse/lets-test-genesys-chatbot-ai-lucas-woodward-dvrpc).
+
 ## Example commands
 
 ```

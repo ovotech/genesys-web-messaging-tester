@@ -10,6 +10,7 @@ Genesys Web Messaging Tester
 - [Conversation](classes/Conversation.md)
 - [ReorderedMessageDelayer](classes/ReorderedMessageDelayer.md)
 - [SessionTranscriber](classes/SessionTranscriber.md)
+- [TimeoutWaitingForDisconnectionError](classes/TimeoutWaitingForDisconnectionError.md)
 - [TimeoutWaitingForResponseError](classes/TimeoutWaitingForResponseError.md)
 - [WebMessageServerConnectionFixture](classes/WebMessageServerConnectionFixture.md)
 - [WebMessageServerFixture](classes/WebMessageServerFixture.md)
