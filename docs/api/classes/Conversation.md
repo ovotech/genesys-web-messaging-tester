@@ -30,9 +30,14 @@ console.log(reply);
 
 - [constructor](Conversation.md#constructor)
 
+### Accessors
+
+- [isDisconnected](Conversation.md#isdisconnected)
+
 ### Methods
 
 - [sendText](Conversation.md#sendtext)
+- [waitForConversationToClose](Conversation.md#waitforconversationtoclose)
 - [waitForConversationToStart](Conversation.md#waitforconversationtostart)
 - [waitForResponseText](Conversation.md#waitforresponsetext)
 - [waitForResponseWithTextContaining](Conversation.md#waitforresponsewithtextcontaining)
@@ -43,7 +48,7 @@ console.log(reply);
 
 ### constructor
 
-• **new Conversation**(`messengerSession`, `timeoutSet?`, `timeoutClear?`)
+• **new Conversation**(`messengerSession`, `timeoutSet?`, `timeoutClear?`): [`Conversation`](Conversation.md)
 
 #### Parameters
 
@@ -53,9 +58,29 @@ console.log(reply);
 | `timeoutSet` | typeof `setTimeout` | `setTimeout` |
 | `timeoutClear` | (`timeoutId`: `undefined` \| `string` \| `number` \| `Timeout`) => `void` | `clearTimeout` |
 
+#### Returns
+
+[`Conversation`](Conversation.md)
+
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:133](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L133)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:142](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L142)
+
+## Accessors
+
+### isDisconnected
+
+• `get` **isDisconnected**(): `boolean`
+
+Returns whether the conversation has been disconnected
+
+#### Returns
+
+`boolean`
+
+#### Defined in
+
+[packages/genesys-web-messaging-tester/src/Conversation.ts:198](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L198)
 
 ## Methods
 
@@ -78,7 +103,27 @@ Sends text to the conversation
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:175](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L175)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:229](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L229)
+
+___
+
+### waitForConversationToClose
+
+▸ **waitForConversationToClose**(`timeoutInMs?`): `Promise`\<`void`\>
+
+#### Parameters
+
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `timeoutInMs` | `number` | `2000` |
+
+#### Returns
+
+`Promise`\<`void`\>
+
+#### Defined in
+
+[packages/genesys-web-messaging-tester/src/Conversation.ts:168](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L168)
 
 ___
 
@@ -97,7 +142,7 @@ background. This method allows you to wait for this process to finish.
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:154](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L154)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:208](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L208)
 
 ___
 
@@ -115,7 +160,7 @@ If you want to wait for a specific message use [waitForResponseWithTextContainin
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:197](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L197)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:255](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L255)
 
 ___
 
@@ -134,12 +179,12 @@ use [waitForResponseText](Conversation.md#waitforresponsetext).
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `text` | `string` |
-| `«destructured»` | `Object` |
-| › `caseInsensitive?` | `boolean` |
-| › `timeoutInSeconds?` | `number` |
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `text` | `string` | `undefined` |
+| `«destructured»` | `Object` | `{}` |
+| › `caseInsensitive?` | `boolean` | `true` |
+| › `timeoutInSeconds?` | `number` | `10` |
 
 #### Returns
 
@@ -147,7 +192,7 @@ use [waitForResponseText](Conversation.md#waitforresponsetext).
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:255](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L255)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:313](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L313)
 
 ___
 
@@ -164,11 +209,11 @@ use [waitForResponseText](Conversation.md#waitforresponsetext).
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `pattern` | `string` \| `RegExp` |
-| `«destructured»` | `Object` |
-| › `timeoutInSeconds?` | `number` |
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `pattern` | `string` \| `RegExp` | `undefined` |
+| `«destructured»` | `Object` | `{}` |
+| › `timeoutInSeconds?` | `number` | `10` |
 
 #### Returns
 
@@ -176,7 +221,7 @@ use [waitForResponseText](Conversation.md#waitforresponsetext).
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:286](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L286)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:344](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L344)
 
 ___
 
@@ -198,4 +243,4 @@ Wait for all responses until there is a predefined amount of 'silence'.
 
 #### Defined in
 
-[packages/genesys-web-messaging-tester/src/Conversation.ts:213](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L213)
+[packages/genesys-web-messaging-tester/src/Conversation.ts:271](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/Conversation.ts#L271)

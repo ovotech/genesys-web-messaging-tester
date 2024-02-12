@@ -80,7 +80,7 @@ ___
 
 ### addListener
 
-▸ **addListener**(`event`, `listener`): [`MessageDelayer`](MessageDelayer.md)
+▸ **addListener**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -91,7 +91,7 @@ ___
 
 #### Returns
 
-[`MessageDelayer`](MessageDelayer.md)
+`this`
 
 #### Inherited from
 
@@ -214,7 +214,7 @@ ___
 
 ### off
 
-▸ **off**(`event`, `listener`): [`MessageDelayer`](MessageDelayer.md)
+▸ **off**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -225,7 +225,7 @@ ___
 
 #### Returns
 
-[`MessageDelayer`](MessageDelayer.md)
+`this`
 
 #### Inherited from
 
@@ -239,7 +239,7 @@ ___
 
 ### on
 
-▸ **on**(`event`, `listener`): [`MessageDelayer`](MessageDelayer.md)
+▸ **on**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -250,7 +250,7 @@ ___
 
 #### Returns
 
-[`MessageDelayer`](MessageDelayer.md)
+`this`
 
 #### Inherited from
 
@@ -264,7 +264,7 @@ ___
 
 ### once
 
-▸ **once**(`event`, `listener`): [`MessageDelayer`](MessageDelayer.md)
+▸ **once**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -275,7 +275,7 @@ ___
 
 #### Returns
 
-[`MessageDelayer`](MessageDelayer.md)
+`this`
 
 #### Inherited from
 
@@ -289,7 +289,7 @@ ___
 
 ### prependListener
 
-▸ **prependListener**(`event`, `listener`): [`MessageDelayer`](MessageDelayer.md)
+▸ **prependListener**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -300,7 +300,7 @@ ___
 
 #### Returns
 
-[`MessageDelayer`](MessageDelayer.md)
+`this`
 
 #### Inherited from
 
@@ -314,7 +314,7 @@ ___
 
 ### prependOnceListener
 
-▸ **prependOnceListener**(`event`, `listener`): [`MessageDelayer`](MessageDelayer.md)
+▸ **prependOnceListener**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -325,7 +325,7 @@ ___
 
 #### Returns
 
-[`MessageDelayer`](MessageDelayer.md)
+`this`
 
 #### Inherited from
 
@@ -363,7 +363,7 @@ ___
 
 ### removeAllListeners
 
-▸ **removeAllListeners**(`event?`): [`MessageDelayer`](MessageDelayer.md)
+▸ **removeAllListeners**(`event?`): `this`
 
 #### Parameters
 
@@ -373,7 +373,7 @@ ___
 
 #### Returns
 
-[`MessageDelayer`](MessageDelayer.md)
+`this`
 
 #### Inherited from
 
@@ -387,7 +387,7 @@ ___
 
 ### removeListener
 
-▸ **removeListener**(`event`, `listener`): [`MessageDelayer`](MessageDelayer.md)
+▸ **removeListener**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -398,7 +398,7 @@ ___
 
 #### Returns
 
-[`MessageDelayer`](MessageDelayer.md)
+`this`
 
 #### Inherited from
 
@@ -412,7 +412,7 @@ ___
 
 ### setMaxListeners
 
-▸ **setMaxListeners**(`n`): [`MessageDelayer`](MessageDelayer.md)
+▸ **setMaxListeners**(`n`): `this`
 
 #### Parameters
 
@@ -422,7 +422,7 @@ ___
 
 #### Returns
 
-[`MessageDelayer`](MessageDelayer.md)
+`this`
 
 #### Inherited from
 

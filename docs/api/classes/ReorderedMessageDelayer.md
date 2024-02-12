@@ -63,7 +63,7 @@ timestamps.
 
 ### constructor
 
-• **new ReorderedMessageDelayer**(`delayBeforeEmittingInMs?`, `intervalInMs?`, `intervalSet?`, `intervalClear?`)
+• **new ReorderedMessageDelayer**(`delayBeforeEmittingInMs?`, `intervalInMs?`, `intervalSet?`, `intervalClear?`): [`ReorderedMessageDelayer`](ReorderedMessageDelayer.md)
 
 #### Parameters
 
@@ -73,6 +73,10 @@ timestamps.
 | `intervalInMs` | `number` | `1000` |
 | `intervalSet` | (`callback`: (...`args`: `any`[]) => `void`, `ms?`: `number`, ...`args`: `any`[]) => `NodeJS.Timeout` | `setInterval` |
 | `intervalClear` | (`intervalId`: `undefined` \| `string` \| `number` \| `Timeout`) => `void` | `clearInterval` |
+
+#### Returns
+
+[`ReorderedMessageDelayer`](ReorderedMessageDelayer.md)
 
 #### Overrides
 
@@ -212,7 +216,7 @@ ___
 
 ### addListener
 
-▸ **addListener**(`event`, `listener`): [`ReorderedMessageDelayer`](ReorderedMessageDelayer.md)
+▸ **addListener**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -223,7 +227,7 @@ ___
 
 #### Returns
 
-[`ReorderedMessageDelayer`](ReorderedMessageDelayer.md)
+`this`
 
 #### Implementation of
 
@@ -370,7 +374,7 @@ ___
 
 ### off
 
-▸ **off**(`event`, `listener`): [`ReorderedMessageDelayer`](ReorderedMessageDelayer.md)
+▸ **off**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -381,7 +385,7 @@ ___
 
 #### Returns
 
-[`ReorderedMessageDelayer`](ReorderedMessageDelayer.md)
+`this`
 
 #### Implementation of
 
@@ -399,7 +403,7 @@ ___
 
 ### on
 
-▸ **on**(`event`, `listener`): [`ReorderedMessageDelayer`](ReorderedMessageDelayer.md)
+▸ **on**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -410,7 +414,7 @@ ___
 
 #### Returns
 
-[`ReorderedMessageDelayer`](ReorderedMessageDelayer.md)
+`this`
 
 #### Implementation of
 
@@ -428,7 +432,7 @@ ___
 
 ### once
 
-▸ **once**(`event`, `listener`): [`ReorderedMessageDelayer`](ReorderedMessageDelayer.md)
+▸ **once**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -439,7 +443,7 @@ ___
 
 #### Returns
 
-[`ReorderedMessageDelayer`](ReorderedMessageDelayer.md)
+`this`
 
 #### Implementation of
 
@@ -457,7 +461,7 @@ ___
 
 ### prependListener
 
-▸ **prependListener**(`event`, `listener`): [`ReorderedMessageDelayer`](ReorderedMessageDelayer.md)
+▸ **prependListener**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -468,7 +472,7 @@ ___
 
 #### Returns
 
-[`ReorderedMessageDelayer`](ReorderedMessageDelayer.md)
+`this`
 
 #### Implementation of
 
@@ -486,7 +490,7 @@ ___
 
 ### prependOnceListener
 
-▸ **prependOnceListener**(`event`, `listener`): [`ReorderedMessageDelayer`](ReorderedMessageDelayer.md)
+▸ **prependOnceListener**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -497,7 +501,7 @@ ___
 
 #### Returns
 
-[`ReorderedMessageDelayer`](ReorderedMessageDelayer.md)
+`this`
 
 #### Implementation of
 
@@ -543,7 +547,7 @@ ___
 
 ### removeAllListeners
 
-▸ **removeAllListeners**(`event?`): [`ReorderedMessageDelayer`](ReorderedMessageDelayer.md)
+▸ **removeAllListeners**(`event?`): `this`
 
 #### Parameters
 
@@ -553,7 +557,7 @@ ___
 
 #### Returns
 
-[`ReorderedMessageDelayer`](ReorderedMessageDelayer.md)
+`this`
 
 #### Implementation of
 
@@ -571,7 +575,7 @@ ___
 
 ### removeListener
 
-▸ **removeListener**(`event`, `listener`): [`ReorderedMessageDelayer`](ReorderedMessageDelayer.md)
+▸ **removeListener**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -582,7 +586,7 @@ ___
 
 #### Returns
 
-[`ReorderedMessageDelayer`](ReorderedMessageDelayer.md)
+`this`
 
 #### Implementation of
 
@@ -600,7 +604,7 @@ ___
 
 ### setMaxListeners
 
-▸ **setMaxListeners**(`n`): [`ReorderedMessageDelayer`](ReorderedMessageDelayer.md)
+▸ **setMaxListeners**(`n`): `this`
 
 #### Parameters
 
@@ -610,7 +614,7 @@ ___
 
 #### Returns
 
-[`ReorderedMessageDelayer`](ReorderedMessageDelayer.md)
+`this`
 
 #### Implementation of
 
@@ -628,7 +632,7 @@ ___
 
 ### listenerCount
 
-▸ `Static` **listenerCount**(`emitter`, `event`): `number`
+▸ **listenerCount**(`emitter`, `event`): `number`
 
 #### Parameters
 
@@ -657,7 +661,7 @@ ___
 
 ### on
 
-▸ `Static` **on**(`emitter`, `event`): `AsyncIterableIterator`\<`any`\>
+▸ **on**(`emitter`, `event`): `AsyncIterableIterator`\<`any`\>
 
 #### Parameters
 
@@ -682,7 +686,7 @@ ___
 
 ### once
 
-▸ `Static` **once**(`emitter`, `event`): `Promise`\<`any`[]\>
+▸ **once**(`emitter`, `event`): `Promise`\<`any`[]\>
 
 #### Parameters
 
@@ -703,7 +707,7 @@ EventEmitter.once
 
 node_modules/@types/node/events.d.ts:21
 
-▸ `Static` **once**(`emitter`, `event`): `Promise`\<`any`[]\>
+▸ **once**(`emitter`, `event`): `Promise`\<`any`[]\>
 
 #### Parameters
 

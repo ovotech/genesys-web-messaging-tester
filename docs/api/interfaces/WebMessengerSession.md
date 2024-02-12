@@ -59,7 +59,7 @@ This delay should be taken into account for any timeout values of downstream fun
 
 ### addListener
 
-▸ **addListener**(`event`, `listener`): [`WebMessengerSession`](WebMessengerSession.md)
+▸ **addListener**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -70,7 +70,7 @@ This delay should be taken into account for any timeout values of downstream fun
 
 #### Returns
 
-[`WebMessengerSession`](WebMessengerSession.md)
+`this`
 
 #### Inherited from
 
@@ -207,7 +207,7 @@ ___
 
 ### off
 
-▸ **off**(`event`, `listener`): [`WebMessengerSession`](WebMessengerSession.md)
+▸ **off**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -218,7 +218,7 @@ ___
 
 #### Returns
 
-[`WebMessengerSession`](WebMessengerSession.md)
+`this`
 
 #### Inherited from
 
@@ -232,7 +232,7 @@ ___
 
 ### on
 
-▸ **on**(`event`, `listener`): [`WebMessengerSession`](WebMessengerSession.md)
+▸ **on**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -243,7 +243,7 @@ ___
 
 #### Returns
 
-[`WebMessengerSession`](WebMessengerSession.md)
+`this`
 
 #### Inherited from
 
@@ -257,7 +257,7 @@ ___
 
 ### once
 
-▸ **once**(`event`, `listener`): [`WebMessengerSession`](WebMessengerSession.md)
+▸ **once**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -268,7 +268,7 @@ ___
 
 #### Returns
 
-[`WebMessengerSession`](WebMessengerSession.md)
+`this`
 
 #### Inherited from
 
@@ -282,7 +282,7 @@ ___
 
 ### prependListener
 
-▸ **prependListener**(`event`, `listener`): [`WebMessengerSession`](WebMessengerSession.md)
+▸ **prependListener**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -293,7 +293,7 @@ ___
 
 #### Returns
 
-[`WebMessengerSession`](WebMessengerSession.md)
+`this`
 
 #### Inherited from
 
@@ -307,7 +307,7 @@ ___
 
 ### prependOnceListener
 
-▸ **prependOnceListener**(`event`, `listener`): [`WebMessengerSession`](WebMessengerSession.md)
+▸ **prependOnceListener**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -318,7 +318,7 @@ ___
 
 #### Returns
 
-[`WebMessengerSession`](WebMessengerSession.md)
+`this`
 
 #### Inherited from
 
@@ -356,7 +356,7 @@ ___
 
 ### removeAllListeners
 
-▸ **removeAllListeners**(`event?`): [`WebMessengerSession`](WebMessengerSession.md)
+▸ **removeAllListeners**(`event?`): `this`
 
 #### Parameters
 
@@ -366,7 +366,7 @@ ___
 
 #### Returns
 
-[`WebMessengerSession`](WebMessengerSession.md)
+`this`
 
 #### Inherited from
 
@@ -380,7 +380,7 @@ ___
 
 ### removeListener
 
-▸ **removeListener**(`event`, `listener`): [`WebMessengerSession`](WebMessengerSession.md)
+▸ **removeListener**(`event`, `listener`): `this`
 
 #### Parameters
 
@@ -391,7 +391,7 @@ ___
 
 #### Returns
 
-[`WebMessengerSession`](WebMessengerSession.md)
+`this`
 
 #### Inherited from
 
@@ -425,7 +425,7 @@ ___
 
 ### setMaxListeners
 
-▸ **setMaxListeners**(`n`): [`WebMessengerSession`](WebMessengerSession.md)
+▸ **setMaxListeners**(`n`): `this`
 
 #### Parameters
 
@@ -435,7 +435,7 @@ ___
 
 #### Returns
 
-[`WebMessengerSession`](WebMessengerSession.md)
+`this`
 
 #### Inherited from
 
