@@ -51,13 +51,12 @@ export class Ui {
     );
   }
 
-  public displayPromptPlaceholdersUsed({ placeholderValues }: PromptGeneratorResult): string {
-    return Ui.trailingNewline(
-      [
-        'Prompt generated using following placeholder values:',
-        ...Object.entries(placeholderValues).map(([key, value]) => `- ${key} = ${value}`),
-      ].join('\n'),
-    );
+  public displayPrompt({ prompt }: PromptGeneratorResult): string {
+    return Ui.trailingNewline(chalk.grey(prompt));
+  }
+
+  public conversationStartHeader(): string {
+    return Ui.trailingNewline(['Conversation', '------------'].join('\n'));
   }
 
   public testResult(result: ShouldEndConversationEndedResult): string {

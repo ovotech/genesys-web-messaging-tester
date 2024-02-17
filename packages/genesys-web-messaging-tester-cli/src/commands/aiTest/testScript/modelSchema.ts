@@ -34,7 +34,7 @@ export const schema = Joi.object<TestPromptFile>({
           temperature: Joi.number(),
         }),
       }),
-    }),
+    }).required(),
   }).required(),
   scenarios: Joi.object()
     .min(1)
