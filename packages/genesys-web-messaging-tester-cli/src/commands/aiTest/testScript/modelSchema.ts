@@ -42,6 +42,9 @@ export const schema = Joi.object<TestPromptFile>({
       /./,
       Joi.object({
         setup: Joi.object({
+          placeholders: Joi.object()
+            .min(1)
+            .pattern(/./, Joi.array().items(Joi.string()).required()),
           prompt: Joi.string().required(),
           terminatingPhrases: Joi.object({
             pass: Joi.array().items(Joi.string()).min(1).required(),

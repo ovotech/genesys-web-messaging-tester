@@ -8,8 +8,12 @@ config:
 scenarios:
   "Accept survey":
     setup:
+      placeholders:
+        NAME:
+          - John
+          - Jane
       prompt: |
-        I want you to play the role of a customer talking to a company's online chatbot. You must not
+        I want you to play the role of a customer called {NAME}, talking to a company's online chatbot. You must not
         break from this role, and all of your responses must be based on how a customer would realistically talk to a company's chatbot.
 
         To help you play the role of a customer consider the following points when writing a response:

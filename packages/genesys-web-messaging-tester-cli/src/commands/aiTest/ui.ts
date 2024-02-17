@@ -2,8 +2,8 @@ import chalk from 'chalk';
 import { ValidationError } from 'joi';
 import { ShouldEndConversationEndedResult } from './prompt/shouldEndConversation';
 import { TranscribedMessage } from '@ovotech/genesys-web-messaging-tester';
-import { PhraseFound } from './prompt/containsTerminatingPhrases';
 import { PreflightError } from './chatCompletionClients/chatCompletionClient';
+import { PromptGeneratorResult } from './prompt/generation/promptGenerator';
 
 export class Ui {
   /**
@@ -51,6 +51,15 @@ export class Ui {
     );
   }
 
+  public displayPromptPlaceholdersUsed({ placeholderValues }: PromptGeneratorResult): string {
+    return Ui.trailingNewline(
+      [
+        'Prompt generated using following placeholder values:',
+        ...Object.entries(placeholderValues).map(([key, value]) => `- ${key} = ${value}`),
+      ].join('\n'),
+    );
+  }
+
   public testResult(result: ShouldEndConversationEndedResult): string {
     const resultMessage =
       result.reason.type === 'pass'
@@ -73,18 +82,5 @@ export class Ui {
     return Ui.trailingNewline(
       chalk.bold.yellow('Follow up definitions ignored, as functionality is under development'),
     );
-  }
-
-  public followUpDetails(feedback: string): string {
-    return Ui.trailingNewline(['\n---------------------', feedback].join('\n'));
-  }
-
-  public followUpResult(result: PhraseFound): string {
-    const resultMessage =
-      result.phraseIndicates === 'fail'
-        ? chalk.bold.red(`FAILED: ${result.subject}`)
-        : chalk.bold.green(`PASSED: ${result.subject}`);
-
-    return Ui.trailingNewline(['\n---------------------', resultMessage].join('\n'));
   }
 }

@@ -8,6 +8,7 @@ export interface AiScenarioSetupSection {
 
 export interface AiScenarioFollowUpSection {
   readonly prompt: string;
+  readonly placeholders?: Record<string, string[]>;
   readonly terminatingPhrases: {
     readonly pass: string[];
     readonly fail: string[];
