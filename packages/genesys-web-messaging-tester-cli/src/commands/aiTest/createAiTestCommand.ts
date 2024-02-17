@@ -20,6 +20,7 @@ import * as googleAi from './chatCompletionClients/googleVertexAi/createChatComp
 import * as openAi from './chatCompletionClients/chatGpt/createChatCompletionClient';
 import { ChatCompletionClient, Utterance } from './chatCompletionClients/chatCompletionClient';
 import { validateOpenAiEnvVariables } from './chatCompletionClients/chatGpt/validateOpenAiEnvVariables';
+import { promptGenerator } from './prompt/generation/promptGenerator';
 
 export interface AiTestCommandDependencies {
   command?: Command;
@@ -155,11 +156,15 @@ export function createAiTestCommand({
         const convo = conversationFactory(session);
         const messages: Utterance[] = [];
 
+        const generatedPrompt = promptGenerator(scenario.setup);
+        outputConfig.writeOut(ui.displayPrompt(generatedPrompt));
+        outputConfig.writeOut(ui.conversationStartHeader());
+
         let endConversation: ShouldEndConversationResult = {
           hasEnded: false,
         };
         do {
-          const utterance = await chatCompletionClient.predict(scenario.setup.prompt, messages);
+          const utterance = await chatCompletionClient.predict(generatedPrompt.prompt, messages);
 
           if (utterance) {
             messages.push(utterance);
@@ -198,47 +203,6 @@ export function createAiTestCommand({
         if (scenario.followUp) {
           outputConfig.writeOut(ui.followUpDetailsUnderDevelopment());
         }
-        // if (scenario.followUp) {
-        //   const content = substituteTemplatePlaceholders(scenario.followUp.prompt, transcript);
-        //   const { choices } = await openai.chat.completions.create({
-        //     model: chatGptModel,
-        //     n: 1, // Number of choices
-        //     temperature,
-        //     messages: [
-        //       {
-        //         role: 'system',
-        //         content,
-        //       },
-        //     ],
-        //   });
-        //
-        //   if (choices[0].message?.content) {
-        //     const result = containsTerminatingPhrases(choices[0].message.content, {
-        //       fail: scenario.setup.terminatingPhrases.fail,
-        //       pass: scenario.setup.terminatingPhrases.pass,
-        //     });
-        //
-        //     outputConfig.writeOut(ui.followUpDetails(choices[0].message.content));
-        //     if (result.phraseFound) {
-        //       outputConfig.writeOut(ui.followUpResult(result));
-        //       if (result.phraseIndicates === 'fail') {
-        //         throw new CommandExpectedlyFailedError();
-        //       }
-        //     }
-        //   }
-        //
-        //   // endConversation = shouldEndConversation(
-        //   //   messages,
-        //   //   scenario.setup.terminatingPhrases.fail,
-        //   //   scenario.setup.terminatingPhrases.pass,
-        //   // );
-        //   // if (choices[0].message?.content) {
-        //   //   messages.push({ role: 'assistant', content: choices[0].message.content });
-        //   //   await convo.sendText(choices[0].message.content);
-        //   // } else {
-        //   //   messages.push({ role: 'assistant', content: '' });
-        //   // }
-        // }
       },
     );
 }

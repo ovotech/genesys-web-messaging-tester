@@ -17,6 +17,9 @@ test('Valid', () => {
     scenarios: {
       'test-name-of-test-1': {
         setup: {
+          placeholders: {
+            TEST: ['test-1', 'test-2'],
+          },
           prompt: 'test-prompt-1',
           terminatingPhrases: {
             fail: ['test-failing-phrase-1'],
@@ -65,6 +68,9 @@ test('Valid', () => {
         'test-name-of-test-1': {
           setup: {
             prompt: 'test-prompt-1',
+            placeholders: {
+              TEST: ['test-1', 'test-2'],
+            },
             terminatingPhrases: {
               fail: ['test-failing-phrase-1'],
               pass: ['test-passing-phrase-1'],

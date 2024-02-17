@@ -37,10 +37,9 @@ export function shouldEndConversation(
     };
   }
 
-  const lastAiMsg = utterances.filter((m) => m.role === 'customer').slice(-1);
-
-  if (lastAiMsg[0]?.content) {
-    const phraseResult = containsTerminatingPhrases(lastAiMsg[0].content, {
+  const lastMsg = utterances.slice(-1);
+  if (lastMsg[0]?.content) {
+    const phraseResult = containsTerminatingPhrases(lastMsg[0].content, {
       pass: passPhrases,
       fail: failPhrases,
     });
@@ -50,7 +49,7 @@ export function shouldEndConversation(
         hasEnded: true,
         reason: {
           type: phraseResult.phraseIndicates,
-          description: `Terminating phrase found in response: '${lastAiMsg[0].content}'`,
+          description: `Terminating phrase found in response: '${lastMsg[0].content}'`,
         },
       };
     }
@@ -70,20 +69,20 @@ export function shouldEndConversation(
   //   }
   // }
 
-  const lastTwoChatBotMsgs = utterances.filter((m) => m.role === 'bot').slice(-2);
-  if (lastTwoChatBotMsgs.length === 2) {
-    const areMessagesTheSame = lastTwoChatBotMsgs[0].content === lastTwoChatBotMsgs[1].content;
-    if (areMessagesTheSame) {
-      return {
-        hasEnded: true,
-
-        reason: {
-          type: 'fail',
-          description: 'The Chatbot repeated itself',
-        },
-      };
-    }
-  }
+  // const lastTwoChatBotMsgs = utterances.filter((m) => m.role === 'bot').slice(-2);
+  // if (lastTwoChatBotMsgs.length === 2) {
+  //   const areMessagesTheSame = lastTwoChatBotMsgs[0].content === lastTwoChatBotMsgs[1].content;
+  //   if (areMessagesTheSame) {
+  //     return {
+  //       hasEnded: true,
+  //
+  //       reason: {
+  //         type: 'fail',
+  //         description: 'The Chatbot repeated itself',
+  //       },
+  //     };
+  //   }
+  // }
 
   return { hasEnded: false };
 }
