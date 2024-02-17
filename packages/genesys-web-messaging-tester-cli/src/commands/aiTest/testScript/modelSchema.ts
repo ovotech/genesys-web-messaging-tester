@@ -20,6 +20,12 @@ export const schema = Joi.object<TestPromptFile>({
           topP: Joi.number(),
           seed: Joi.number(),
           modelVersion: Joi.string().regex(/\d{3}/),
+          examples: Joi.array().items(
+            Joi.object({
+              input: Joi.string().required(),
+              output: Joi.string().required(),
+            }).required(),
+          ),
         }).required(),
       }).when('provider', {
         is: SupportedAiProviders.ChatGpt,

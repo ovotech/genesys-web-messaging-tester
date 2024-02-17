@@ -13,6 +13,7 @@ export function createChatCompletionClient({
   topP,
   seed,
   modelVersion,
+  examples,
 }: GoogleVertexAiConfig): ChatCompletionClient {
   const version = modelVersion ? `@${modelVersion}` : '';
 
@@ -61,6 +62,14 @@ export function createChatCompletionClient({
     async predict(context: string, conversationUtterances: Utterance[]): Promise<Utterance | null> {
       const prompt: PromptRequest = {
         context,
+        ...(examples
+          ? {
+              examples: examples.map(({ input, output }) => ({
+                input: { content: input },
+                output: { content: output },
+              })),
+            }
+          : {}),
         messages: [
           // Google requires at least one message. This message is hopefully innocuous enough not to lead to an unexpected result.
           { content: '...', author: 'bot' },

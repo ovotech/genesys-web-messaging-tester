@@ -6,7 +6,10 @@ config:
     config:
       location: example-location
       project: example-gcp-project
-      modelVersion: 002
+      modelVersion: "002"
+      examples:
+        - input: "What would you like to do today?"
+          output: "I would like to leave feedback, please"
 scenarios:
   "Accept survey":
     setup:

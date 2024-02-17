@@ -58,6 +58,13 @@ export interface GoogleVertexAiConfig {
    */
   seed?: number;
   modelVersion?: string;
+
+  /**
+   * Examples for chat prompts are a list of input-output pairs that demonstrate exemplary model output for a given input. Use examples to customize how the model responds to certain questions.
+   *
+   * @see https://cloud.google.com/vertex-ai/docs/generative-ai/chat/chat-prompts#examples
+   */
+  examples?: { input: string; output: string }[];
 }
 
 export interface ChatGptConfig {

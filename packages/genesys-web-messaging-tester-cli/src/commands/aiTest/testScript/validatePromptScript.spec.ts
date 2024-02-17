@@ -10,6 +10,7 @@ test('Valid', () => {
         config: {
           project: 'test-project',
           location: 'test-location',
+          examples: [{ input: 'Hi', output: 'Hello' }],
         },
       },
     },
@@ -51,6 +52,12 @@ test('Valid', () => {
           config: {
             location: 'test-location',
             project: 'test-project',
+            examples: [
+              {
+                input: 'Hi',
+                output: 'Hello',
+              },
+            ],
           },
         },
       },
