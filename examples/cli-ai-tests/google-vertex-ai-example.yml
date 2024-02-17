@@ -1,6 +1,15 @@
 config:
   deploymentId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
   region: xxxx.pure.cloud
+  ai:
+    provider: google-vertex-ai
+    config:
+      location: example-location
+      project: example-gcp-project
+      modelVersion: "002"
+      examples:
+        - input: "What would you like to do today?"
+          output: "I would like to leave feedback, please"
 scenarios:
   "Accept survey":
     setup:

@@ -8,7 +8,7 @@ Automatically test your Web Messenger Deployments
 
 Allows behaviour for Genesys Chatbots and Architect flows behind [Genesys' Web Messenger Deployments](https://help.mypurecloud.com/articles/web-messaging-overview/) to be automatically tested using:
 * **Scripted Dialogue** - I say "X" and expect "Y" in response ([example](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli-scripted-tests/example-pass.yml))
-* **Generative AI** - Converse with my chatbot and fail the test if it doesn't do "X" ([example](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli-ai-tests/example.yml))
+* **Generative AI** - Converse with my chatbot and fail the test if it doesn't do "X" ([examples](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli-ai-tests/))
 
 Why? Well it makes testing:
 
@@ -104,6 +104,11 @@ web-messaging-tester scripted tests/example.yml
 
 ### Testing with AI
 
+This tool supports two GenAI providers:
+* ChatGPT (`gpt-3.5-turbo` model by default)
+* Google Vertex AI ([PaLM 2 Chat Bison model](https://console.cloud.google.com/vertex-ai/publishers/google/model-garden/chat-bison))
+
+#### Using ChatGPT
 Start by setting up an API key for ChatGPT:
 
 1. [Create an API key for OpenAI](https://help.openai.com/en/articles/4936850-where-do-i-find-my-api-key)
@@ -112,16 +117,72 @@ Start by setting up an API key for ChatGPT:
 Write a scenario file containing all the scenarios you wish to run along with
 the [ID and region of your Web Messenger Deployment](https://help.mypurecloud.com/articles/deploy-messenger/).
 
-The scenarios are written as ChatGPT Prompts, these can take some fine-tuning to get
-right ([see examples here](https://genesys-messenger-tester.makingchatbots.com/writing-tests/ai/example-prompts.html)).
+The scenarios are written as prompts, these can take some fine-tuning to get right ([see examples here](https://genesys-messenger-tester.makingchatbots.com/writing-tests/ai/example-prompts.html)).
 The `terminatingPhrases` section defines the phrases you instruct ChatGPT to say to pass or fail a test.
 
-> [examples/cli-ai-tests/example.yml](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli-ai-tests/example.yml)
+> [examples/cli-ai-tests/chatgpt-example.yml](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli-ai-tests/chatgpt-example.yml)
 
 ```yaml
 config:
   deploymentId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
   region: xxxx.pure.cloud
+  ai:
+    provider: chatgpt
+    config:
+      temperature: 1
+scenarios:
+  "Accept survey":
+    setup:
+      prompt: |
+        I want you to play the role of a customer talking to a company's online chatbot. You must not
+        break from this role, and all of your responses must be based on how a customer would realistically talk to a company's chatbot.
+
+        To help you play the role of a customer consider the following points when writing a response:
+        * Respond to questions with as few words as possible
+        * Answer with the exact word when given options e.g. if asked to answer with either 'yes' or 'no' answer with either 'yes' or 'no' without punctuation, such as full stops
+
+        As a customer you would like to leave feedback of a recent purchase of a light bulb you made where a customer service
+        rep was very helpful in finding the bulb with the correct fitting.
+
+        If at any point in the company's chatbot repeats itself then say the word 'FAIL'.
+
+        If you have understood your role and the purpose of your conversation with the company's chatbot then say the word 'Hello'
+        and nothing else.
+      terminatingPhrases:
+        pass: ["PASS"]
+        fail: ["FAIL"]
+```
+
+Then run the AI test by pointing to the scenario file in the terminal:
+
+```shell
+web-messaging-tester ai tests/example.yml
+```
+
+For a slightly more detailed guide see: [Let's test a Genesys chatbot with AI](https://www.linkedin.com/pulse/lets-test-genesys-chatbot-ai-lucas-woodward-dvrpc).
+
+#### Using Google Vertex AI
+
+1. Create a Google Cloud Platform (GCP) account and enabled AI access to Vertex AI
+2. Authenticate the machine running this testing tool, with GCP
+   * The easiest way is [setting up Application Default Credentials](https://cloud.google.com/docs/authentication/provide-credentials-adc#local-dev)
+3. Define a prompt to provide the model with context on how to behave during testing
+   * Learn more in [Google's Introduction to prompt design](https://cloud.google.com/vertex-ai/docs/generative-ai/learn/introduction-prompt-design)
+
+The `terminatingPhrases` section defines the phrases you instruct PaLM 2 to say to pass or fail a test.
+
+> [examples/cli-ai-tests/google-vertex-ai-example.yml](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli-ai-tests/google-vertex-ai-example.yml)
+
+```yaml
+config:
+  deploymentId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+  region: xxxx.pure.cloud
+  ai:
+    provider: google-vertex-ai
+    config:
+      location: example-location
+      project: example-gcp-project
+      modelVersion: 002
 scenarios:
   "Accept survey":
     setup:
@@ -190,6 +251,13 @@ Run 10 scenarios in parallel:
 ```shell
 web-messaging-tester scripted test-script.yaml --parallel 10
 ```
+
+## Support
+
+If you have any questions then please feel free to:
+
+* Raise an issue on this [project's GitHub repository](https://github.com/ovotech/genesys-web-messaging-tester)
+* [Drop me a message](https://www.linkedin.com/in/lucas-woodward-the-dev/)
 
 ## Development
 

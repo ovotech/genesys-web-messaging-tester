@@ -10,4 +10,11 @@ function cleanup {
 }
 trap cleanup EXIT
 
-web-messaging-tester ai example.yml -id $DEPLOYMENT_ID -r $REGION
+web-messaging-tester ai chatgpt-example.yml -id $DEPLOYMENT_ID -r $REGION
+if [ $? -ne 0 ]
+then
+  echo ""
+  echo "========="
+  echo "UNEXPECTED EXIT CODE $? - Example did not result in Exit Code of 0"
+  exit 1
+fi

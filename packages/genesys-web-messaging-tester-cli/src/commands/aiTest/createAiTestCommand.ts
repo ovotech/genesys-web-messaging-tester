@@ -8,8 +8,6 @@ import {
   WebMessengerGuestSession,
   WebMessengerSession,
 } from '@ovotech/genesys-web-messaging-tester';
-import { ClientOptions, OpenAI } from 'openai';
-import { validateOpenAiEnvVariables } from './validateOpenAIEnvVariables';
 import { Ui } from './ui';
 import { validateSessionConfig } from './validateSessionConfig';
 import { shouldEndConversation, ShouldEndConversationResult } from './prompt/shouldEndConversation';
@@ -17,41 +15,35 @@ import { readableFileValidator } from '../../fileSystem/readableFileValidator';
 import { createYamlFileReader } from '../../fileSystem/yamlFileReader';
 import { validatePromptScript } from './testScript/validatePromptScript';
 import { CommandExpectedlyFailedError } from '../CommandExpectedlyFailedError';
-
-/**
- * This value can be between 0 and 1 and controls the randomness of ChatGPT's completions.
- * 0 = Responses will be deterministic and repetitive
- *     ChatGPT will favour words (tokens) that have the highest probability of coming next in the text it is constructing
- * 1 = Responses will include more variety and creativity
- *     ChatGPT will consider using words (tokens) that are less likely to come next in the text it is constructing
- *
- * @see https://platform.openai.com/docs/quickstart/adjust-your-settings
- */
-const temperature = 0.6;
+import { SupportedAiProviders } from './testScript/modelTypes';
+import * as googleAi from './chatCompletionClients/googleVertexAi/createChatCompletionClient';
+import * as openAi from './chatCompletionClients/chatGpt/createChatCompletionClient';
+import { ChatCompletionClient, Utterance } from './chatCompletionClients/chatCompletionClient';
+import { validateOpenAiEnvVariables } from './chatCompletionClients/chatGpt/validateOpenAiEnvVariables';
 
 export interface AiTestCommandDependencies {
   command?: Command;
   ui?: Ui;
-  openAiChatCompletionFactory?: (config: ClientOptions) => Pick<OpenAI.Chat.Completions, 'create'>;
+  openAiCreateChatCompletionClient?: typeof openAi.createChatCompletionClient;
+  googleAiCreateChatCompletionClient?: typeof googleAi.createChatCompletionClient;
   webMessengerSessionFactory?: (sessionConfig: SessionConfig) => WebMessengerSession;
   conversationFactory?: (session: WebMessengerSession) => Conversation;
   processEnv?: NodeJS.ProcessEnv;
   fsReadFileSync?: typeof readFileSync;
   fsAccessSync?: typeof accessSync;
-  chatGptModel?: OpenAI.CompletionCreateParams['model'];
 }
 
 export function createAiTestCommand({
   command = new Command(),
   ui = new Ui(),
-  openAiChatCompletionFactory = (config) => new OpenAI(config).chat.completions,
+  openAiCreateChatCompletionClient = openAi.createChatCompletionClient,
+  googleAiCreateChatCompletionClient = googleAi.createChatCompletionClient,
   webMessengerSessionFactory = (config) =>
     new WebMessengerGuestSession(config, { IsAutomatedTest: 'true' }),
   conversationFactory = (session) => new Conversation(session),
   processEnv = process.env,
   fsReadFileSync = readFileSync,
   fsAccessSync = accessSync,
-  chatGptModel = 'gpt-3.5-turbo',
 }: AiTestCommandDependencies = {}): Command {
   const yamlFileReader = createYamlFileReader(fsReadFileSync);
   if (!ui) {
@@ -80,14 +72,6 @@ export function createAiTestCommand({
         const outputConfig = command.configureOutput();
         if (!outputConfig?.writeOut || !outputConfig?.writeErr) {
           throw new Error('No writeOut and/or writeErr');
-        }
-
-        const openAiEnvValidationResult = validateOpenAiEnvVariables(processEnv);
-        if (!openAiEnvValidationResult.openAikey) {
-          outputConfig.writeErr(
-            ui.validatingOpenAiEnvValidationFailed(openAiEnvValidationResult.error),
-          );
-          throw new CommandExpectedlyFailedError();
         }
 
         // 1. Read YAML file
@@ -124,6 +108,34 @@ export function createAiTestCommand({
           throw new CommandExpectedlyFailedError();
         }
 
+        let chatCompletionClient: ChatCompletionClient | null = null;
+        if (validPromptScript.config.ai.provider === SupportedAiProviders.ChatGpt) {
+          const openAiEnvValidationResult = validateOpenAiEnvVariables(processEnv);
+          if (!openAiEnvValidationResult.openAikey) {
+            outputConfig.writeErr(
+              ui.validatingOpenAiEnvValidationFailed(openAiEnvValidationResult.error),
+            );
+            throw new CommandExpectedlyFailedError();
+          }
+          const chatGptConfig = validPromptScript.config.ai.config ?? {};
+          chatCompletionClient = openAiCreateChatCompletionClient(
+            chatGptConfig,
+            openAiEnvValidationResult.openAikey,
+          );
+        } else {
+          const googleAiConfig = validPromptScript.config.ai.config;
+          chatCompletionClient = googleAiCreateChatCompletionClient(googleAiConfig);
+        }
+
+        // 5. Preflight check of AI library
+        const preflightCheckResult = await chatCompletionClient.preflightCheck();
+        if (!preflightCheckResult.ok) {
+          outputConfig.writeErr(
+            ui.preflightCheckFailure(chatCompletionClient.getProviderName(), preflightCheckResult),
+          );
+          throw new CommandExpectedlyFailedError();
+        }
+
         const totalScenarios = Object.keys(validPromptScript?.scenarios).length;
         if (totalScenarios > 1) {
           outputConfig.writeErr(ui.onlyOnePromptSupported(totalScenarios));
@@ -136,41 +148,24 @@ export function createAiTestCommand({
           sessionConfigValidationResults.validSessionConfig,
         );
 
-        const openaiChatCompletion = openAiChatCompletionFactory({
-          apiKey: openAiEnvValidationResult.openAikey,
-          maxRetries: 5,
-        });
-
-        const transcript: TranscribedMessage[] = [];
         new SessionTranscriber(session).on('messageTranscribed', (msg: TranscribedMessage) => {
           ui.messageTranscribed(msg);
-          transcript.push(msg);
         });
 
         const convo = conversationFactory(session);
-        const messages: OpenAI.Chat.Completions.CreateChatCompletionRequestMessage[] = [
-          {
-            role: 'system',
-            content: scenario.setup.prompt,
-          },
-        ];
+        const messages: Utterance[] = [];
 
         let endConversation: ShouldEndConversationResult = {
           hasEnded: false,
         };
         do {
-          const { choices } = await openaiChatCompletion.create({
-            model: chatGptModel,
-            n: 1, // Number of choices
-            temperature,
-            messages,
-          });
+          const utterance = await chatCompletionClient.predict(scenario.setup.prompt, messages);
 
-          if (choices[0].message?.content) {
-            messages.push({ role: 'assistant', content: choices[0].message.content });
-            await convo.sendText(choices[0].message.content);
+          if (utterance) {
+            messages.push(utterance);
+            await convo.sendText(utterance.content);
           } else {
-            messages.push({ role: 'assistant', content: '' });
+            messages.push({ role: 'customer', content: '' });
           }
 
           endConversation = shouldEndConversation(
@@ -180,8 +175,9 @@ export function createAiTestCommand({
           );
 
           if (!endConversation.hasEnded) {
+            // TODO Allow time to wait to be customised
             const chatBotResponses = await convo.waitForResponses(3000);
-            messages.push({ role: 'user', content: chatBotResponses.join('\n') });
+            messages.push({ role: 'bot', content: chatBotResponses.join('\n') });
           }
 
           endConversation = shouldEndConversation(
@@ -189,6 +185,7 @@ export function createAiTestCommand({
             scenario.setup.terminatingPhrases.fail,
             scenario.setup.terminatingPhrases.pass,
           );
+          // TODO Handle bot ending conversation
         } while (!endConversation.hasEnded);
 
         outputConfig.writeOut(ui.testResult(endConversation));

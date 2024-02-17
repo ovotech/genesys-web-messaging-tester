@@ -1,35 +1,6 @@
-import Joi, { ValidationError } from 'joi';
-import { TestPromptFile } from './parsePromptScript';
-
-const schema = Joi.object({
-  config: Joi.object({
-    deploymentId: Joi.string(),
-    region: Joi.string(),
-    origin: Joi.string(),
-  }).optional(),
-  scenarios: Joi.object()
-    .min(1)
-    .pattern(
-      /./,
-      Joi.object({
-        setup: Joi.object({
-          prompt: Joi.string().required(),
-          terminatingPhrases: Joi.object({
-            pass: Joi.array().items(Joi.string()).min(1).required(),
-            fail: Joi.array().items(Joi.string()).min(1).required(),
-          }).required(),
-        }).required(),
-        followUp: Joi.object({
-          prompt: Joi.string().required(),
-          terminatingPhrases: Joi.object({
-            pass: Joi.array().items(Joi.string()).min(1).required(),
-            fail: Joi.array().items(Joi.string()).min(1).required(),
-          }).required(),
-        }).optional(),
-      }).required(),
-    )
-    .required(),
-});
+import { ValidationError } from 'joi';
+import { TestPromptFile } from './modelTypes';
+import { schema } from './modelSchema';
 
 interface ValidatePromptScriptValidResult {
   validPromptScript: TestPromptFile;

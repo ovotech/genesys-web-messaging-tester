@@ -3,6 +3,7 @@ import { ValidationError } from 'joi';
 import { ShouldEndConversationEndedResult } from './prompt/shouldEndConversation';
 import { TranscribedMessage } from '@ovotech/genesys-web-messaging-tester';
 import { PhraseFound } from './prompt/containsTerminatingPhrases';
+import { PreflightError } from './chatCompletionClients/chatCompletionClient';
 
 export class Ui {
   /**
@@ -40,6 +41,14 @@ export class Ui {
 
   public validatingPromptScriptFailed(error: ValidationError | undefined): string {
     return Ui.trailingNewline(chalk.red(error?.message ?? 'Failed to validate Prompt Script'));
+  }
+
+  public preflightCheckFailure(aiProvider: string, error: PreflightError): string {
+    return Ui.trailingNewline(
+      chalk.red(
+        `The check to ensure ${aiProvider} can be used failed due to:\n${error.reasonForError}`,
+      ),
+    );
   }
 
   public testResult(result: ShouldEndConversationEndedResult): string {

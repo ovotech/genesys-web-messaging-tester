@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 import { Command } from 'commander';
 import { AiTestCommandDependencies } from '../../../src/commands/aiTest/createAiTestCommand';
 import { createCli } from '../../../src/createCli';
-import { OpenAI } from 'openai';
+import { ChatCompletionClient } from '../../../src/commands/aiTest/chatCompletionClients/chatCompletionClient';
 
 describe('Session Config', () => {
   let fsReadFileSync: jest.MockedFunction<typeof readFileSync>;
@@ -11,7 +11,8 @@ describe('Session Config', () => {
     AiTestCommandDependencies['webMessengerSessionFactory']
   >;
   let conversationFactory: jest.Mocked<AiTestCommandDependencies['conversationFactory']>;
-  let mockOpenApiChatCompletions: jest.Mocked<Pick<OpenAI.Chat.Completions, 'create'>>;
+  let mockOpenAiChatCompletionClient: jest.Mocked<ChatCompletionClient>;
+  let mockGoogleAiChatCompletionClient: jest.Mocked<ChatCompletionClient>;
 
   let cli: Command;
 
@@ -37,7 +38,8 @@ describe('Session Config', () => {
       fsReadFileSync,
       fsAccessSync: jest.fn(),
       webMessengerSessionFactory,
-      openAiChatCompletionFactory: () => mockOpenApiChatCompletions,
+      openAiCreateChatCompletionClient: () => mockOpenAiChatCompletionClient,
+      googleAiCreateChatCompletionClient: () => mockGoogleAiChatCompletionClient,
       conversationFactory,
       processEnv: { OPENAI_API_KEY: 'test' },
     });
@@ -49,6 +51,8 @@ config:
   deploymentId: test-deployment-id-1
   region: test-region-1
   origin: test-origin-1
+  ai:
+    provider: chatgpt
 scenarios:
   Test:
     setup:
@@ -57,15 +61,11 @@ scenarios:
         pass: ["PASS"]
         fail: ["FAIL"]
 `);
-    const completion: OpenAI.Chat.ChatCompletion = {
-      choices: [{ message: { role: 'system', content: 'PASS' }, finish_reason: 'stop', index: 0 }],
-      created: 0,
-      id: '',
-      model: '',
-      object: '',
+    mockOpenAiChatCompletionClient = {
+      getProviderName: jest.fn().mockReturnValue('mock-chatgpt'),
+      predict: jest.fn().mockResolvedValue({ role: 'customer', content: 'PASS' }),
+      preflightCheck: jest.fn().mockResolvedValue({ ok: true }),
     };
-
-    mockOpenApiChatCompletions = { create: jest.fn().mockResolvedValue(completion) };
 
     await cli.parseAsync([...['node', '/path/to/cli'], 'ai', ...['/test/path']]);
 
@@ -76,27 +76,30 @@ scenarios:
     });
   });
 
-  test('session config not necessary if session config args provided', async () => {
+  test('session config only necessary for ai provider if session config args provided', async () => {
     fsReadFileSync.mockReturnValue(`
-  scenarios:
-    Test:
-      setup:
-        prompt: Test prompt
-        terminatingPhrases:
-          pass: ["PASS"]
-          fail: ["FAIL"]
+config:
+  deploymentId: test-deployment-id-1
+  region: test-region-1
+  origin: test-origin-1
+  ai:
+    provider: google-vertex-ai
+    config:
+      project: test-project
+      location: test-location
+scenarios:
+  Test:
+    setup:
+      prompt: Test prompt
+      terminatingPhrases:
+        pass: ["PASS"]
+        fail: ["FAIL"]
   `);
 
-    const completion: OpenAI.Chat.ChatCompletion = {
-      choices: [{ message: { role: 'system', content: 'PASS' }, finish_reason: 'stop', index: 0 }],
-      created: 0,
-      id: '',
-      model: '',
-      object: '',
-    };
-
-    mockOpenApiChatCompletions = {
-      create: jest.fn().mockResolvedValue(completion),
+    mockGoogleAiChatCompletionClient = {
+      getProviderName: jest.fn().mockReturnValue('mock-google-vertex-ai'),
+      predict: jest.fn().mockResolvedValue({ role: 'customer', content: 'PASS' }),
+      preflightCheck: jest.fn().mockResolvedValue({ ok: true }),
     };
 
     await cli.parseAsync([

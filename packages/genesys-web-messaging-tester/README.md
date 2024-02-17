@@ -76,6 +76,13 @@ Finally, run the test by executing the script:
 node examples/api/src/js-script.js
 ```
 
+## Support
+
+If you have any questions then please feel free to:
+
+* Raise an issue on this [project's GitHub repository](https://github.com/ovotech/genesys-web-messaging-tester)
+* [Drop me a message](https://www.linkedin.com/in/lucas-woodward-the-dev/)
+
 ## Debugging
 
 Messages sent between the client and Genesys' server can be output by setting the environment variable:
