@@ -51,8 +51,12 @@ export class Ui {
     );
   }
 
-  public displayPrompt({ prompt }: PromptGeneratorResult): string {
-    return Ui.trailingNewline(chalk.grey(prompt));
+  public displayPlaceholders({ placeholderValues }: PromptGeneratorResult): string {
+    const values = Object.entries(placeholderValues);
+    return Ui.trailingNewline(
+      chalk.grey(values.map(([key, value]) => `${key}: ${value}`).join('\n')),
+      2,
+    );
   }
 
   public conversationStartHeader(): string {
