@@ -32,19 +32,18 @@ scenarios:
   "Accept Survey":
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
-    - say: Yes
+    - say: 'Yes'
     - waitForReplyMatching: Thank you! Now for the next question[\.]+
   "Decline Survey":
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
-    - say: No
+    - say: 'No'
     - waitForReplyContaining: Maybe next time. Goodbye
   "Provide Incorrect Answer to Survey Question":
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
-    - say: Not sure
-    - waitForReplyContaining: Sorry I didn't understand you. Please answer with either 'yes' or 'no'
-    - waitForReplyContaining: Can we ask you some questions about your experience today?
+    - say: Example
+    - waitForReplyContaining: Sorry. Please input "Yes" or "No". Do you want to proceed?
 ```
 
 ## How it works
@@ -81,19 +80,18 @@ scenarios:
   "Accept Survey":
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
-    - say: Yes
+    - say: 'Yes'
     - waitForReplyMatching: Thank you! Now for the next question[\.]+
   "Decline Survey":
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
-    - say: No
+    - say: 'No'
     - waitForReplyContaining: Maybe next time. Goodbye
   "Provide Incorrect Answer to Survey Question":
     - say: hi
     - waitForReplyContaining: Can we ask you some questions about your experience today?
-    - say: Not sure
-    - waitForReplyContaining: Sorry I didn't understand you. Please answer with either 'yes' or 'no'
-    - waitForReplyContaining: Can we ask you some questions about your experience today?
+    - say: Example
+    - waitForReplyContaining: Sorry. Please input "Yes" or "No". Do you want to proceed?
 ```
 
 Then run the test by pointing to the dialogue script file in the terminal:
@@ -133,8 +131,12 @@ config:
 scenarios:
   "Accept survey":
     setup:
+      placeholders:
+        NAME:
+          - John
+          - Jane
       prompt: |
-        I want you to play the role of a customer talking to a company's online chatbot. You must not
+        I want you to play the role of a customer called {NAME}, talking to a company's online chatbot. You must not
         break from this role, and all of your responses must be based on how a customer would realistically talk to a company's chatbot.
 
         To help you play the role of a customer consider the following points when writing a response:
@@ -182,7 +184,10 @@ config:
     config:
       location: example-location
       project: example-gcp-project
-      modelVersion: 002
+      modelVersion: "002"
+      examples:
+        - input: "What would you like to do today?"
+          output: "I would like to leave feedback, please"
 scenarios:
   "Accept survey":
     setup:
@@ -211,8 +216,6 @@ Then run the AI test by pointing to the scenario file in the terminal:
 ```shell
 web-messaging-tester ai tests/example.yml
 ```
-
-For a slightly more detailed guide see: [Let's test a Genesys chatbot with AI](https://www.linkedin.com/pulse/lets-test-genesys-chatbot-ai-lucas-woodward-dvrpc).
 
 ## Example commands
 

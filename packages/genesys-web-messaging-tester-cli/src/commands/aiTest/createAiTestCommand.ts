@@ -157,8 +157,10 @@ export function createAiTestCommand({
         const messages: Utterance[] = [];
 
         const generatedPrompt = promptGenerator(scenario.setup);
-        outputConfig.writeOut(ui.displayPrompt(generatedPrompt));
-        outputConfig.writeOut(ui.conversationStartHeader());
+        if (generatedPrompt.placeholdersFound) {
+          outputConfig.writeOut(ui.displayPlaceholders(generatedPrompt));
+          outputConfig.writeOut(ui.conversationStartHeader());
+        }
 
         let endConversation: ShouldEndConversationResult = {
           hasEnded: false,

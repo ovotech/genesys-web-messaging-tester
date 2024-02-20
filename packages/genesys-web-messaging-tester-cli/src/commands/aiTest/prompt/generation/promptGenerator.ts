@@ -3,6 +3,7 @@ import { replacePlaceholders } from './replacePlaceholders';
 
 export interface PromptGeneratorResult {
   placeholderValues: Record<string, string>;
+  placeholdersFound: boolean;
   prompt: string;
 }
 
@@ -14,6 +15,7 @@ export function promptGenerator(
   if (!scenario.placeholders) {
     return {
       placeholderValues: {},
+      placeholdersFound: false,
       prompt: scenario.prompt,
     };
   }
@@ -28,6 +30,7 @@ export function promptGenerator(
 
   return {
     placeholderValues: chosenValues,
+    placeholdersFound: Object.keys(chosenValues).length > 0,
     prompt: updatePrompt(scenario.prompt, chosenValues),
   };
 }
