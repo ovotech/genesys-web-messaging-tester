@@ -20,4 +20,7 @@ updates:
       typedoc-deps:
         patterns:
           - "typedoc*"
-
+      eslint-deps:
+        patterns:
+          - "eslint*"
+          - "@typescript-eslint/*"
