@@ -66,7 +66,7 @@ https://developer.genesys.cloud/api/digital/webmessaging/websocketapi#configure-
 | `config` | [`SessionConfig`](../interfaces/SessionConfig.md) |
 | `participantData` | `Record`\<`string`, `string`\> |
 | `messageDelayer` | [`MessageDelayer`](../interfaces/MessageDelayer.md) |
-| `wsFactory` | (`url`: `string`, `options?`: `ClientRequestArgs` \| `ClientOptions`) => `WebSocket` |
+| `wsFactory` | (`url`: `string`, `options?`: `ClientOptions` \| `ClientRequestArgs`) => `WebSocket` |
 
 #### Returns
 
@@ -84,7 +84,7 @@ EventEmitter.constructor
 
 ### wsFactory
 
-• `Readonly` **wsFactory**: (`url`: `string`, `options?`: `ClientRequestArgs` \| `ClientOptions`) => `WebSocket`
+• `Readonly` **wsFactory**: (`url`: `string`, `options?`: `ClientOptions` \| `ClientRequestArgs`) => `WebSocket`
 
 #### Type declaration
 
@@ -95,7 +95,7 @@ EventEmitter.constructor
 | Name | Type |
 | :------ | :------ |
 | `url` | `string` |
-| `options?` | `ClientRequestArgs` \| `ClientOptions` |
+| `options?` | `ClientOptions` \| `ClientRequestArgs` |
 
 ##### Returns
 
