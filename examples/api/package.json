@@ -4,7 +4,8 @@
   "private": true,
   "packageManager": "yarn@3.1.1",
   "scripts": {
-    "lint": "eslint -c ../../.eslintrc.json 'src/**/*.ts' '__tests__/**/*.ts'",
+    "lint": "eslint -c ../../.eslintrc.json  {src,__tests__}/**/*.ts && yarn check:style",
+    "check:style": "prettier {src,__tests__} --check",
     "test": "jest __tests__",
     "test:js": "node ../api/src/js-script.js",
     "test:ts": "node -r ts-node/register ../api/src/ts-script.ts"

@@ -20,7 +20,8 @@
     "build": "rm -rf ./lib && tsc -p tsconfig.json",
     "build:readme": "cd ../.. && yarn build-readme ./packages/genesys-web-messaging-tester/README.md https://github.com/ovotech/genesys-web-messaging-tester/tree/main",
     "test": "jest __tests__/",
-    "lint": "eslint -c ../../.eslintrc.json 'src/**/*.ts' '__tests__/**/*.ts'"
+    "lint": "eslint -c ../../.eslintrc.json  {src,__tests__}/**/*.ts && yarn check:style",
+    "check:style": "prettier {src,__tests__} --check"
   },
   "dependencies": {
     "debug": "^4.3.3",
