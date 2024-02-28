@@ -19,7 +19,8 @@
   "scripts": {
     "build": "rm -rf ./lib && tsc -p tsconfig.json",
     "test": "jest __tests__/",
-    "lint": "eslint -c ../../.eslintrc.json 'src/**/*.ts' '__tests__/**/*.ts'",
+    "lint": "eslint -c ../../.eslintrc.json  {src,__tests__}/**/*.ts && yarn check:style",
+    "check:style": "prettier {src,__tests__} --check",
     "test:execute:scripted": "ts-node src/index.ts scripted ../../examples/cli-scripted-tests/example.yml -id $DEPLOYMENT_ID -r $REGION -p 10",
     "test:execute:scripted:help": "ts-node src/index.ts --help",
     "test:execute:ai": "ts-node src/index.ts ai ../../examples/cli-ai-tests/chatgpt-example.yml -id $DEPLOYMENT_ID -r $REGION",
