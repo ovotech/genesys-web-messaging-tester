@@ -979,7 +979,7 @@ __metadata:
     listr2: ^5.0.5
     openai: 4.0.0-beta.12
     prettier: ^3.1.1
-    purecloud-platform-client-v2: ^187.0.0
+    purecloud-platform-client-v2: ^188.1.0
     strip-ansi: ^6.0.1
     ts-jest: ^29.1.1
     ts-node: ^10.9.1
@@ -5228,15 +5228,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"purecloud-platform-client-v2@npm:^187.0.0":
-  version: 187.0.0
-  resolution: "purecloud-platform-client-v2@npm:187.0.0"
+"purecloud-platform-client-v2@npm:^188.1.0":
+  version: 188.1.0
+  resolution: "purecloud-platform-client-v2@npm:188.1.0"
   dependencies:
     axios: ^1.6.5
     configparser: ^0.3.9
     qs: ^6.10.3
     winston: ^3.6.0
-  checksum: 2ea1931adfa02759c93578a92c89e4c1e9d0921f52ddbd7c886ab97a05f55b9fe80db5d76e042f386fa649f933a7c7ab7793213decb79ba92146dddfb83b041b
+  checksum: d8aa3364c3cbf61289222c62d77a5f99eefa7ce190681b46dcd1258ae68b0597f5a5d7250a2248e17e36e6bb7660d50902ea7b749e11a6e93b63f0e8aeb942bd
   languageName: node
   linkType: hard
 
