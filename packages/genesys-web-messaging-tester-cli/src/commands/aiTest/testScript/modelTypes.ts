@@ -1,13 +1,5 @@
 export interface AiScenarioSetupSection {
   readonly prompt: string;
-  readonly terminatingPhrases: {
-    readonly pass: string[];
-    readonly fail: string[];
-  };
-}
-
-export interface AiScenarioFollowUpSection {
-  readonly prompt: string;
   readonly placeholders?: Record<string, string[]>;
   readonly terminatingPhrases: {
     readonly pass: string[];
@@ -17,7 +9,6 @@ export interface AiScenarioFollowUpSection {
 
 export interface AiScenarioSection {
   setup: AiScenarioSetupSection;
-  followUp?: AiScenarioFollowUpSection;
 }
 
 export enum SupportedAiProviders {

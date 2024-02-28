@@ -4,6 +4,7 @@ import { ShouldEndConversationEndedResult } from './prompt/shouldEndConversation
 import { TranscribedMessage } from '@ovotech/genesys-web-messaging-tester';
 import { PreflightError } from './chatCompletionClients/chatCompletionClient';
 import { PromptGeneratorResult } from './prompt/generation/promptGenerator';
+import { SaveOutputJsResultFailed } from './output/saveOutputJson';
 
 export class Ui {
   /**
@@ -73,17 +74,17 @@ export class Ui {
   }
 
   public messageTranscribed(msg: TranscribedMessage): string {
-    if (msg.who === 'You') {
-      console.log(chalk.bold.green(`AI: ${msg.message}`));
+    const utterance = `${msg.who}: ${msg.message}`;
+    if (msg.who === 'AI') {
+      return Ui.trailingNewline(chalk.bold.green(utterance));
     } else {
-      console.log(`Chatbot: ${msg.message}`);
+      return Ui.trailingNewline(utterance);
     }
-    return Ui.trailingNewline(`${chalk.bold.grey(`${msg.who}:`)} ${chalk.grey(msg.message)}`);
   }
 
-  public followUpDetailsUnderDevelopment(): string {
+  public savingOutputFailed(result: SaveOutputJsResultFailed): string {
     return Ui.trailingNewline(
-      chalk.bold.yellow('Follow up definitions ignored, as functionality is under development'),
+      chalk.yellow(['\nFailed to save output file:', result.reasonForFailure].join('\n')),
     );
   }
 }

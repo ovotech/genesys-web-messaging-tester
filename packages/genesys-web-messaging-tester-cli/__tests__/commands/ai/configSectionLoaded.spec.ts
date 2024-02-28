@@ -37,6 +37,7 @@ describe('Session Config', () => {
       command: scenarioTestCommand,
       fsReadFileSync,
       fsAccessSync: jest.fn(),
+      fsWriteFileSync: jest.fn(),
       webMessengerSessionFactory,
       openAiCreateChatCompletionClient: () => mockOpenAiChatCompletionClient,
       googleAiCreateChatCompletionClient: () => mockGoogleAiChatCompletionClient,

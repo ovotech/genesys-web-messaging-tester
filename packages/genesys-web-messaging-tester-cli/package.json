@@ -22,7 +22,7 @@
     "lint": "eslint 'src/**/*.ts'",
     "test:execute:scripted": "ts-node src/index.ts scripted ../../examples/cli-scripted-tests/example.yml -id $DEPLOYMENT_ID -r $REGION -p 10",
     "test:execute:scripted:help": "ts-node src/index.ts --help",
-    "test:execute:ai": "ts-node src/index.ts ai ../../examples/cli-ai-tests/chatgpt-example.yml -id $DEPLOYMENT_ID -r $REGION",
+    "test:execute:ai": "ts-node src/index.ts ai $TEST_FILE_PATH -id $DEPLOYMENT_ID -r $REGION -o ./test-outputs",
     "test:execute:ai:help": "ts-node src/index.ts ai --help",
     "test:execute:help": "ts-node src/index.ts --help"
   },
