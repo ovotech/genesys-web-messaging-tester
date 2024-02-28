@@ -1,8 +1,8 @@
-import { AiScenarioFollowUpSection } from '../../testScript/modelTypes';
 import { promptGenerator } from './promptGenerator';
+import { AiScenarioSetupSection } from '../../testScript/modelTypes';
 
 test('Placeholders are replaced if value present', () => {
-  const scenario: Pick<AiScenarioFollowUpSection, 'prompt' | 'placeholders'> = {
+  const scenario: Pick<AiScenarioSetupSection, 'prompt' | 'placeholders'> = {
     placeholders: {
       FIRST_NAME: ['John'],
       SECOND_NAME: ['Doe'],
@@ -17,7 +17,7 @@ test('Placeholders are replaced if value present', () => {
 });
 
 test('Placeholders ignored if no values present', () => {
-  const scenario: Pick<AiScenarioFollowUpSection, 'prompt' | 'placeholders'> = {
+  const scenario: Pick<AiScenarioSetupSection, 'prompt' | 'placeholders'> = {
     placeholders: {
       FIRST_NAME: [],
     },
@@ -31,7 +31,7 @@ test('Placeholders ignored if no values present', () => {
 });
 
 test('Original prompt returned if placeholder values not present', () => {
-  const scenario: Pick<AiScenarioFollowUpSection, 'prompt' | 'placeholders'> = {
+  const scenario: Pick<AiScenarioSetupSection, 'prompt' | 'placeholders'> = {
     prompt: 'Your first name is {FIRST_NAME}',
   };
 
