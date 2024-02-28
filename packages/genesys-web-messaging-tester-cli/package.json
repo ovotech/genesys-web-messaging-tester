@@ -19,7 +19,7 @@
   "scripts": {
     "build": "rm -rf ./lib && tsc -p tsconfig.json",
     "test": "jest __tests__/",
-    "lint": "eslint 'src/**/*.ts'",
+    "lint": "eslint -c ../../.eslintrc.json 'src/**/*.ts' '__tests__/**/*.ts'",
     "test:execute:scripted": "ts-node src/index.ts scripted ../../examples/cli-scripted-tests/example.yml -id $DEPLOYMENT_ID -r $REGION -p 10",
     "test:execute:scripted:help": "ts-node src/index.ts --help",
     "test:execute:ai": "ts-node src/index.ts ai ../../examples/cli-ai-tests/chatgpt-example.yml -id $DEPLOYMENT_ID -r $REGION",
@@ -48,6 +48,9 @@
     "@types/jest-when": "^3.5.2",
     "@types/js-yaml": "^4.0.5",
     "@types/node": "^14.14.2",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "eslint": "latest",
     "get-port": "^5.1.1",
     "jest": "^29.0.3",
     "jest-when": "^3.5.0",

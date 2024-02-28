@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "yarn@3.1.1",
   "scripts": {
-    "lint": "eslint 'src/**/*.ts'",
+    "lint": "eslint -c ../../.eslintrc.json 'src/**/*.ts' 'src/**/*.ts' '__tests__/**/*.ts'",
     "test": "jest __tests__",
     "test:js": "node ../api/src/js-script.js",
     "test:ts": "node -r ts-node/register ../api/src/ts-script.ts"
@@ -18,7 +18,10 @@
     "prettier": "^3.1.1",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.8.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "eslint": "latest"
   },
   "jest": {
     "preset": "../../jest.json"
