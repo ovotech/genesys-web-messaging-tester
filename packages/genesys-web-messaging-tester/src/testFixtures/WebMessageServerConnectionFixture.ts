@@ -4,6 +4,7 @@ import { webMessagePayloads } from './webMessagePayloads';
 export class WebMessageServerConnectionFixture {
   constructor(private readonly ws: WebSocket) {}
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async waitForMessage(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.ws.on('message', function message(data) {
