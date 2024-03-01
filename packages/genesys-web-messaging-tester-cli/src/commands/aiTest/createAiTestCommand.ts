@@ -21,6 +21,10 @@ import * as openAi from './chatCompletionClients/chatGpt/createChatCompletionCli
 import { ChatCompletionClient, Utterance } from './chatCompletionClients/chatCompletionClient';
 import { validateOpenAiEnvVariables } from './chatCompletionClients/chatGpt/validateOpenAiEnvVariables';
 import { promptGenerator } from './prompt/generation/promptGenerator';
+import { writableDirValidator } from '../../fileSystem/writableDirValidator';
+import { saveOutputJs } from './output/saveOutputJson';
+import { writeFileSync } from 'node:fs';
+import { validateProjectLocationConfig } from './chatCompletionClients/googleVertexAi/validateProjectLocationConfig';
 
 export interface AiTestCommandDependencies {
   command?: Command;
@@ -31,6 +35,7 @@ export interface AiTestCommandDependencies {
   conversationFactory?: (session: WebMessengerSession) => Conversation;
   processEnv?: NodeJS.ProcessEnv;
   fsReadFileSync?: typeof readFileSync;
+  fsWriteFileSync?: typeof writeFileSync;
   fsAccessSync?: typeof accessSync;
 }
 
@@ -44,6 +49,7 @@ export function createAiTestCommand({
   conversationFactory = (session) => new Conversation(session),
   processEnv = process.env,
   fsReadFileSync = readFileSync,
+  fsWriteFileSync = writeFileSync,
   fsAccessSync = accessSync,
 }: AiTestCommandDependencies = {}): Command {
   const yamlFileReader = createYamlFileReader(fsReadFileSync);
@@ -64,11 +70,16 @@ export function createAiTestCommand({
       '-r, --region <region>',
       'Region of Genesys instance that hosts the Web Messenger Deployment',
     )
+    .option(
+      '-o, --out-dir <outDir>',
+      'Directory to store output',
+      writableDirValidator(fsAccessSync),
+    )
     .option('-o, --origin <origin>', 'Origin domain used for restricting Web Messenger Deployment')
     .action(
       async (
         testScriptPath: string,
-        options: { deploymentId?: string; region?: string; origin?: string },
+        options: { deploymentId?: string; region?: string; origin?: string; outDir?: string },
       ) => {
         const outputConfig = command.configureOutput();
         if (!outputConfig?.writeOut || !outputConfig?.writeErr) {
@@ -110,22 +121,47 @@ export function createAiTestCommand({
         }
 
         let chatCompletionClient: ChatCompletionClient | null = null;
-        if (validPromptScript.config.ai.provider === SupportedAiProviders.ChatGpt) {
-          const openAiEnvValidationResult = validateOpenAiEnvVariables(processEnv);
-          if (!openAiEnvValidationResult.openAikey) {
-            outputConfig.writeErr(
-              ui.validatingOpenAiEnvValidationFailed(openAiEnvValidationResult.error),
+        switch (validPromptScript.config.ai.provider) {
+          case SupportedAiProviders.ChatGpt: {
+            const openAiEnvValidationResult = validateOpenAiEnvVariables(processEnv);
+            if (!openAiEnvValidationResult.openAiKey) {
+              outputConfig.writeErr(
+                ui.validatingOpenAiEnvValidationFailed(openAiEnvValidationResult.error),
+              );
+              throw new CommandExpectedlyFailedError();
+            }
+            const chatGptConfig = validPromptScript.config.ai.config ?? {};
+
+            chatCompletionClient = openAiCreateChatCompletionClient(
+              chatGptConfig,
+              openAiEnvValidationResult.openAiKey,
             );
-            throw new CommandExpectedlyFailedError();
+            break;
           }
-          const chatGptConfig = validPromptScript.config.ai.config ?? {};
-          chatCompletionClient = openAiCreateChatCompletionClient(
-            chatGptConfig,
-            openAiEnvValidationResult.openAikey,
-          );
-        } else {
-          const googleAiConfig = validPromptScript.config.ai.config;
-          chatCompletionClient = googleAiCreateChatCompletionClient(googleAiConfig);
+          case SupportedAiProviders.GoogleVertexAi: {
+            const googleAiConfig = validPromptScript.config.ai.config;
+
+            // Override location and project with environment variables
+            const projectLocationValidationResult = validateProjectLocationConfig({
+              project: processEnv['VERTEX_AI_PROJECT'] ?? googleAiConfig?.project,
+              location: processEnv['VERTEX_AI_LOCATION'] ?? googleAiConfig?.location,
+            });
+            if (!projectLocationValidationResult.value) {
+              outputConfig.writeErr(
+                ui.validatingGcpProjectLocationConfigFailed(sessionConfigValidationResults.error),
+              );
+              throw new CommandExpectedlyFailedError();
+            }
+
+            chatCompletionClient = googleAiCreateChatCompletionClient({
+              ...googleAiConfig,
+              ...projectLocationValidationResult.value,
+            });
+            break;
+          }
+          default:
+            outputConfig.writeErr(ui.errorDeterminingAiProvider());
+            throw new CommandExpectedlyFailedError();
         }
 
         // 5. Preflight check of AI library
@@ -144,14 +180,18 @@ export function createAiTestCommand({
         }
 
         const scenario = Object.entries(validPromptScript?.scenarios)[0][1];
+        const scenarioName = Object.entries(validPromptScript?.scenarios)[0][0];
 
         const session = webMessengerSessionFactory(
           sessionConfigValidationResults.validSessionConfig,
         );
 
-        new SessionTranscriber(session).on('messageTranscribed', (msg: TranscribedMessage) => {
-          ui.messageTranscribed(msg);
-        });
+        new SessionTranscriber(session, { nameForClient: 'AI', nameForServer: 'Chatbot' }).on(
+          'messageTranscribed',
+          (msg: TranscribedMessage) => {
+            outputConfig.writeOut!(ui.messageTranscribed(msg));
+          },
+        );
 
         const convo = conversationFactory(session);
         const messages: Utterance[] = [];
@@ -195,15 +235,23 @@ export function createAiTestCommand({
           // TODO Handle bot ending conversation
         } while (!endConversation.hasEnded);
 
-        outputConfig.writeOut(ui.testResult(endConversation));
         session.close();
+        outputConfig.writeOut(ui.testResult(endConversation));
+
+        if (options.outDir) {
+          const outputResult = saveOutputJs(
+            scenarioName,
+            { messages, generatedPrompt, result: endConversation },
+            options.outDir,
+            fsWriteFileSync,
+          );
+          if (!outputResult.successful) {
+            outputConfig.writeErr(ui.savingOutputFailed(outputResult));
+          }
+        }
 
         if (endConversation.reason.type === 'fail') {
           throw new CommandExpectedlyFailedError();
-        }
-
-        if (scenario.followUp) {
-          outputConfig.writeOut(ui.followUpDetailsUnderDevelopment());
         }
       },
     );

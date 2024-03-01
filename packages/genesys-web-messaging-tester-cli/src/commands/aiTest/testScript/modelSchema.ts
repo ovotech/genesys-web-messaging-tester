@@ -13,8 +13,8 @@ export const schema = Joi.object<TestPromptFile>({
       config: Joi.when('provider', {
         is: SupportedAiProviders.GoogleVertexAi,
         then: Joi.object({
-          location: Joi.string().required(),
-          project: Joi.string().required(),
+          location: Joi.string(),
+          project: Joi.string(),
           temperature: Joi.number(),
           topK: Joi.number(),
           topP: Joi.number(),
@@ -26,7 +26,7 @@ export const schema = Joi.object<TestPromptFile>({
               output: Joi.string().required(),
             }).required(),
           ),
-        }).required(),
+        }),
       }).when('provider', {
         is: SupportedAiProviders.ChatGpt,
         then: Joi.object({

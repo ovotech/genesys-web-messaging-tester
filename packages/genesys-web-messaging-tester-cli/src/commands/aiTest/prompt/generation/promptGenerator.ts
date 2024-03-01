@@ -1,4 +1,4 @@
-import { AiScenarioFollowUpSection } from '../../testScript/modelTypes';
+import { AiScenarioSetupSection } from '../../testScript/modelTypes';
 import { replacePlaceholders } from './replacePlaceholders';
 
 export interface PromptGeneratorResult {
@@ -8,7 +8,7 @@ export interface PromptGeneratorResult {
 }
 
 export function promptGenerator(
-  scenario: Pick<AiScenarioFollowUpSection, 'prompt' | 'placeholders'>,
+  scenario: Pick<AiScenarioSetupSection, 'prompt' | 'placeholders'>,
   updatePrompt: typeof replacePlaceholders = replacePlaceholders,
   randomIndex = (max: number) => Math.floor(Math.random() * max),
 ): PromptGeneratorResult {
