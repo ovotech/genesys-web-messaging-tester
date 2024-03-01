@@ -5,6 +5,11 @@ import { GoogleVertexAiConfig } from '../../testScript/modelTypes';
 
 const { PredictionServiceClient } = v1;
 
+interface GoogleVertexAiClientConfig extends GoogleVertexAiConfig {
+  location: string;
+  project: string;
+}
+
 export function createChatCompletionClient({
   location,
   project,
@@ -14,7 +19,7 @@ export function createChatCompletionClient({
   seed,
   modelVersion,
   examples,
-}: GoogleVertexAiConfig): ChatCompletionClient {
+}: GoogleVertexAiClientConfig): ChatCompletionClient {
   const version = modelVersion ? `@${modelVersion}` : '';
 
   const endpoint = `projects/${project}/locations/${location}/publishers/google/models/chat-bison${version}`;

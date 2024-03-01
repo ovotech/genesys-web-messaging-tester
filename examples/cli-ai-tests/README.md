@@ -20,6 +20,8 @@ export $(cat .env | xargs) && ./chatgpt-run.sh
 export DEPLOYMENT_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 export REGION=xxxx.pure.cloud
 export GOOGLE_APPLICATION_CREDENTIALS=PATH/TO/JSON
+export VERTEX_AI_PROJECT=example-project
+export VERTEX_AI_LOCATION=example-location
 ```
 
 ```shell

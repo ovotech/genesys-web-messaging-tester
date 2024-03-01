@@ -24,6 +24,7 @@ import { promptGenerator } from './prompt/generation/promptGenerator';
 import { writableDirValidator } from '../../fileSystem/writableDirValidator';
 import { saveOutputJs } from './output/saveOutputJson';
 import { writeFileSync } from 'node:fs';
+import { validateProjectLocationConfig } from './chatCompletionClients/googleVertexAi/validateProjectLocationConfig';
 
 export interface AiTestCommandDependencies {
   command?: Command;
@@ -120,22 +121,47 @@ export function createAiTestCommand({
         }
 
         let chatCompletionClient: ChatCompletionClient | null = null;
-        if (validPromptScript.config.ai.provider === SupportedAiProviders.ChatGpt) {
-          const openAiEnvValidationResult = validateOpenAiEnvVariables(processEnv);
-          if (!openAiEnvValidationResult.openAikey) {
-            outputConfig.writeErr(
-              ui.validatingOpenAiEnvValidationFailed(openAiEnvValidationResult.error),
+        switch (validPromptScript.config.ai.provider) {
+          case SupportedAiProviders.ChatGpt: {
+            const openAiEnvValidationResult = validateOpenAiEnvVariables(processEnv);
+            if (!openAiEnvValidationResult.openAiKey) {
+              outputConfig.writeErr(
+                ui.validatingOpenAiEnvValidationFailed(openAiEnvValidationResult.error),
+              );
+              throw new CommandExpectedlyFailedError();
+            }
+            const chatGptConfig = validPromptScript.config.ai.config ?? {};
+
+            chatCompletionClient = openAiCreateChatCompletionClient(
+              chatGptConfig,
+              openAiEnvValidationResult.openAiKey,
             );
-            throw new CommandExpectedlyFailedError();
+            break;
           }
-          const chatGptConfig = validPromptScript.config.ai.config ?? {};
-          chatCompletionClient = openAiCreateChatCompletionClient(
-            chatGptConfig,
-            openAiEnvValidationResult.openAikey,
-          );
-        } else {
-          const googleAiConfig = validPromptScript.config.ai.config;
-          chatCompletionClient = googleAiCreateChatCompletionClient(googleAiConfig);
+          case SupportedAiProviders.GoogleVertexAi: {
+            const googleAiConfig = validPromptScript.config.ai.config;
+
+            // Override location and project with environment variables
+            const projectLocationValidationResult = validateProjectLocationConfig({
+              project: processEnv['VERTEX_AI_PROJECT'] ?? googleAiConfig?.project,
+              location: processEnv['VERTEX_AI_LOCATION'] ?? googleAiConfig?.location,
+            });
+            if (!projectLocationValidationResult.value) {
+              outputConfig.writeErr(
+                ui.validatingGcpProjectLocationConfigFailed(sessionConfigValidationResults.error),
+              );
+              throw new CommandExpectedlyFailedError();
+            }
+
+            chatCompletionClient = googleAiCreateChatCompletionClient({
+              ...googleAiConfig,
+              ...projectLocationValidationResult.value,
+            });
+            break;
+          }
+          default:
+            outputConfig.writeErr(ui.errorDeterminingAiProvider());
+            throw new CommandExpectedlyFailedError();
         }
 
         // 5. Preflight check of AI library

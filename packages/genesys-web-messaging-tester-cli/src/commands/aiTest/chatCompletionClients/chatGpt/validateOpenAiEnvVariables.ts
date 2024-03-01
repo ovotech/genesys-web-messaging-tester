@@ -7,7 +7,7 @@ const schema = Joi.object()
   .unknown();
 
 export function validateOpenAiEnvVariables(env: NodeJS.ProcessEnv): {
-  openAikey?: string;
+  openAiKey?: string;
   error?: ValidationError;
 } {
   const { error, value } = schema.validate(env);
@@ -16,7 +16,7 @@ export function validateOpenAiEnvVariables(env: NodeJS.ProcessEnv): {
     return { error };
   } else {
     return {
-      openAikey: value.OPENAI_API_KEY,
+      openAiKey: value.OPENAI_API_KEY,
     };
   }
 }

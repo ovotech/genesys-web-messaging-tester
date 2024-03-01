@@ -36,6 +36,19 @@ export class Ui {
     return Ui.trailingNewline(chalk.red(error?.message ?? 'Failed to validate Session config'));
   }
 
+  public errorDeterminingAiProvider(): string {
+    return Ui.trailingNewline(chalk.red(`AI provider was not recognised`));
+  }
+
+  public validatingGcpProjectLocationConfigFailed(error: ValidationError | undefined): string {
+    return Ui.trailingNewline(
+      chalk.red(
+        error?.message ??
+          'Failed to validate Google Vertex AI Location and Project config. Provide these in the config file or via environment variables.',
+      ),
+    );
+  }
+
   public errorReadingTestScriptFile(error: Error): string {
     return Ui.trailingNewline(chalk.red(error.message));
   }

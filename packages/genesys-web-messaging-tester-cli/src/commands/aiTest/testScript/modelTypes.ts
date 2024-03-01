@@ -17,8 +17,8 @@ export enum SupportedAiProviders {
 }
 
 export interface GoogleVertexAiConfig {
-  location: string;
-  project: string;
+  location?: string;
+  project?: string;
   /**
    * The temperature is used for sampling during response generation, which occurs when topP and topK are applied. Temperature controls the degree of randomness in token selection. Lower temperatures are good for prompts that require a less open-ended or creative response, while higher temperatures can lead to more diverse or creative results. A temperature of 0 means that the highest probability tokens are always selected. In this case, responses for a given prompt are mostly deterministic, but a small amount of variation is still possible.
    * If the model returns a response that's too generic, too short, or the model gives a fallback response, try increasing the temperature.
@@ -87,7 +87,7 @@ export interface TestPromptFileBase<AiProviderConfig> {
 
 export interface GoogleVertexAiConfigSection {
   readonly provider: SupportedAiProviders.GoogleVertexAi;
-  readonly config: GoogleVertexAiConfig;
+  readonly config?: GoogleVertexAiConfig;
 }
 
 export interface ChatGptConfigSection {
