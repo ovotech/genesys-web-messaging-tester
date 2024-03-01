@@ -13,7 +13,7 @@ describe('Vertex AI config', () => {
   >;
   let mockGoogleAiChatCompletionClient: jest.Mocked<ChatCompletionClient>;
 
-  const processEnv: NodeJS.ProcessEnv = {};
+  let processEnv: NodeJS.ProcessEnv;
 
   let cli: Command;
   let capturedOutput: {
@@ -36,6 +36,8 @@ describe('Vertex AI config', () => {
       stdOut: [],
     };
     fsReadFileSync = jest.fn();
+
+    processEnv = {};
 
     const cliCommand = new Command().exitOverride(() => {
       throw new Error('CLI Command errored');
