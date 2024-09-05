@@ -1,6 +1,7 @@
 # Genesys Web Messaging Tester
 
 [![npm](https://img.shields.io/npm/v/@ovotech/genesys-web-messaging-tester-cli)](https://www.npmjs.com/package/@ovotech/genesys-web-messaging-tester-cli)
+[![Follow me on LinkedIn for updates](https://img.shields.io/badge/Follow%20for%20updates-LinkedIn-blue)](https://www.linkedin.com/in/lucas-woodward-the-dev/)
 
 <p align="center">
 Automatically test your Web Messenger Deployments
