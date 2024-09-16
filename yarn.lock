@@ -489,7 +489,7 @@ __metadata:
   resolution: "@examples/api@workspace:examples/api"
   dependencies:
     "@ovotech/genesys-web-messaging-tester": 2.0.7
-    "@types/jest": ^29.0.3
+    "@types/jest": ^29.5.13
     "@types/node": ^14.14.2
     "@typescript-eslint/eslint-plugin": latest
     "@typescript-eslint/parser": latest
@@ -959,7 +959,7 @@ __metadata:
     "@google-cloud/aiplatform": 3.10.0
     "@ovotech/genesys-web-messaging-tester": ^2.0.7
     "@types/humanize-duration": ^3.27.1
-    "@types/jest": ^29.0.3
+    "@types/jest": ^29.5.13
     "@types/jest-when": ^3.5.2
     "@types/js-yaml": ^4.0.5
     "@types/node": ^14.14.2
@@ -1006,7 +1006,7 @@ __metadata:
     "@ikerin/build-readme": ^1.1.1
     "@sinonjs/fake-timers": ^11.0.0
     "@types/debug": ^4.1.8
-    "@types/jest": ^29.0.3
+    "@types/jest": ^29.5.13
     "@types/node": ^14.14.2
     "@types/sinonjs__fake-timers": ^8.1.2
     "@types/uuid": ^10.0.0
@@ -1322,13 +1322,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:*, @types/jest@npm:^29.0.3":
+"@types/jest@npm:*":
   version: 29.5.8
   resolution: "@types/jest@npm:29.5.8"
   dependencies:
     expect: ^29.0.0
     pretty-format: ^29.0.0
   checksum: ca8438a5b4c098c8c023e9d5b279ea306494a1d0b5291cfb498100fa780377145f068b2a021d545b0398bbe0328dcc37044dd3aaf3c6c0fe9b0bef7b46a63453
+  languageName: node
+  linkType: hard
+
+"@types/jest@npm:^29.5.13":
+  version: 29.5.13
+  resolution: "@types/jest@npm:29.5.13"
+  dependencies:
+    expect: ^29.0.0
+    pretty-format: ^29.0.0
+  checksum: 875ac23c2398cdcf22aa56c6ba24560f11d2afda226d4fa23936322dde6202f9fdbd2b91602af51c27ecba223d9fc3c1e33c9df7e47b3bf0e2aefc6baf13ce53
   languageName: node
   linkType: hard
 
