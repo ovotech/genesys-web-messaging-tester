@@ -20,9 +20,9 @@
   },
   "devDependencies": {
     "@ikerin/build-readme": "^1.1.1",
-    "typedoc": "^0.26.5",
-    "typedoc-plugin-markdown": "^4.2.3",
-    "typescript": "^5.3.3"
+    "typedoc": "^0.28.5",
+    "typedoc-plugin-markdown": "^4.6.4",
+    "typescript": "^5.8.3"
   },
   "engines": {
     "node": "~16.10.0"

@@ -315,7 +315,7 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
 
         const scenariosThatFailed = results.scenarioResults.filter(
           (s) => !s.hasPassed,
-        ) as ScenarioSuccess[];
+        );
 
         for (const s of scenariosThatFailed) {
           outputConfig.writeOut(await ui.scenarioTestResult(s));

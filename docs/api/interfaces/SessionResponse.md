@@ -1,74 +1,61 @@
+[**Genesys Web Messaging Tester**](../README.md)
+
+***
+
 [Genesys Web Messaging Tester](../README.md) / SessionResponse
 
 # Interface: SessionResponse
 
-## Hierarchy
+Defined in: [packages/genesys-web-messaging-tester/src/genesys/SessionResponse.ts:9](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/genesys/SessionResponse.ts#L9)
+
+## Extends
 
 - `SuccessResponse`\<`SessionResponseSuccessBody`\>
-
-  ↳ **`SessionResponse`**
-
-## Table of contents
-
-### Properties
-
-- [body](SessionResponse.md#body)
-- [class](SessionResponse.md#class)
-- [code](SessionResponse.md#code)
-- [type](SessionResponse.md#type)
 
 ## Properties
 
 ### body
 
-• **body**: `SessionResponseSuccessBody`
+> **body**: `SessionResponseSuccessBody`
+
+Defined in: [packages/genesys-web-messaging-tester/src/genesys/Response.ts:5](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/genesys/Response.ts#L5)
 
 #### Inherited from
 
-SuccessResponse.body
+`SuccessResponse.body`
 
-#### Defined in
-
-[packages/genesys-web-messaging-tester/src/genesys/Response.ts:5](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/Response.ts#L5)
-
-___
+***
 
 ### class
 
-• **class**: ``"SessionResponse"``
+> **class**: `"SessionResponse"`
+
+Defined in: [packages/genesys-web-messaging-tester/src/genesys/SessionResponse.ts:11](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/genesys/SessionResponse.ts#L11)
 
 #### Overrides
 
-SuccessResponse.class
+`SuccessResponse.class`
 
-#### Defined in
-
-[packages/genesys-web-messaging-tester/src/genesys/SessionResponse.ts:11](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/SessionResponse.ts#L11)
-
-___
+***
 
 ### code
 
-• **code**: ``200``
+> **code**: `200`
+
+Defined in: [packages/genesys-web-messaging-tester/src/genesys/Response.ts:9](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/genesys/Response.ts#L9)
 
 #### Inherited from
 
-SuccessResponse.code
+`SuccessResponse.code`
 
-#### Defined in
-
-[packages/genesys-web-messaging-tester/src/genesys/Response.ts:9](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/Response.ts#L9)
-
-___
+***
 
 ### type
 
-• **type**: ``"response"``
+> **type**: `"response"`
+
+Defined in: [packages/genesys-web-messaging-tester/src/genesys/SessionResponse.ts:10](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/genesys/SessionResponse.ts#L10)
 
 #### Overrides
 
-SuccessResponse.type
-
-#### Defined in
-
-[packages/genesys-web-messaging-tester/src/genesys/SessionResponse.ts:10](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/SessionResponse.ts#L10)
+`SuccessResponse.type`

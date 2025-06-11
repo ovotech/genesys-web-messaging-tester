@@ -184,8 +184,6 @@ config:
   ai:
     provider: google-vertex-ai
     config:
-      location: example-location
-      project: example-gcp-project
       modelVersion: "002"
       examples:
         - input: "What would you like to do today?"
