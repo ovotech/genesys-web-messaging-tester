@@ -1,48 +1,37 @@
+[**Genesys Web Messaging Tester**](../README.md)
+
+***
+
 [Genesys Web Messaging Tester](../README.md) / TranscribedMessage
 
 # Interface: TranscribedMessage
 
-## Table of contents
-
-### Properties
-
-- [message](TranscribedMessage.md#message)
-- [who](TranscribedMessage.md#who)
-
-### Methods
-
-- [toString](TranscribedMessage.md#tostring)
+Defined in: [packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:5](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L5)
 
 ## Properties
 
 ### message
 
-• **message**: `string`
+> **message**: `string`
 
-#### Defined in
+Defined in: [packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:7](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L7)
 
-[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:7](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L7)
-
-___
+***
 
 ### who
 
-• **who**: `string`
+> **who**: `string`
 
-#### Defined in
-
-[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:6](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L6)
+Defined in: [packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:6](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L6)
 
 ## Methods
 
-### toString
+### toString()
 
-▸ **toString**(): `string`
+> **toString**(): `string`
+
+Defined in: [packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:9](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L9)
 
 #### Returns
 
 `string`
-
-#### Defined in
-
-[packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts:9](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/transcribe/Transcriber.ts#L9)

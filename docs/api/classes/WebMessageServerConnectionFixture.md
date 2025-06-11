@@ -1,142 +1,125 @@
+[**Genesys Web Messaging Tester**](../README.md)
+
+***
+
 [Genesys Web Messaging Tester](../README.md) / WebMessageServerConnectionFixture
 
 # Class: WebMessageServerConnectionFixture
 
-## Table of contents
-
-### Constructors
-
-- [constructor](WebMessageServerConnectionFixture.md#constructor)
-
-### Methods
-
-- [simulateInboundTextStructuredMessage](WebMessageServerConnectionFixture.md#simulateinboundtextstructuredmessage)
-- [simulateOutboundDisconnectEventStructuredMessage](WebMessageServerConnectionFixture.md#simulateoutbounddisconnecteventstructuredmessage)
-- [simulateOutboundTextStructuredMessage](WebMessageServerConnectionFixture.md#simulateoutboundtextstructuredmessage)
-- [simulateSessionResponseMessage](WebMessageServerConnectionFixture.md#simulatesessionresponsemessage)
-- [waitForConnectionToClose](WebMessageServerConnectionFixture.md#waitforconnectiontoclose)
-- [waitForMessage](WebMessageServerConnectionFixture.md#waitformessage)
+Defined in: [packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts:4](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts#L4)
 
 ## Constructors
 
-### constructor
+### Constructor
 
-• **new WebMessageServerConnectionFixture**(`ws`): [`WebMessageServerConnectionFixture`](WebMessageServerConnectionFixture.md)
+> **new WebMessageServerConnectionFixture**(`ws`): `WebMessageServerConnectionFixture`
+
+Defined in: [packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts:5](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts#L5)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `ws` | `WebSocket` |
+##### ws
+
+`WebSocket`
 
 #### Returns
 
-[`WebMessageServerConnectionFixture`](WebMessageServerConnectionFixture.md)
-
-#### Defined in
-
-[packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts:5](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts#L5)
+`WebMessageServerConnectionFixture`
 
 ## Methods
 
-### simulateInboundTextStructuredMessage
+### simulateInboundTextStructuredMessage()
 
-▸ **simulateInboundTextStructuredMessage**(`text`, `date?`): `void`
+> **simulateInboundTextStructuredMessage**(`text`, `date`): `void`
 
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `text` | `string` |
-| `date` | `Date` |
-
-#### Returns
-
-`void`
-
-#### Defined in
-
-[packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts:42](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts#L42)
-
-___
-
-### simulateOutboundDisconnectEventStructuredMessage
-
-▸ **simulateOutboundDisconnectEventStructuredMessage**(`date?`): `void`
+Defined in: [packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts:43](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts#L43)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `date` | `Date` |
+##### text
+
+`string`
+
+##### date
+
+`Date` = `...`
 
 #### Returns
 
 `void`
 
-#### Defined in
+***
 
-[packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts:37](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts#L37)
+### simulateOutboundDisconnectEventStructuredMessage()
 
-___
+> **simulateOutboundDisconnectEventStructuredMessage**(`date`): `void`
 
-### simulateOutboundTextStructuredMessage
-
-▸ **simulateOutboundTextStructuredMessage**(`text`, `date?`): `void`
+Defined in: [packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts:38](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts#L38)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `text` | `string` |
-| `date` | `Date` |
+##### date
+
+`Date` = `...`
 
 #### Returns
 
 `void`
 
-#### Defined in
+***
 
-[packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts:32](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts#L32)
+### simulateOutboundTextStructuredMessage()
 
-___
+> **simulateOutboundTextStructuredMessage**(`text`, `date`): `void`
 
-### simulateSessionResponseMessage
+Defined in: [packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts:33](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts#L33)
 
-▸ **simulateSessionResponseMessage**(): `void`
+#### Parameters
+
+##### text
+
+`string`
+
+##### date
+
+`Date` = `...`
 
 #### Returns
 
 `void`
 
-#### Defined in
+***
 
-[packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts:27](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts#L27)
+### simulateSessionResponseMessage()
 
-___
+> **simulateSessionResponseMessage**(): `void`
 
-### waitForConnectionToClose
+Defined in: [packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts:28](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts#L28)
 
-▸ **waitForConnectionToClose**(): `Promise`\<`void`\>
+#### Returns
+
+`void`
+
+***
+
+### waitForConnectionToClose()
+
+> **waitForConnectionToClose**(): `Promise`\<`void`\>
+
+Defined in: [packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts:24](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts#L24)
 
 #### Returns
 
 `Promise`\<`void`\>
 
-#### Defined in
+***
 
-[packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts:23](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts#L23)
+### waitForMessage()
 
-___
+> **waitForMessage**(): `Promise`\<`any`\>
 
-### waitForMessage
-
-▸ **waitForMessage**(): `Promise`\<`any`\>
+Defined in: [packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts:8](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts#L8)
 
 #### Returns
 
 `Promise`\<`any`\>
-
-#### Defined in
-
-[packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts:7](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/testFixtures/WebMessageServerConnectionFixture.ts#L7)

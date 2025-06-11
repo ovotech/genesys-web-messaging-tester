@@ -1,74 +1,61 @@
+[**Genesys Web Messaging Tester**](../README.md)
+
+***
+
 [Genesys Web Messaging Tester](../README.md) / StructuredMessage
 
 # Interface: StructuredMessage
 
-## Hierarchy
+Defined in: [packages/genesys-web-messaging-tester/src/genesys/StructuredMessage.ts:60](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/genesys/StructuredMessage.ts#L60)
+
+## Extends
 
 - `SuccessResponse`\<`StructuredMessageTextBody` \| `StructuredMessageStructuredBody` \| `StructuredMessageEventBody`\>
-
-  ↳ **`StructuredMessage`**
-
-## Table of contents
-
-### Properties
-
-- [body](StructuredMessage.md#body)
-- [class](StructuredMessage.md#class)
-- [code](StructuredMessage.md#code)
-- [type](StructuredMessage.md#type)
 
 ## Properties
 
 ### body
 
-• **body**: `StructuredMessageTextBody` \| `StructuredMessageStructuredBody` \| `StructuredMessageEventBody`
+> **body**: `StructuredMessageTextBody` \| `StructuredMessageStructuredBody` \| `StructuredMessageEventBody`
+
+Defined in: [packages/genesys-web-messaging-tester/src/genesys/Response.ts:5](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/genesys/Response.ts#L5)
 
 #### Inherited from
 
-SuccessResponse.body
+`SuccessResponse.body`
 
-#### Defined in
-
-[packages/genesys-web-messaging-tester/src/genesys/Response.ts:5](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/Response.ts#L5)
-
-___
+***
 
 ### class
 
-• **class**: ``"StructuredMessage"``
+> **class**: `"StructuredMessage"`
+
+Defined in: [packages/genesys-web-messaging-tester/src/genesys/StructuredMessage.ts:65](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/genesys/StructuredMessage.ts#L65)
 
 #### Overrides
 
-SuccessResponse.class
+`SuccessResponse.class`
 
-#### Defined in
-
-[packages/genesys-web-messaging-tester/src/genesys/StructuredMessage.ts:65](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/StructuredMessage.ts#L65)
-
-___
+***
 
 ### code
 
-• **code**: ``200``
+> **code**: `200`
+
+Defined in: [packages/genesys-web-messaging-tester/src/genesys/Response.ts:9](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/genesys/Response.ts#L9)
 
 #### Inherited from
 
-SuccessResponse.code
+`SuccessResponse.code`
 
-#### Defined in
-
-[packages/genesys-web-messaging-tester/src/genesys/Response.ts:9](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/Response.ts#L9)
-
-___
+***
 
 ### type
 
-• **type**: ``"message"``
+> **type**: `"message"`
+
+Defined in: [packages/genesys-web-messaging-tester/src/genesys/StructuredMessage.ts:64](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/genesys/StructuredMessage.ts#L64)
 
 #### Overrides
 
-SuccessResponse.type
-
-#### Defined in
-
-[packages/genesys-web-messaging-tester/src/genesys/StructuredMessage.ts:64](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/StructuredMessage.ts#L64)
+`SuccessResponse.type`

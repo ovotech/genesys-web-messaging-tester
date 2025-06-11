@@ -1,41 +1,33 @@
+[**Genesys Web Messaging Tester**](../README.md)
+
+***
+
 [Genesys Web Messaging Tester](../README.md) / SessionConfig
 
 # Interface: SessionConfig
 
-## Table of contents
-
-### Properties
-
-- [deploymentId](SessionConfig.md#deploymentid)
-- [origin](SessionConfig.md#origin)
-- [region](SessionConfig.md#region)
+Defined in: [packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:28](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L28)
 
 ## Properties
 
 ### deploymentId
 
-• `Readonly` **deploymentId**: `string`
+> `readonly` **deploymentId**: `string`
 
-#### Defined in
+Defined in: [packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:29](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L29)
 
-[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:29](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L29)
+***
 
-___
+### origin?
 
-### origin
+> `readonly` `optional` **origin**: `string`
 
-• `Optional` `Readonly` **origin**: `string`
+Defined in: [packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:31](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L31)
 
-#### Defined in
-
-[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:31](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L31)
-
-___
+***
 
 ### region
 
-• `Readonly` **region**: `string`
+> `readonly` **region**: `string`
 
-#### Defined in
-
-[packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:30](https://github.com/ovotech/genesys-web-messaging-tester/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L30)
+Defined in: [packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts:30](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester-cli/blob/main/packages/genesys-web-messaging-tester/src/genesys/WebMessengerGuestSession.ts#L30)
