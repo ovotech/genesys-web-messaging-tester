@@ -1,12 +1,10 @@
 # Genesys Cloud Chatbot Tester CLI
 
-[![npm](https://img.shields.io/npm/v/@ovotech/genesys-web-messaging-tester-cli)](https://www.npmjs.com/package/@ovotech/genesys-web-messaging-tester-cli)
-[![Follow me on LinkedIn for updates](https://img.shields.io/badge/Follow%20for%20updates-LinkedIn-blue)](https://www.linkedin.com/in/lucas-woodward-the-dev/)
-
-
 <p align="center">
-Automatically test your Web Messenger Deployments
+<b>Project now being maintained under this fork:</b><br /> https://github.com/MakingChatbots/genesys-cloud-chatbot-tester
 </p>
+
+---
 
 Allows behaviour for Genesys Chatbots and Architect flows behind [Genesys' Web Messenger Deployments](https://help.mypurecloud.com/articles/web-messaging-overview/) to be automatically tested using:
 * **Scripted Dialogue** - I say "X" and expect "Y" in response ([example](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli-scripted-tests/example-pass.yml))
@@ -259,7 +257,7 @@ web-messaging-tester scripted test-script.yaml --parallel 10
 
 If you have any questions then please feel free to:
 
-* Raise an issue on this [project's GitHub repository](https://github.com/ovotech/genesys-web-messaging-tester)
+* Raise an issue on this [project's GitHub repository](https://github.com/MakingChatbots/genesys-cloud-chatbot-tester/issues)
 * [Drop me a message](https://www.linkedin.com/in/lucas-woodward-the-dev/)
 
 ## Development
