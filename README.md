@@ -1,11 +1,5 @@
 # Genesys Cloud Chatbot Tester CLI
 
-<p align="center">
-<b>Project now being maintained under this fork:</b><br /> https://github.com/MakingChatbots/genesys-cloud-chatbot-tester
-</p>
-
----
-
 Allows behaviour for Genesys Chatbots and Architect flows behind [Genesys' Web Messenger Deployments](https://help.mypurecloud.com/articles/web-messaging-overview/) to be automatically tested using:
 * **Scripted Dialogue** - I say "X" and expect "Y" in response ([example](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli-scripted-tests/example-pass.yml))
 * **Generative AI** - Converse with my chatbot and fail the test if it doesn't do "X" ([examples](https://github.com/ovotech/genesys-web-messaging-tester/tree/main/examples/cli-ai-tests/))
