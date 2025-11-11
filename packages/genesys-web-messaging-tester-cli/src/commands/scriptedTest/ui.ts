@@ -77,6 +77,12 @@ export class Ui {
     return Ui.trailingNewline(chalk.red(error?.message ?? 'Failed to validate Session config'));
   }
 
+  public coverageRequiresAssociateIdOption(): string {
+    return Ui.trailingNewline(
+      chalk.red('The --coverage option requires the --associate-id option to be set.'),
+    );
+  }
+
   public preflightCheckOfAssociateConvoIdFailed(error: PreflightError): string {
     if (error.errorType === 'missing-permissions') {
       return Ui.trailingNewline(

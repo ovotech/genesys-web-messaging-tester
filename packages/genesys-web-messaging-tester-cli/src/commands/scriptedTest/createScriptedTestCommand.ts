@@ -104,6 +104,7 @@ GENESYSCLOUD_OAUTHCLIENT_ID
 GENESYSCLOUD_OAUTHCLIENT_SECRET`,
       false,
     )
+    .option('-cov --coverage', 'Capture test coverage. Requires --associate-id setting being set')
     .option('-fo, --failures-only', 'Only output failures', false)
     .option(
       '-t, --timeout <number>',
@@ -121,12 +122,18 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
           deploymentId?: string;
           region?: string;
           origin?: string;
+          coverage?: boolean;
           timeout: number;
         },
       ) => {
         const outputConfig = command.configureOutput();
         if (!outputConfig?.writeOut || !outputConfig?.writeErr) {
           throw new Error('No writeOut and/or writeErr');
+        }
+
+        if (options.coverage && !options.associateId) {
+          outputConfig.writeErr(ui.coverageRequiresAssociateIdOption());
+          throw new CommandExpectedlyFailedError();
         }
 
         let associateId: { enabled: false } | { enabled: true; client: MessageIdToConvoIdClient };
@@ -324,6 +331,8 @@ GENESYSCLOUD_OAUTHCLIENT_SECRET`,
         outputConfig.writeOut(
           ui.testScriptSummary([...scenariosThatPassed, ...scenariosThatFailed]),
         );
+
+        // Work out coverage here
 
         if (results.scenarioResults.some((r) => !r.hasPassed)) {
           throw new CommandExpectedlyFailedError();
