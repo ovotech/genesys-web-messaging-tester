@@ -38,7 +38,7 @@
     "commander": "^11.0.0",
     "humanize-duration": "^3.29.0",
     "joi": "^17.12.2",
-    "js-yaml": "^4.1.0",
+    "js-yaml": "^4.1.1",
     "listr2": "^5.0.5",
     "openai": "4.0.0-beta.12",
     "purecloud-platform-client-v2": "^188.1.0"
