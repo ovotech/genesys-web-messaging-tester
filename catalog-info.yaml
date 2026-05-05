@@ -1,0 +1,26 @@
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: genesys-web-messaging-tester
+  annotations:
+    backstage.io/source-location: url:https://github.com/ovotech/genesys-web-messaging-tester/tree/main
+spec:
+  owner: cce-ccaas-tooling
+  domain: advisor-connect
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: genesys-web-messaging-tester
+  description: Easily write automated tests for Genesys' Web Messenger bots
+  annotations:
+    backstage.io/source-location: url:https://github.com/ovotech/genesys-web-messaging-tester/tree/main
+  tags:
+    - internal
+    - typescript
+spec:
+  type: service
+  lifecycle: production
+  owner: cce-ccaas-tooling
+  system: genesys-web-messaging-tester
+  domain: advisor-connect
